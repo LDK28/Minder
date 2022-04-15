@@ -1,9 +1,12 @@
 #ifndef NETWORK_CONTROLLER_HPP
 #define NETWORK_CONTROLLER_HPP
 
-#include "NetworkController.hpp"
-
 #include <iostream>
+
+#include "NetworkController.hpp"
+#include "json.hpp"
+
+using json = nlohmann::json;
 
 class NetworkController
 {
@@ -15,8 +18,8 @@ public:
 
     void getRequest(std::string &request);
     void sendResponse(std::string &response);
-    void sendData(json data);
-    void getData(json data);
+    void sendData(json);
+    void getData(json);
 };
 
 #endif
