@@ -1,34 +1,8 @@
-class BaseLogic
-{
-private:
-    /* data */
-public:
-    BaseLogic(/* args */);
-    ~BaseLogic();
-};
+#include "ServerLogic.hpp"
 
-BaseLogic::BaseLogic(/* args */)
-{
-}
+int ServerLogic::getConfID(){};
+void ServerLogic::setConfID(int confID){};
+json ServerLogic::getDataFromDB(char &request){};
+void ServerLogic::sendDataToDB(json data){};
 
-BaseLogic::~BaseLogic()
-{
-}
-
-
-class ServerLogic: BaseLogic
-{
-private:
-    /* data */
-public:
-    ServerLogic(/* args */);
-    ~ServerLogic();
-};
-
-ServerLogic::ServerLogic(/* args */)
-{
-}
-
-ServerLogic::~ServerLogic()
-{
-}
+json ServerLogic::router(char &request, json data){};
