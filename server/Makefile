@@ -1,6 +1,6 @@
 WORKSPACE = build
 
-.PHONY: build test clear mkbuild
+.PHONY: build clear workspase
 
 build: workspase
 	cd ${WORKSPACE} && cmake .. && cmake --build . && cd .. && make clear

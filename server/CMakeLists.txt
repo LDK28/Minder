@@ -5,3 +5,5 @@ set(JSON_INC ../nlohmann)
 
 add_subdirectory(Server)
 add_subdirectory(Database)
+
+add_executable(${PROJECT_NAME} main.cpp)
