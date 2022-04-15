@@ -2,7 +2,7 @@
 
 int ServerLogic::getConfID(){}
 void ServerLogic::setConfID(int confID){}
-nlohmann::json ServerLogic::getDataFromDB(char &request){}
-void ServerLogic::sendDataToDB(nlohmann::json){}
+json ServerLogic::getDataFromDB(char &request){}
+void ServerLogic::sendDataToDB(json){}
 
-nlohmann::json ServerLogic::router(char &request, nlohmann::json){}
+json ServerLogic::router(char &request, json){}
