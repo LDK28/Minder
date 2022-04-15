@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(JsonParser)
+  
+file(GLOB SOURCES *.cpp)
+file(GLOB INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
+target_include_directories(${PROJECT_NAME} PUBLIC ../${JSON_INC} ../${CLIENT_CONNECTION_INC})
+
+set(JSON_PARSER_LIB ${PROJECT_NAME} PARENT_SCOPE)
+set(JSON_PARSER_INC ${INCLUDE_DIRS} PARENT_SCOPE)
