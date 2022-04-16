@@ -8,9 +8,9 @@ public:
     HttpClient() = default;
     ~HttpClient() = default;
 
-    returnCode sendNewSettings(Settings &);
+    returnCode sendNewSettings(const Settings &);
     returnCode checkConnectionToSession(Session &);
-    returnCode createSession(Session &);
+    returnCode createSession(const Session &);
     void getUsers(UsersList);
     void changeDesk();
     void getCurrentStateDesk();

@@ -19,8 +19,8 @@ public:
     void disconnectView();
 public slots:
     void connectToSession(SessionConnectionData &);
-    void createNewSession(SessionCreationData &);
-    void changeSettings(SettingsData &settings);
+    void createNewSession(const SessionCreationData &);
+    void changeSettings(const SettingsData &settings);
 signals:
     void sessionConnectionSuccess();
     void sessionConnectionFailed();
