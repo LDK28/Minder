@@ -4,8 +4,6 @@ project(DatabaseDrawDeskClient)
 file(GLOB SOURCES *.cpp)
 file(GLOB INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
-message("aaa" ${JSON_INC})
-
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ../${JSON_INC} ../${DATABASE_CLIENT_INC})
 
