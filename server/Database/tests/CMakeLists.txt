@@ -21,3 +21,14 @@ set(database_draw_desk_test "${PROJECT_NAME}_database_draw_desk")
 add_executable(${database_draw_desk_test} ${SRCS_DRAW_DESK_CLIENT_TEST})
 target_include_directories(${database_draw_desk_test} PUBLIC ${DATABASE_DRAW_DESK_CLIENT_INC} ../${JSON_INC})
 target_link_libraries(${database_draw_desk_test} ${DATABASE_DRAW_DESK_CLIENT_LIB} GTest::gtest_main)
+
+file(GLOB SRCS_SESSION_CLIENT_TEST test_database_session_client.cpp)
+
+find_package(GTest REQUIRED)
+
+set(database_session_test "${PROJECT_NAME}_database_session")
+
+add_executable(${database_session_test} ${SRCS_SESSION_CLIENT_TEST})
+target_include_directories(${database_session_test} PUBLIC ${DATABASE_SESSION_CLIENT_INC} ../${JSON_INC})
+target_link_libraries(${database_session_test} ${DATABASE_SESSION_CLIENT_LIB} GTest::gtest_main)
+
