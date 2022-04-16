@@ -13,7 +13,7 @@ public:
     explicit User(HttpClient *network_) : network(network_) {}
     ~User() = default;
 public slots:
-    void changeSettings(SettingsData &settings);
+    void deleteUser();
     void getUsers(Users &users);
 signals:
     void sendUsers();

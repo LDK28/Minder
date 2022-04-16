@@ -55,4 +55,26 @@ TEST(LogicController, createNewSessionFailed) {
   controller.createNewSession(creationData);
 }
 
+TEST(LogicController, changeSettingsSuccess) {
+  MockHttpClient network;
+
+  Settings settings = {"120.210.120.210", "8000"};
+  EXPECT_CALL(network, sendNewSettings(settings)).Times(1);
+
+  LogicController controller(&network);
+  SettingsData newSettings = {"120.210.120.210", "8000"};
+  controller.changeSettings(newSettings);
+}
+
+TEST(LogicController, changeSettingsFailed) {
+  MockHttpClient network;
+
+  Settings settings = {"skvjkjvbsa", "8000"};
+  EXPECT_CALL(network, sendNewSettings(settings)).Times(0);
+
+  LogicController controller(&network);
+  SettingsData newSettings = {"skvjkjvbsa", "8000"};
+  controller.changeSettings(newSettings);
+}
+
 #endif // TESTSLOGICCONTROLLER_H

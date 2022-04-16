@@ -20,6 +20,7 @@ public:
 public slots:
     void connectToSession(SessionConnectionData &);
     void createNewSession(SessionCreationData &);
+    void changeSettings(SettingsData &settings);
 signals:
     void sessionConnectionSuccess();
     void sessionConnectionFailed();
