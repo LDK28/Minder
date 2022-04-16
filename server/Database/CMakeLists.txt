@@ -10,3 +10,5 @@ add_subdirectory(DatabaseUsersClient)
 add_subdirectory(DatabaseSessionClient)
 add_subdirectory(DatabaseDrawDeskClient)
 
+add_subdirectory(tests)
+

@@ -7,10 +7,11 @@ class DatabaseSessionClient {
     DatabaseClient *client;
 
    public:
-    json createSession(json);
+    json createSession();
     json addUsersInSession(json);
     bool checkSession(int id);
+    json updateSession(json);
     json getSessionInfo(int id);
-    std::vector<int> selectSessionsWithUser(int userId);
+    json selectSessionsWithUser(int userId);
     json deleteSession(int id);
 };

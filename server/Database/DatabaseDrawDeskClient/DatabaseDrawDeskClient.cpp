@@ -1,4 +1,4 @@
 #include "DatabaseDrawDeskClient.h"
 
-json DatabaseDrawDeskClient::getDeskData(int deskId) {}
-json DatabaseDrawDeskClient::updateDeskData(json) {}
+json DatabaseDrawDeskClient::getDeskData(int deskId) { return json{{}}; }
+json DatabaseDrawDeskClient::updateDeskData(json) { return json{{}}; }
