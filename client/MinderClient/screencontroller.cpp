@@ -1,16 +1,17 @@
 #include "screencontroller.h"
 
-ScreenController::ScreenController(QObject *parent)
-    : QObject{parent}
+ScreenController::ScreenController(QObject *parent):
+    QObject{parent},
+    sessionWindow(nullptr)
 {
     initConnections();
     authWindow.show();
-//    sessionWindow.show();
+    //    sessionWindow.show();
 }
 
 ScreenController::~ScreenController()
 {
- qDebug() << "Screen controller destructor";
+    qDebug() << "Screen controller destructor";
 }
 
 void ScreenController::initConnections()
@@ -20,7 +21,7 @@ void ScreenController::initConnections()
     connect(&authWindow, &AuthorizationWindow::on_openRegisterWindowButtonClicked, this, &ScreenController::openRegisterWindow);
     connect(&authWindow, &AuthorizationWindow::on_openSettingsWindowButtonClicked, this, &ScreenController::openSettingsWindow);
 
-    connect(&authWindow, &AuthorizationWindow::on_login, this, &ScreenController::validateLoginData);
+    connect(&authWindow, &AuthorizationWindow::on_login, this, &ScreenController::transmitLoginData);
 
     // to auth window
 
@@ -28,7 +29,7 @@ void ScreenController::initConnections()
     connect(&regWindow, &RegisterWindow::on_closeRegisterWindowButtonClicked, this, &ScreenController::closeRegisterWindow);
     connect(&regWindow, &RegisterWindow::on_openLoginWindowButtonCLicked, this, &ScreenController::openLoginWindow);
 
-    connect(&regWindow, &RegisterWindow::on_register, this, &ScreenController::validateRegisterData);
+    connect(&regWindow, &RegisterWindow::on_register, this, &ScreenController::transmitRegisterData);
 
     // to register window
 
@@ -36,7 +37,7 @@ void ScreenController::initConnections()
     // from settings window
     connect(&settingsWindow, &SettingsWindow::on_closeSettingsWindowButtonClicked, this, &ScreenController::closeSettingsWindow);
 
-    connect(&settingsWindow, &SettingsWindow::on_saveSettings, this, &ScreenController::saveSettings);
+    connect(&settingsWindow, &SettingsWindow::on_saveSettings, this, &ScreenController::transmitSettings);
 
     // to settings window
 
@@ -45,7 +46,7 @@ void ScreenController::initConnections()
     connect(&sessionCreationWindow, &SessionCreationWindow::on_closeSessionCreationWindowButtonClicked, this, &ScreenController::closeSessionCreationWindow);
     connect(&sessionCreationWindow, &SessionCreationWindow::on_openSessionConnectionWindowButtonClicked, this, &ScreenController::openSessionConnectionWindow);
 
-    connect(&sessionCreationWindow, &SessionCreationWindow::on_createNewSession, this, &ScreenController::createNewSession);
+    connect(&sessionCreationWindow, &SessionCreationWindow::on_createNewSession, this, &ScreenController::transmitCreationNewSession);
 
     // to session creation window
 
@@ -54,22 +55,24 @@ void ScreenController::initConnections()
     connect(&sessionConnectionWindow, &SessionConnectionWindow::on_closeSessionConnectionWindowButtonClicked, this, &ScreenController::closeSessionConnectionWindow);
     connect(&sessionConnectionWindow, &SessionConnectionWindow::on_openNewSessionCreationWindowButtonClicked, this, &ScreenController::openSessionCreationWindow);
 
-    connect(&sessionConnectionWindow, &SessionConnectionWindow::on_connectToSession, this, &ScreenController::connectToSession);
+    connect(&sessionConnectionWindow, &SessionConnectionWindow::on_connectToSession, this, &ScreenController::transmitConnectionToSession);
+}
 
-    // to session connection window
+void ScreenController::initSessionConnections()
+{
+    connect(sessionWindow, &SessionWindow::on_closeSessionWindowButtonClicked, this, &ScreenController::closeSessionWindow);
+    connect(sessionWindow, &SessionWindow::transmitNewBlock, this, &ScreenController::sendNewBlock);
+    connect(sessionWindow, &SessionWindow::getUsersListData, this, &ScreenController::getUsersInSessionData);
+    connect(sessionWindow, &SessionWindow::getMindMapData, this, &ScreenController::getMindMapInSessionData);
 
-    // from session window
+}
 
-    connect(&sessionWindow, &SessionWindow::on_closeSessionWindowButtonClicked, this, &ScreenController::closeSessionWindow);
-
-    // to session connection window
-
-    //from session window
-
-    // to session window
-    connect(&sessionWindow, &SessionWindow::getUsersList, this, &ScreenController::getUsersInSession);
-    connect(this, &ScreenController::updateUsersList, &sessionWindow, &SessionWindow::updateUsersList);
-
+void ScreenController::deinitSessionConnections()
+{
+    disconnect(sessionWindow, &SessionWindow::on_closeSessionWindowButtonClicked, this, &ScreenController::closeSessionWindow);
+    disconnect(sessionWindow, &SessionWindow::transmitNewBlock, this, &ScreenController::sendNewBlock);
+    disconnect(sessionWindow, &SessionWindow::getUsersListData, this, &ScreenController::getUsersInSessionData);
+    disconnect(sessionWindow, &SessionWindow::getMindMapData, this, &ScreenController::getMindMapInSessionData);
 }
 
 // Screen controller
@@ -77,7 +80,8 @@ void ScreenController::initConnections()
 void ScreenController::receiveUsersListInSession(const UsersInSessionData &data)
 {
     qDebug() << "Screen controller: receieved users list for SessionWidnow";
-    emit updateUsersList(data);
+    assert(sessionWindow);
+    sessionWindow->updateUsersList(data);
 }
 
 // from auth window
@@ -85,12 +89,14 @@ void ScreenController::receiveUsersListInSession(const UsersInSessionData &data)
 void ScreenController::closeAuthorizationWindow()
 {
     qDebug() << "Screen controller: accepted close event from AuthWindow";
+
     authWindow.close();
 }
 
 void ScreenController::openRegisterWindow()
 {
     qDebug() << "Screen controller: accepted open register window event from AuthWindow";
+
     authWindow.close();
     regWindow.show();
 }
@@ -98,6 +104,7 @@ void ScreenController::openRegisterWindow()
 void ScreenController::openSettingsWindow()
 {
     qDebug() << "Screen controller: accepted open settings window event from AuthWindow";
+
     authWindow.close();
     settingsWindow.show();
 }
@@ -107,6 +114,7 @@ void ScreenController::openSettingsWindow()
 void ScreenController::closeRegisterWindow()
 {
     qDebug() << "Screen controller: accepted close event from RegisterWindow";
+
     regWindow.close();
     authWindow.show();
 }
@@ -123,6 +131,7 @@ void ScreenController::openLoginWindow()
 void ScreenController::closeSettingsWindow()
 {
     qDebug() << "Screen controller: accepted close event from SettingsWindow";
+
     settingsWindow.close();
     authWindow.show();
 }
@@ -132,12 +141,14 @@ void ScreenController::closeSettingsWindow()
 void ScreenController::closeSessionCreationWindow()
 {
     qDebug() << "Screen controller: accepted close event from SessionCreationWindow";
+
     sessionCreationWindow.close();
 }
 
 void ScreenController::openSessionConnectionWindow()
 {
     qDebug() << "Screen controller: accepted open session connection event from SessionCreationWindow";
+
     sessionCreationWindow.close();
     sessionConnectionWindow.show();
 }
@@ -147,12 +158,14 @@ void ScreenController::openSessionConnectionWindow()
 void ScreenController::closeSessionConnectionWindow()
 {
     qDebug() << "Screen controller: accepted close event from SessionConnectionWindow";
+
     sessionConnectionWindow.close();
 }
 
 void ScreenController::openSessionCreationWindow()
 {
     qDebug() << "Screen controller: accepted open session creation event from SessionConnectionWindow";
+
     sessionConnectionWindow.close();
     sessionCreationWindow.show();
 }
@@ -162,7 +175,11 @@ void ScreenController::openSessionCreationWindow()
 void ScreenController::closeSessionWindow()
 {
     qDebug() << "Screen controller: accepted close event from SessionWindow";
-    sessionWindow.close();
+
+//    deinitSessionConnections();
+    delete sessionWindow;
+    sessionWindow = nullptr;
+
     sessionConnectionWindow.show();
 }
 
@@ -173,6 +190,7 @@ void ScreenController::closeSessionWindow()
 void ScreenController::validationLoginDataSuccess()
 {
     qDebug() << "Screen controller: login success";
+
     authWindow.close();
     sessionConnectionWindow.show();
 }
@@ -180,6 +198,7 @@ void ScreenController::validationLoginDataSuccess()
 void ScreenController::validationRegisterDataSuccess()
 {
     qDebug() << "Screen controller: register  success";
+
     regWindow.close();
     authWindow.show();
 }
@@ -187,20 +206,47 @@ void ScreenController::validationRegisterDataSuccess()
 void ScreenController::savingSettingsSuccess()
 {
     qDebug() << "Screen controller: saving settings success";
+
     settingsWindow.close();
     authWindow.show();
 }
 
-void ScreenController::connectionToSessionSuccess()
+void ScreenController::connectionToSessionSuccess(const SessionData &data)
 {
     qDebug() << "Screen controller: connection to existing session success";
+
     sessionConnectionWindow.close();
-    sessionWindow.show();
+
+    sessionWindow = new SessionWindow(data);
+    initSessionConnections();
+
+    sessionWindow->show();
 }
 
-void ScreenController::creationNewSessionSuccess()
+void ScreenController::creationNewSessionSuccess(const SessionData &data)
 {
     qDebug() << "Screen controller: creation new session success";
+
     sessionCreationWindow.close();
-    sessionWindow.show();
+
+    sessionWindow = new SessionWindow(data);
+    initSessionConnections();
+
+    sessionWindow->show();
+}
+
+void ScreenController::receiveNewBlockId(const long newBlockId)
+{
+    qDebug() << "Screen controller: receiver new block id " << newBlockId;
+
+    assert(sessionWindow != nullptr);
+    sessionWindow->setNewBlockId(newBlockId);
+}
+
+void ScreenController::receiveMindMapDataInSession(const MindMapData &data)
+{
+    qDebug() << "Screen controller: receive new mindmap data";
+
+    assert(sessionWindow);
+    sessionWindow->updateMindMap(data);
 }

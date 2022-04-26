@@ -2,6 +2,11 @@
 #define NEWBLOCKCREATIONWINDOW_H
 
 #include <QWidget>
+#include <QColorDialog>
+#include <QFontDialog>
+#include <QCloseEvent>
+
+#include "datastructures.h"
 
 namespace Ui {
 class NewBlockCreationWindow;
@@ -16,7 +21,25 @@ public:
     ~NewBlockCreationWindow();
 
 private:
+    void initConnections();
+    void closeEvent(QCloseEvent *event);
+
+signals:
+    void transmitNewBlock(const Block& data);
+    void on_closeNewBlockCreationWindowButtonClicked();
+
+private slots:
+    void on_changeTextColorButtonClicked();
+    void on_changeTextFontButtonClicked();
+    void on_changeBackgroundColorButtonClicked();
+    void on_changeBorderColorButtonClicked();
+
+    void packBlockData();
+
+private:
     Ui::NewBlockCreationWindow *ui;
+    Block newBlock;
+
 };
 
 #endif // NEWBLOCKCREATIONWINDOW_H

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/styles">
+        <file>qss/global.qss</file>
+    </qresource>
+    <qresource prefix="/img">
+        <file>background/back1.jpg</file>
+    </qresource>
+</RCC>

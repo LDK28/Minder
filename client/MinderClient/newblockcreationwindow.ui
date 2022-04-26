@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="labelTitle">
      <property name="font">
@@ -22,7 +22,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Add new block</string>
+      <string>New Block:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -38,18 +38,18 @@
       <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeType">
-      <enum>QSizePolicy::Maximum</enum>
+      <enum>QSizePolicy::Minimum</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>15</width>
-       <height>15</height>
+       <height>20</height>
       </size>
      </property>
     </spacer>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="labelType">
        <property name="font">
@@ -68,10 +68,24 @@
      <item>
       <widget class="QComboBox" name="comboBoxType"/>
      </item>
+     <item>
+      <widget class="QPushButton" name="btnBorderColor">
+       <property name="text">
+        <string>BorderColor</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnBackgroudColor">
+       <property name="text">
+        <string>Back Color</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="labelText">
        <property name="font">
@@ -93,9 +107,27 @@
         <string/>
        </property>
        <property name="placeholderText">
-        <string>Type something...</string>
+        <string>Type your idea here...</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="btnTextColor">
+         <property name="text">
+          <string>Text Color</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnTextFont">
+         <property name="text">
+          <string>Text Font</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -105,12 +137,12 @@
       <enum>Qt::Vertical</enum>
      </property>
      <property name="sizeType">
-      <enum>QSizePolicy::Maximum</enum>
+      <enum>QSizePolicy::Minimum</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>10</width>
-       <height>10</height>
+       <width>15</width>
+       <height>20</height>
       </size>
      </property>
     </spacer>

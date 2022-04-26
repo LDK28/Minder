@@ -2,11 +2,10 @@
 #include "ui_sessionuserlist.h"
 
 SessionUserList::SessionUserList(QWidget *parent) :
-    QWidget(parent),
+    QFrame(parent),
     ui(new Ui::SessionUserList)
 {
     ui->setupUi(this);
-    qDebug() << "ul cntor";
 }
 
 SessionUserList::~SessionUserList()

@@ -1,56 +1,102 @@
 #ifndef DATASTRUCTURES_H
 #define DATASTRUCTURES_H
 
- #include <QObject>
+#include <QObject>
 #include <QString>
 #include <QList>
+#include <QPointF>
+#include <QColor>
+#include <QSizeF>
+#include <QDebug>
+#include <QFont>
 
-typedef struct SessionConnectionData
-{
-    QString sessionID;
-    QString sessionPassword;
-} SessionConnectionData;
+#define TYPES_ENUM(ITEM) \
+    ITEM(Node) \
+    ITEM(Comment)
 
-typedef struct SessionCreationData
-{
-    QString sessionName;
-    QString sessionPassword;
-    QString sessionRepeatPassword;
-} SessionCreationData;
+#define MAKE_ENUM(VAR) VAR,
+#define MAKE_STRINGS(VAR) #VAR,
 
-typedef struct LoginData
+struct LoginData
 {
     QString nickname;
     QString password;
-} LoginData;
+};
 
-typedef struct RegisterData
+struct RegisterData
 {
     QString nickname;
     QString password;
     QString repeatPassword;
-} RegisterData;
+};
 
-typedef struct SettingsData
+struct SettingsData
 {
     QString serverIP;
     QString serverPort;
-} SettingsData;
+};
 
-typedef struct SessionData
+struct SessionConnectionData
 {
+    QString sessionID;
+    QString sessionPassword;
+};
 
-} SessionData;
+struct SessionCreationData
+{
+    QString sessionName;
+    QString sessionPassword;
+    QString sessionRepeatPassword;
+};
 
-typedef struct User
+struct SessionData
+{
+    QString sessionName;
+    long sessionId;
+};
+
+struct User
 {
     QString nickname;
     User(const QString &nickname) : nickname(nickname) {}
-} User;
+};
 
-typedef struct UsersInSessionData
+struct UsersInSessionData
 {
     QList<User> users;
-} UsersInSessionData;
+};
+
+class Block
+{
+public:
+    enum Type
+    {
+        TYPES_ENUM(MAKE_ENUM)
+    };
+
+    long id;
+    long parentId;
+    QPoint position;
+    int type;
+
+    QString text;
+
+    QFont textFont;
+    QColor textColor;
+    QColor borderColor;
+    QColor backgroundColor;
+
+    Block() : id(-1), parentId(-1), position(QPoint(0, 0)), textColor(Qt::black), borderColor(Qt::red), backgroundColor(Qt::yellow) {}
+
+    void print() const
+    {
+        qDebug() << this->id << " " << this->parentId << " " << this->position;
+    }
+};
+
+struct MindMapData
+{
+    QList<Block> blocks;
+};
 
 #endif // DATASTRUCTURES_H

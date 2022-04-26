@@ -16,13 +16,13 @@ SettingsWindow::~SettingsWindow()
 
 void SettingsWindow::closeEvent(QCloseEvent *event)
 {
-    qDebug() << "Settings window close event";
+    qDebug() << "Settings window: close event";
     emit on_closeSettingsWindowButtonClicked();
 }
 
 void SettingsWindow::on_saveSettingsButtonClicked()
 {
-    qDebug() << "Settings pack data";
+    qDebug() << "Settings window: pack data";
     SettingsData data = {ui->lineServerIP->text(), ui->lineServerPort->text()};
     qDebug() << "  " << data.serverIP << " " << data.serverPort;
     emit on_saveSettings(data);

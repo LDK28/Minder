@@ -9,13 +9,12 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    arrow.cpp \
     authorizationwindow.cpp \
-    block.cpp \
-    commentblock.cpp \
+    blockimage.cpp \
     logiccontroller.cpp \
     mindmap.cpp \
     newblockcreationwindow.cpp \
-    nodeblock.cpp \
     registerwindow.cpp \
     screencontroller.cpp \
     main.cpp \
@@ -28,15 +27,14 @@ SOURCES += \
     toolspalette.cpp
 
 HEADERS += \
+    arrow.h \
     authorizationwindow.h \
-    block.h \
-    commentblock.h \
+    blockimage.h \
     datastructures.h \
     logiccontroller.h \
     mainwindow.h \
     mindmap.h \
     newblockcreationwindow.h \
-    nodeblock.h \
     registerwindow.h \
     screencontroller.h \
     sessionconnectionwindow.h \
@@ -63,3 +61,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources/resources.qrc

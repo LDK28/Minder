@@ -1,14 +1,14 @@
 #ifndef SESSIONUSERLIST_H
 #define SESSIONUSERLIST_H
 
-#include <QWidget>
+#include <QFrame>
 #include "datastructures.h"
 
 namespace Ui {
 class SessionUserList;
 }
 
-class SessionUserList : public QWidget
+class SessionUserList : public QFrame
 {
     Q_OBJECT
 

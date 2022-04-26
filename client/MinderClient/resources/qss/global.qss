@@ -1,0 +1,4 @@
+MindMap#widgetMindMap, ToolsPalette#widgetToolsPalette, SessionUserList#widgetSessionUsersList {
+    border-radius: 5px;
+    border: 2px solid lightgray;
+}

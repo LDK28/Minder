@@ -15,6 +15,7 @@
 #include "sessionwindow.h"
 #include "sessionuserlist.h"
 #include "toolspalette.h"
+#include "newblockcreationwindow.h"
 
 class ScreenController: public QObject
 {
@@ -27,44 +28,55 @@ public:
     ScreenController& operator=(const ScreenController &) = delete;
     ScreenController& operator=(ScreenController &&) = delete;
 
+    // Interface
 signals: // to logic controller
     // from auth window
 
-    void validateLoginData(LoginData data);
+    void transmitLoginData(const LoginData &data);
 
     // from register window
 
-    void validateRegisterData(RegisterData data);
+    void transmitRegisterData(const RegisterData &data);
 
     // from settings window
 
-    void saveSettings(SettingsData data);
+    void transmitSettings(const SettingsData &data);
 
     // from session creation window
 
-    void createNewSession(SessionCreationData data);
+    void transmitCreationNewSession(const SessionCreationData &data);
 
     // from session connection window
 
-    void connectToSession(SessionConnectionData data);
+    void transmitConnectionToSession(const SessionConnectionData &data);
+
+    // from session window
+
+    void sendNewBlock(const Block &newBlock);
 
     // from screen controller
 
-    void getUsersInSession();
+    void getUsersInSessionData(const long sessionId);
+    void getMindMapInSessionData(const long sessionId);
 
 public slots: // from logic contloller
     void validationLoginDataSuccess();
     void validationRegisterDataSuccess();
     void savingSettingsSuccess();
-    void connectionToSessionSuccess();
-    void creationNewSessionSuccess();
+    void connectionToSessionSuccess(const SessionData &data);
+    void creationNewSessionSuccess(const SessionData &data);
     void receiveUsersListInSession(const UsersInSessionData &data);
+    void receiveMindMapDataInSession(const MindMapData &data);
+    void receiveNewBlockId(const long newBlockId);
+
+    // end Interface
 
 private slots:
     // from auth window
 
     void openRegisterWindow();
     void closeAuthorizationWindow();
+    void openSettingsWindow();
 
     // from register window
 
@@ -73,7 +85,6 @@ private slots:
 
     // from settings window
 
-    void openSettingsWindow();
     void closeSettingsWindow();
 
     // from session creation window
@@ -90,18 +101,18 @@ private slots:
 
     void closeSessionWindow();
 
-signals:
-    // to session window
-    void updateUsersList(const UsersInSessionData &data);
-
 private:
     void initConnections();
+    void initSessionConnections();
+    void deinitSessionConnections();
+
+private:
     AuthorizationWindow authWindow;
     RegisterWindow regWindow;
     SettingsWindow settingsWindow;
     SessionConnectionWindow sessionConnectionWindow;
     SessionCreationWindow sessionCreationWindow;
-    SessionWindow sessionWindow;
+    SessionWindow *sessionWindow;
 };
 
 #endif // SCREENCONTROLLER_H

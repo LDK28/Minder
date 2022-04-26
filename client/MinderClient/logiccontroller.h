@@ -22,14 +22,18 @@ private slots:
     void validateSessionCreationData(SessionCreationData data);
     void validateSessionConnectionData(SessionConnectionData data);
     void requestUpdateUsersListInSession();
+    void sendNewBlock(const Block &newBlock);
+    void requestUpdateMindMapInSession(const long sessionId);
 
 signals:
     void validationLoginDataSuccess();
     void validationRegisterDataSuccess();
     void savingSettingsSuccess();
-    void sessionCreationSuccess();
-    void sessionConnectionSuccess();
+    void sessionCreationSuccess(const SessionData &data);
+    void sessionConnectionSuccess(const SessionData &data);
     void updateUsersListInSession(const UsersInSessionData &data);
+    void sendNewBlockIdToSession(const long newBlockId);
+    void updateMindMapDataInSession(const MindMapData &data);
 
 
 private:

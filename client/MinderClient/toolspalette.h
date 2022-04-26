@@ -1,13 +1,13 @@
 #ifndef TOOLSPALETTE_H
 #define TOOLSPALETTE_H
 
-#include <QWidget>
+#include <QFrame>
 
 namespace Ui {
 class ToolsPalette;
 }
 
-class ToolsPalette : public QWidget
+class ToolsPalette : public QFrame
 {
     Q_OBJECT
 
@@ -19,12 +19,12 @@ private:
     void initConnections();
 
 signals:
-    void on_addNewCommentButtonClicked();
-    void on_addNewNodeButtonClicked();
+    void on_addNewBlockButtonClicked();
     void on_deleteBlockButtonClicked();
     void on_zoomPlusButtonClicked();
     void on_zoomMinusButtonClicked();
     void on_zoomHomeButtonClicked();
+    void on_chooseFontButtonClicked();
 
 private:
     Ui::ToolsPalette *ui;
