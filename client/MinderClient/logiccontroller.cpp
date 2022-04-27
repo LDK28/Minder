@@ -30,6 +30,7 @@ LogicController::LogicController(QObject *parent)
     connect(&screenController, &ScreenController::sendNewBlock, this, &LogicController::sendNewBlock);
     connect(this, &LogicController::sendNewBlockIdToSession, &screenController, &ScreenController::receiveNewBlockId);
 
+    connect(&screenController, &ScreenController::sessionClosed, this, &LogicController::userDisconnected);
 }
 
 void LogicController::validateLoginData(LoginData data)
@@ -51,11 +52,13 @@ void LogicController::saveSettings(SettingsData data)
     qDebug() << "Logic controller: saving settings test(success): " << data.serverIP << " " << data.serverPort;
     emit savingSettingsSuccess();
 }
+
 void LogicController::validateSessionCreationData(SessionCreationData data)
 {
     qDebug() << "Logic controller: session creation test(success): " << data.sessionName << " " << data.sessionPassword << " " << data.sessionRepeatPassword;
     emit sessionCreationSuccess(SessionData());
 }
+
 void LogicController::validateSessionConnectionData(SessionConnectionData data)
 {
     qDebug() << "Logic controller: session connection test(success): " << data.sessionID << " " << data.sessionPassword;
@@ -83,10 +86,20 @@ void LogicController::requestUpdateUsersListInSession()
 
 void LogicController::sendNewBlock(const Block &newBlock)
 {
-    Q_UNUSED(newBlock);
+//    Q_UNUSED(newBlock);
+
+    // test getting new block from this user
+
     qDebug() << "Logic controller receive new block";
 
     emit sendNewBlockIdToSession(++testBlockId);
+
+    // test getting new block from another user
+    qDebug() << "Another user get block";
+    Block b = newBlock;
+    b.id = ++testBlockId;
+    b.position = newBlock.position - QPoint(10,10);
+    screenController.receiveBlock(b);
 }
 
 void LogicController::requestUpdateMindMapInSession(const long sessionId)
@@ -107,4 +120,9 @@ void LogicController::requestUpdateMindMapInSession(const long sessionId)
     }
 
     emit updateMindMapDataInSession(data);
+}
+
+void LogicController::userDisconnected()
+{
+    qDebug() << "Logic controlled: user disconnected";
 }

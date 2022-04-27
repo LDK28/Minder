@@ -43,6 +43,7 @@ public:
     void updateUsersList(const UsersInSessionData &data);
     void updateMindMap(const MindMapData &data);
     void setNewBlockId(const long newBlockId);
+    void setBlock(const Block &block);
     void setSessionData(const SessionData &data);
     SessionData getSessionData() { return sessionData; }
     // End Interface

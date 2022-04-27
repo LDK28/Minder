@@ -24,6 +24,7 @@ private slots:
     void requestUpdateUsersListInSession();
     void sendNewBlock(const Block &newBlock);
     void requestUpdateMindMapInSession(const long sessionId);
+    void userDisconnected();
 
 signals:
     void validationLoginDataSuccess();

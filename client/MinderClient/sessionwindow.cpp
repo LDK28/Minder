@@ -124,3 +124,10 @@ void SessionWindow::setNewBlockId(const long newBlockId)
     ui->widgetToolsPalette->setEnabled(true);
     ui->widgetMindMap->setNewBlockId(newBlockId);
 }
+
+void SessionWindow::setBlock(const Block &block)
+{
+    qDebug() << "Session Window: set block";
+
+    ui->widgetMindMap->drawBlock(block);
+}

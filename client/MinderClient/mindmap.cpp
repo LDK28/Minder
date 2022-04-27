@@ -146,3 +146,15 @@ void MindMap::setNewBlockId(const long newBlockId)
 
     newBlock = nullptr;
 }
+
+void MindMap::drawBlock(const Block &block)
+{
+
+    BlockImage *blockImage = new BlockImage(block);
+
+    blocks.append(blockImage);
+    blocksMap.insert(blockImage->block.id, blockImage);
+
+    scene->addItem(blockImage);
+    addArrow(blockImage);
+}

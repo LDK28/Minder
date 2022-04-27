@@ -250,3 +250,11 @@ void ScreenController::receiveMindMapDataInSession(const MindMapData &data)
     assert(sessionWindow);
     sessionWindow->updateMindMap(data);
 }
+
+void ScreenController::receiveBlock(const Block& block)
+{
+    qDebug() << "Screen controller: receive block";
+
+    assert(sessionWindow);
+    sessionWindow->setBlock(block);
+}

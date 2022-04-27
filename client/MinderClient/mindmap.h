@@ -32,14 +32,14 @@ signals:
     void transmitNewBlock(const Block & newBlock);
 
 public:
-    void setNewBlockId(const long newBlockId);
-    void drawNewBlock(const Block &block);
     void updateMindMap(const MindMapData &data);
+    void drawBlock(const Block &block);
+    void drawNewBlock(const Block &newBlock);
+    void setNewBlockId(const long newBlockId);
 
     // end Interface
 
 private:
-    void updateImage(const MindMapData &data);
     void addArrow(BlockImage *block);
 
 private slots:

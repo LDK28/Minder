@@ -74,8 +74,8 @@ public:
         TYPES_ENUM(MAKE_ENUM)
     };
 
-    long id;
-    long parentId;
+    size_t id;
+    size_t parentId;
     QPoint position;
     int type;
 
@@ -86,7 +86,11 @@ public:
     QColor borderColor;
     QColor backgroundColor;
 
-    Block() : id(-1), parentId(-1), position(QPoint(0, 0)), textColor(Qt::black), borderColor(Qt::red), backgroundColor(Qt::yellow) {}
+    Block() : id(0), parentId(0), position(QPoint(0, 0)), textColor(Qt::black), borderColor(Qt::red), backgroundColor(Qt::yellow) {}
+    Block(const Block& sBlock) = default;
+    Block& operator = (const Block &sBlock) = default;
+    Block(Block&& sBlock) = default;
+    Block& operator = (Block &&sBlock) = default;
 
     void print() const
     {

@@ -53,6 +53,7 @@ signals: // to logic controller
     // from session window
 
     void sendNewBlock(const Block &newBlock);
+    void sessionClosed();
 
     // from screen controller
 
@@ -68,6 +69,7 @@ public slots: // from logic contloller
     void receiveUsersListInSession(const UsersInSessionData &data);
     void receiveMindMapDataInSession(const MindMapData &data);
     void receiveNewBlockId(const long newBlockId);
+    void receiveBlock(const Block& block);
 
     // end Interface
 
