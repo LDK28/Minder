@@ -58,18 +58,18 @@ void LogicController::saveSettings(SettingsData data)
 
 void LogicController::validateSessionCreationData(SessionCreationData data)
 {
-    qDebug() << "Logic controller: session creation test(success): " << data.sessionName << " " << data.sessionPassword << " " << data.sessionRepeatPassword;
+    qDebug() << "Logic controller: session creation test(success): " << data.name << " " << data.password << " " << data.repeatPassword;
     emit sessionCreationSuccess(SessionData());
 }
 
 void LogicController::validateSessionConnectionData(SessionConnectionData data)
 {
-    qDebug() << "Logic controller: session connection test(success): " << data.sessionID << " " << data.sessionPassword;
+    qDebug() << "Logic controller: session connection test(success): " << data.id << " " << data.password;
 
     srand(time(NULL));
     SessionData sdata;
-    sdata.sessionId = rand() % 1000;
-    sdata.sessionName = QString("Room") + QString::number(sdata.sessionId);
+    sdata.id = rand() % 1000;
+    sdata.name = QString("Room") + QString::number(sdata.id);
     emit sessionConnectionSuccess(sdata);
 }
 

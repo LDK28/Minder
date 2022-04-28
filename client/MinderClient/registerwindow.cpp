@@ -18,6 +18,7 @@ RegisterWindow::~RegisterWindow()
 
 void RegisterWindow::closeEvent(QCloseEvent *event)
 {
+    Q_UNUSED(event);
     qDebug() << "Register window close event";
     emit on_closeRegisterWindowButtonClicked();
 }

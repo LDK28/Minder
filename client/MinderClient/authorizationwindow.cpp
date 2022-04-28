@@ -19,6 +19,7 @@ AuthorizationWindow::~AuthorizationWindow()
 
 void AuthorizationWindow::closeEvent(QCloseEvent *event)
 {
+    Q_UNUSED(event);
     qDebug() << "Auth window close event";
 //    event->ignore();
     emit on_closeAuthorizationWindowButtonClicked();

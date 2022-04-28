@@ -34,6 +34,7 @@ void NewBlockCreationWindow::initConnections()
 
 void NewBlockCreationWindow::closeEvent(QCloseEvent *event)
 {
+    Q_UNUSED(event);
     qDebug() << "New Block creation window: close event";
 
     emit on_closeNewBlockCreationWindowButtonClicked();

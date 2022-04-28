@@ -17,15 +17,19 @@ SessionCreationWindow::~SessionCreationWindow()
 
 void SessionCreationWindow::closeEvent(QCloseEvent *event)
 {
+    Q_UNUSED(event);
     qDebug() << "Session Creation window close event";
+
     emit on_closeSessionCreationWindowButtonClicked();
 }
 
 void SessionCreationWindow::on_createNewSessionButtonClicked()
 {
     qDebug() << "Session creation pack data";
-    SessionCreationData data = {ui->lineSessionName->text(), ui->lineNewSessionPassword->text(), ui->lineNewSessionRepeatPassword->text()};
-    qDebug() << "  " << data.sessionName << " " << data.sessionPassword << " " << data.sessionRepeatPassword;
+
+    SessionCreationData data(ui->lineSessionName->text(), ui->lineNewSessionPassword->text(), ui->lineNewSessionRepeatPassword->text());
+    qDebug() << "  " << data.name << " " << data.password << " " << data.repeatPassword;
+
     emit on_createNewSession(data);
 }
 

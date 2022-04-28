@@ -49,15 +49,15 @@ void SessionWindow::showEvent(QShowEvent *event)
     qDebug() << "Session window: show event";
 
     QWidget::showEvent(event);
-    emit getUsersListData(sessionData.sessionId);
-    emit getMindMapData(sessionData.sessionId);
+    emit getUsersListData(sessionData.id);
+    emit getMindMapData(sessionData.id);
 }
 
 void SessionWindow::setSessionData(const SessionData &data)
 {
     sessionData = data;
-    ui->labelSessionId->setText(QString::number(sessionData.sessionId));
-    ui->labelSessionName->setText(sessionData.sessionName);
+    ui->labelSessionId->setText(QString::number(sessionData.id));
+    ui->labelSessionName->setText(QString::number(sessionData.id));
 }
 
 void SessionWindow::updateUsersList(const UsersInSessionData &data)
