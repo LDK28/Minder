@@ -1,39 +1,28 @@
 #ifndef TESTSDRAWING_H
 #define TESTSDRAWING_H
 
-#include "Drawing.h"
+#include "DrawingLogic.h"
 #include "mockClient.h"
 
- TEST(Drawing, addBlock) {
-     MockHttpClient network;
-     EXPECT_CALL(network, changeDesk()).Times(1);
+TEST(DrawingLogic, sendNewBlock) {
+    std::shared_ptr <MockHttpClient> network(new MockHttpClient);
 
-     Drawing drawing(&network);
-     drawing.addBlock();
- }
+    BlockData convBlock;
+    EXPECT_CALL(*network, addBlock(convBlock)).Times(1);
 
- TEST(Drawing, deleteBlock) {
-    MockHttpClient network;
-    EXPECT_CALL(network, changeDesk()).Times(1);
+    Block newBlock;
+    DrawingLogic drawing(network);
+    drawing.sendNewBlock(newBlock);
+}
 
-    Drawing drawing(&network);
-    drawing.deleteBlock();
- }
+TEST(DrawingLogic, getMindMapInSession) {
+    std::shared_ptr <MockHttpClient> network(new MockHttpClient);
 
- TEST(Drawing, changeBlock) {
-    MockHttpClient network;
-    EXPECT_CALL(network, changeDesk()).Times(1);
+    size_t sessionId = 1;
+    EXPECT_CALL(*network, getCurrentStateDesk(sessionId)).Times(1);
 
-    Drawing drawing(&network);
-    drawing.changeBlock();
- }
-
-TEST(Drawing, changeSize) {
-    MockHttpClient network;
-    EXPECT_CALL(network, changeDesk()).Times(1);
-
-    Drawing drawing(&network);
-    drawing.changeSize();
+    DrawingLogic drawing(network);
+    drawing.getMindMapInSession(sessionId);
 }
 
 #endif // TESTSDRAWING_H

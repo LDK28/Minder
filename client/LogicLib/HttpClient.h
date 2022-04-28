@@ -8,12 +8,13 @@ public:
     HttpClient() = default;
     ~HttpClient() = default;
 
-    returnCode sendNewSettings(const Settings &);
-    returnCode checkConnectionToSession(Session &);
-    returnCode createSession(const Session &);
-    void getUsers(UsersList);
-    void changeDesk();
-    void getCurrentStateDesk();
+    returnCode updateSettings(const Settings &);
+    std::string checkConnectionToSession(const ExistSession &);
+    size_t createSession(const NewSession &);
+    //void getUsers(UsersList);
+    void addBlock(const BlockData &);
+    ListBlocks getCurrentStateDesk(const size_t);
+    void disconnect();
 };
 
 #endif // HTTPCLIENT_H

@@ -5,11 +5,12 @@
 
 class MockHttpClient : public HttpClient {
 public:
-  MOCK_METHOD(returnCode, checkConnectionToSession, (Session &));
-  MOCK_METHOD(returnCode, createSession, (const Session &));
-  MOCK_METHOD(void, changeDesk, ());
-  MOCK_METHOD(returnCode, sendNewSettings, (const Settings &));
-  MOCK_METHOD(void, getUsers, (UsersList));
+  MOCK_METHOD(returnCode, updateSettings, (const Settings &));
+  MOCK_METHOD(std::string, checkConnectionToSession, (const ExistSession &));
+  MOCK_METHOD(size_t, createSession, (const NewSession &));
+  MOCK_METHOD(void, addBlock, (const BlockData &));
+  MOCK_METHOD(ListBlocks, getCurrentStateDesk, (const size_t));
+  MOCK_METHOD(void, disconnect, ());
 };
 
 #endif // MOCKCLIENT_H
