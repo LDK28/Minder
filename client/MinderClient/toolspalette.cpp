@@ -5,9 +5,9 @@ ToolsPalette::ToolsPalette(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::ToolsPalette)
 {
+    qDebug() <<"Tools Palette ctor";
     ui->setupUi(this);
     initConnections();
-    scaleChanged(DEF_SCALE / 100);
 }
 
 ToolsPalette::~ToolsPalette()
@@ -26,6 +26,6 @@ void ToolsPalette::initConnections()
 
 void ToolsPalette::scaleChanged(const double scale)
 {
-//    qDebug() << scale;
+    qDebug() <<"Scale ch" << scale;
     ui->labelScale->setText(QString::number(std::round(scale * 10000.0) / 100.0) + QString("%"));
 }

@@ -9,6 +9,7 @@ MindMap::MindMap(QWidget *parent) :
     selectedBlock(nullptr),
     newBlock(nullptr)
 {
+    qDebug() <<"Mind map ctor";
     /////////UI///////
     ui->setupUi(this);
 
@@ -16,7 +17,6 @@ MindMap::MindMap(QWidget *parent) :
     scene = new QGraphicsScene(this);
     ui->graphicsViewMindMap->setScene(scene);
     ui->graphicsViewMindMap->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-    //    setScale(DEF_SCALE);
 
     initConnections();
 }
@@ -177,8 +177,11 @@ void MindMap::drawBlock(const Block &block)
 
 void MindMap::setScale(const double newScalePerc)
 {
-    ui->graphicsViewMindMap->scale(1 / baseFactor, 1 / baseFactor);
-    factor = baseFactor = 1;
+    qDebug() << "Set scale " << newScalePerc;
+    factor = newScalePerc / (baseFactor * 100);
+    baseFactor *= factor;
+    ui->graphicsViewMindMap->scale(factor, factor);
+    qDebug() << factor << baseFactor;
     emit scaleChanged(baseFactor);
 }
 
@@ -236,8 +239,8 @@ void MindMap::deleteBlock()
                 {
                     if(selectedBlock->block.parentId != 0)
                     {
-                    blocks[i]->arrows[j]->changeParentBlock(blocksMap[selectedBlock->block.parentId]);
-                   }
+                        blocks[i]->arrows[j]->changeParentBlock(blocksMap[selectedBlock->block.parentId]);
+                    }
                     else
                     {
                         Arrow *arrow = blocks[i]->arrows[j];

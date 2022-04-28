@@ -17,13 +17,17 @@
 #define MAKE_ENUM(VAR) VAR,
 #define MAKE_STRINGS(VAR) #VAR,
 
-#define DEF_SCALE 100
+#define DEF_SCALE 200
 
 #define BZOOMPLUS_D 20
 #define BZOOMMINUS_D -20
 
 #define WZOOMPLUS_D 5
 #define WZOOMMINUS_D -5
+
+
+namespace ViewDataStructures
+{
 
 struct LoginData
 {
@@ -113,7 +117,7 @@ public:
         textColor(Qt::black), borderColor(Qt::red), backgroundColor(Qt::yellow) {}
 
     explicit Block(size_t id_, size_t parentId_, const QPoint &pos, const QString &text_,
-        const QFont &font, const QColor &textColor_, const QColor &borderColor_, const QColor &bgColor, int type_ = 0) :
+                   const QFont &font, const QColor &textColor_, const QColor &borderColor_, const QColor &bgColor, int type_ = 0) :
         id(id_), parentId(parentId_), position(pos), type(type_), text(text_), textFont(font),
         textColor(textColor_), borderColor(borderColor_), backgroundColor(bgColor) {}
 
@@ -129,6 +133,6 @@ struct MindMapData
 
     explicit MindMapData() = default;
 };
-
+}
 
 #endif // DATASTRUCTURES_H

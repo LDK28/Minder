@@ -2,7 +2,10 @@
 #define SESSIONUSERLIST_H
 
 #include <QFrame>
+
 #include "datastructures.h"
+
+using namespace ViewDataStructures;
 
 namespace Ui {
 class SessionUserList;

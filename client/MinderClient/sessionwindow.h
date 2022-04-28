@@ -14,6 +14,8 @@
 #include "mindmap.h"
 #include "newblockcreationwindow.h"
 
+using namespace ViewDataStructures;
+
 namespace Ui {
 class SessionWindow;
 }

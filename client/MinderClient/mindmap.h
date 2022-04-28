@@ -15,6 +15,9 @@
 #include "blockimage.h"
 #include "arrow.h"
 
+
+using namespace ViewDataStructures;
+
 namespace Ui {
 class MindMap;
 }

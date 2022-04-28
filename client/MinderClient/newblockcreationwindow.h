@@ -8,6 +8,8 @@
 
 #include "datastructures.h"
 
+using namespace ViewDataStructures;
+
 namespace Ui {
 class NewBlockCreationWindow;
 }

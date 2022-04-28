@@ -7,6 +7,8 @@ SessionWindow::SessionWindow(const SessionData &data, QWidget *parent) :
 {
     ui->setupUi(this);
     initConnections();
+
+    ui->widgetMindMap->setScale(DEF_SCALE);
     setSessionData(data);
 }
 

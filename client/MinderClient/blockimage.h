@@ -13,6 +13,8 @@
 
 #include "datastructures.h"
 
+using namespace ViewDataStructures;
+
 class Arrow;
 
 class BlockImage: public QGraphicsTextItem

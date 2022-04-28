@@ -9,6 +9,8 @@
 #include "datastructures.h"
 #include "screencontroller.h"
 
+using namespace ViewDataStructures;
+
 class LogicController: public QObject
 {
     Q_OBJECT
