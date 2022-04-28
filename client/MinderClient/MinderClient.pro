@@ -9,53 +9,50 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    arrow.cpp \
-    authorizationwindow.cpp \
-    blockimage.cpp \
-    logiccontroller.cpp \
-    mindmap.cpp \
-    newblockcreationwindow.cpp \
-    registerwindow.cpp \
-    screencontroller.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    sessionconnectionwindow.cpp \
-    sessioncreationwindow.cpp \
-    sessionuserlist.cpp \
-    sessionwindow.cpp \
-    settingswindow.cpp \
-    toolspalette.cpp
+    Arrow.cpp \
+    AuthorizationWindow.cpp \
+    BlockImage.cpp \
+    LogicController.cpp \
+    MindMap.cpp \
+    NewBlockCreationWindow.cpp \
+    RegisterWindow.cpp \
+    ScreenController.cpp \
+    SessionConnectionWindow.cpp \
+    SessionCreationWindow.cpp \
+    SessionUsersList.cpp \
+    SessionWindow.cpp \
+    SettingsWindow.cpp \
+    ToolsPalette.cpp \
+    main.cpp
 
 HEADERS += \
-    arrow.h \
-    authorizationwindow.h \
-    blockimage.h \
-    datastructures.h \
-    logiccontroller.h \
-    mainwindow.h \
-    mindmap.h \
-    newblockcreationwindow.h \
-    registerwindow.h \
-    screencontroller.h \
-    sessionconnectionwindow.h \
-    sessioncreationwindow.h \
-    sessionuserlist.h \
-    sessionwindow.h \
-    settingswindow.h \
-    toolspalette.h
+    Arrow.h \
+    AuthorizationWindow.h \
+    BlockImage.h \
+    DataStructures.h \
+    LogicController.h \
+    MindMap.h \
+    NewBlockCreationWindow.h \
+    RegisterWindow.h \
+    ScreenController.h \
+    SessionConnectionWindow.h \
+    SessionCreationWindow.h \
+    SessionUsersList.h \
+    SessionWindow.h \
+    SettingsWindow.h \
+    ToolsPalette.h
 
 FORMS += \
-    authorizationwindow.ui \
-    mainwindow.ui \
-    mindmap.ui \
-    newblockcreationwindow.ui \
-    registerwindow.ui \
-    sessionconnectionwindow.ui \
-    sessioncreationwindow.ui \
-    sessionuserlist.ui \
-    sessionwindow.ui \
-    settingswindow.ui \
-    toolspalette.ui
+    AuthorizationWindow.ui \
+    MindMap.ui \
+    NewBlockCreationWindow.ui \
+    RegisterWindow.ui \
+    SessionConnectionWindow.ui \
+    SessionCreationWindow.ui \
+    SessionUsersList.ui \
+    SessionWindow.ui \
+    SettingsWindow.ui \
+    ToolsPalette.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

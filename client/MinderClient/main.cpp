@@ -4,8 +4,8 @@
 #include <QMessageBox>
 #include <QDir>
 
-#include "screencontroller.h"
-#include "logiccontroller.h"
+#include "ScreenController.h"
+#include "LogicController.h"
 
 int main(int argc, char *argv[])
 {
