@@ -84,3 +84,15 @@ void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
     painter->drawPolygon(arrowHead, Qt::OddEvenFill);
     painter->drawLine(line());
 }
+
+void Arrow::changeParentBlock(BlockImage * newParentBlock)
+{
+    parentBlock = newParentBlock;
+    updatePosition();
+}
+
+void Arrow::changeChildBlock(BlockImage * newChildBlock)
+{
+    childBlock = newChildBlock;
+    updatePosition();
+}

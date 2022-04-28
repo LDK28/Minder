@@ -26,7 +26,7 @@ private slots:
     void on_createNewSessionButtonClicked();
 
 signals:
-    void on_createNewSession(SessionCreationData data);
+    void on_createNewSession(const SessionCreationData &data);
     void on_openSessionConnectionWindowButtonClicked();
     void on_closeSessionCreationWindowButtonClicked();
 

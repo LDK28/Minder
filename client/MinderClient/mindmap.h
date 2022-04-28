@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QMap>
 #include <QWheelEvent>
+#include <QMessageBox>
 
 #include "datastructures.h"
 #include "newblockcreationwindow.h"
@@ -30,17 +31,23 @@ public:
     // Interface
 signals:
     void transmitNewBlock(const Block & newBlock);
+    void transmitDeletedBlock(const MindMapData & changedBlocks);
+    void scaleChanged(const double scale);
 
-public:
+public slots:
     void updateMindMap(const MindMapData &data);
     void drawBlock(const Block &block);
     void drawNewBlock(const Block &newBlock);
-    void setNewBlockId(const long newBlockId);
+    void setNewBlockId(const size_t newBlockId);
+    void deleteBlock();
+    void setScale(const double newScalePerc);
+    void changeScale(const double dscalePerc);
 
     // end Interface
 
 private:
     void addArrow(BlockImage *block);
+    void initConnections();
 
 private slots:
     void changeSelectedBlock();
@@ -48,6 +55,8 @@ private slots:
 private:
     Ui::MindMap *ui;
     QGraphicsScene *scene;
+    double factor;
+    double baseFactor;
 
     QList<BlockImage *> blocks;
     QMap<int, BlockImage *> blocksMap;

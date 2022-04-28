@@ -31,6 +31,9 @@ LogicController::LogicController(QObject *parent)
     connect(this, &LogicController::sendNewBlockIdToSession, &screenController, &ScreenController::receiveNewBlockId);
 
     connect(&screenController, &ScreenController::sessionClosed, this, &LogicController::userDisconnected);
+
+    connect(&screenController, &ScreenController::transmitDeletedBlock, this, &LogicController::sendDeletedBlock);
+
 }
 
 void LogicController::validateLoginData(LoginData data)
@@ -99,7 +102,7 @@ void LogicController::sendNewBlock(const Block &newBlock)
     Block b = newBlock;
     b.id = ++testBlockId;
     b.position = newBlock.position - QPoint(10,10);
-    screenController.receiveBlock(b);
+//    screenController.receiveBlock(b);
 }
 
 void LogicController::requestUpdateMindMapInSession(const long sessionId)
@@ -125,4 +128,16 @@ void LogicController::requestUpdateMindMapInSession(const long sessionId)
 void LogicController::userDisconnected()
 {
     qDebug() << "Logic controlled: user disconnected";
+}
+
+void LogicController::sendDeletedBlock(const MindMapData &changedBlocks)
+{
+    qDebug() << "Logic controller: send deleted block";
+    qDebug() << "Deleted block: ";
+    qDebug() << changedBlocks.blocks.at(0).id;
+    qDebug() << "Changed blocks:";
+    for(int i = 1; i < changedBlocks.blocks.count(); ++i)
+    {
+        changedBlocks.blocks.at(i).print();
+    }
 }

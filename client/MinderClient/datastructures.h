@@ -17,6 +17,14 @@
 #define MAKE_ENUM(VAR) VAR,
 #define MAKE_STRINGS(VAR) #VAR,
 
+#define DEF_SCALE 100
+
+#define BZOOMPLUS_D 20
+#define BZOOMMINUS_D -20
+
+#define WZOOMPLUS_D 5
+#define WZOOMMINUS_D -5
+
 struct LoginData
 {
     QString nickname;
@@ -57,6 +65,7 @@ struct SessionData
 
 struct User
 {
+    int id;
     QString nickname;
     User(const QString &nickname) : nickname(nickname) {}
 };
@@ -94,7 +103,7 @@ public:
 
     void print() const
     {
-        qDebug() << this->id << " " << this->parentId << " " << this->position;
+        qDebug() << "->Block: " <<  this->id << " " << this->parentId << " " << this->position;
     }
 };
 

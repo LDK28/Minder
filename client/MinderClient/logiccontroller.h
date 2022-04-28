@@ -23,6 +23,7 @@ private slots:
     void validateSessionConnectionData(SessionConnectionData data);
     void requestUpdateUsersListInSession();
     void sendNewBlock(const Block &newBlock);
+    void sendDeletedBlock(const MindMapData &changedBlocks);
     void requestUpdateMindMapInSession(const long sessionId);
     void userDisconnected();
 

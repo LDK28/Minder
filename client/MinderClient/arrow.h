@@ -15,6 +15,8 @@ public:
     QRectF boundingRect() const override;
     QPainterPath shape() const override;
 
+    void changeChildBlock(BlockImage * newChildBlock);
+    void changeParentBlock(BlockImage * newParentBlock);
     BlockImage *getParentBlock() const { return parentBlock; }
     BlockImage *getChildBlock() const { return childBlock; }
 

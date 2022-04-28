@@ -2,6 +2,7 @@
 #define TOOLSPALETTE_H
 
 #include <QFrame>
+#include"datastructures.h"
 
 namespace Ui {
 class ToolsPalette;
@@ -24,7 +25,9 @@ signals:
     void on_zoomPlusButtonClicked();
     void on_zoomMinusButtonClicked();
     void on_zoomHomeButtonClicked();
-    void on_chooseFontButtonClicked();
+
+public slots:
+    void scaleChanged(const double scale);
 
 private:
     Ui::ToolsPalette *ui;

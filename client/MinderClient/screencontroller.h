@@ -53,12 +53,13 @@ signals: // to logic controller
     // from session window
 
     void sendNewBlock(const Block &newBlock);
+    void transmitDeletedBlock(const MindMapData & changedBlocks);
     void sessionClosed();
 
     // from screen controller
 
-    void getUsersInSessionData(const long sessionId);
-    void getMindMapInSessionData(const long sessionId);
+    void getUsersInSessionData(const size_t sessionId);
+    void getMindMapInSessionData(const size_t sessionId);
 
 public slots: // from logic contloller
     void validationLoginDataSuccess();

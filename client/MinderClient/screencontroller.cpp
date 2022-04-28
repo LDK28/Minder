@@ -62,6 +62,7 @@ void ScreenController::initSessionConnections()
 {
     connect(sessionWindow, &SessionWindow::on_closeSessionWindowButtonClicked, this, &ScreenController::closeSessionWindow);
     connect(sessionWindow, &SessionWindow::transmitNewBlock, this, &ScreenController::sendNewBlock);
+    connect(sessionWindow, &SessionWindow::transmitDeletedBlock, this, &ScreenController::transmitDeletedBlock);
     connect(sessionWindow, &SessionWindow::getUsersListData, this, &ScreenController::getUsersInSessionData);
     connect(sessionWindow, &SessionWindow::getMindMapData, this, &ScreenController::getMindMapInSessionData);
 
@@ -71,6 +72,7 @@ void ScreenController::deinitSessionConnections()
 {
     disconnect(sessionWindow, &SessionWindow::on_closeSessionWindowButtonClicked, this, &ScreenController::closeSessionWindow);
     disconnect(sessionWindow, &SessionWindow::transmitNewBlock, this, &ScreenController::sendNewBlock);
+    disconnect(sessionWindow, &SessionWindow::transmitDeletedBlock, this, &ScreenController::transmitDeletedBlock);
     disconnect(sessionWindow, &SessionWindow::getUsersListData, this, &ScreenController::getUsersInSessionData);
     disconnect(sessionWindow, &SessionWindow::getMindMapData, this, &ScreenController::getMindMapInSessionData);
 }

@@ -29,7 +29,7 @@ signals:
     void on_openNewSessionCreationWindowButtonClicked();
     void on_closeSessionConnectionWindowButtonClicked();
 
-    void on_connectToSession(SessionConnectionData data);
+    void on_connectToSession(const SessionConnectionData &data);
 
 private:
     Ui::SessionConnectionWindow *ui;

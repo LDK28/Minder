@@ -28,7 +28,7 @@ private slots:
 signals:
     void on_closeSettingsWindowButtonClicked();
 
-    void on_saveSettings(SettingsData data);
+    void on_saveSettings(const SettingsData &data);
 
 private:
     Ui::SettingsWindow *ui;

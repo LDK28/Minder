@@ -4,6 +4,8 @@
 MindMap::MindMap(QWidget *parent) :
     QFrame(parent),
     ui(new Ui::MindMap),
+    factor(1),
+    baseFactor(1),
     selectedBlock(nullptr),
     newBlock(nullptr)
 {
@@ -13,6 +15,14 @@ MindMap::MindMap(QWidget *parent) :
     ////////Scene////////
     scene = new QGraphicsScene(this);
     ui->graphicsViewMindMap->setScene(scene);
+    ui->graphicsViewMindMap->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    //    setScale(DEF_SCALE);
+
+    initConnections();
+}
+
+void MindMap::initConnections()
+{
     connect(scene, &QGraphicsScene::selectionChanged, this, &MindMap::changeSelectedBlock);
 }
 
@@ -25,17 +35,23 @@ void MindMap::wheelEvent(QWheelEvent *event)
 {
     //    qDebug() << "MindMap: whell event " << event->angleDelta();
 
-    ui->graphicsViewMindMap->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-    double scale = 1.05;
-    if(event->angleDelta().y() > 0)
+    if(event->modifiers() & Qt::ControlModifier)
     {
-        ui->graphicsViewMindMap->scale(scale, scale);
+        if(event->angleDelta().y() > 0)
+        {
+            changeScale(WZOOMMINUS_D);
+        }
+        else
+        {
+            changeScale(WZOOMPLUS_D);
+        }
+
+        event->accept();
     }
     else
     {
-        ui->graphicsViewMindMap->scale(1 / scale, 1 / scale);
+        QFrame::wheelEvent(event);
     }
-    event->accept();
 }
 
 void MindMap::updateMindMap(const MindMapData &data)
@@ -134,7 +150,7 @@ void MindMap::changeSelectedBlock()
     }
 }
 
-void MindMap::setNewBlockId(const long newBlockId)
+void MindMap::setNewBlockId(const size_t newBlockId)
 {
     qDebug() << "MindMap: get new block id";
 
@@ -157,4 +173,92 @@ void MindMap::drawBlock(const Block &block)
 
     scene->addItem(blockImage);
     addArrow(blockImage);
+}
+
+void MindMap::setScale(const double newScalePerc)
+{
+    ui->graphicsViewMindMap->scale(1 / baseFactor, 1 / baseFactor);
+    factor = baseFactor = 1;
+    emit scaleChanged(baseFactor);
+}
+
+void MindMap::changeScale(const double dscalePerc)
+{
+    factor = dscalePerc > 0 ? 1 + dscalePerc / 100 :  1 / (1 - dscalePerc / 100);
+    baseFactor *= factor;
+    ui->graphicsViewMindMap->scale(factor, factor);
+    emit scaleChanged(baseFactor);
+}
+
+void MindMap::deleteBlock()
+{
+    qDebug() << "MindMap: Delete block";
+    if(selectedBlock == nullptr)
+    {
+        QMessageBox::about(this, "Note", "Select block at first");
+        return;
+    }
+    qDebug() << " " << selectedBlock->block.id;
+
+
+    MindMapData changedBlocks;
+    changedBlocks.blocks.append(selectedBlock->block); // удаляемый блок
+
+    // Удаление стрелки от предка удаляемого блока к удаляемому блоку
+    if(selectedBlock->block.parentId != 0)
+    {
+        for(int i = 0; i < blocksMap[selectedBlock->block.parentId]->arrows.count(); ++i)
+        {
+            if(blocksMap[selectedBlock->block.parentId]->arrows[i]->getChildBlock() == selectedBlock)
+            {
+                Arrow *arrow = blocksMap[selectedBlock->block.parentId]->arrows.at(i);
+                blocksMap[selectedBlock->block.parentId]->arrows.removeAt(i);
+                scene->removeItem(arrow);
+                delete arrow;
+                break;
+            }
+        }
+    }
+
+    //изменение потомков удаляемого блока
+    for(int i = 0; i < blocks.count(); ++i)
+    {
+        if(blocks[i]->block.parentId == selectedBlock->block.id)
+        {
+            // Изменеине предка
+            blocks[i]->block.parentId = selectedBlock->block.parentId;
+            changedBlocks.blocks.append(blocks[i]->block); // изменненный блок
+
+            // удаление стрелки от удаляемого к его потомку
+            for(int j = 0; j < blocks[i]->arrows.count(); ++j)
+            {
+                if(blocks[i]->arrows[j]->getParentBlock() == selectedBlock)
+                {
+                    if(selectedBlock->block.parentId != 0)
+                    {
+                    blocks[i]->arrows[j]->changeParentBlock(blocksMap[selectedBlock->block.parentId]);
+                   }
+                    else
+                    {
+                        Arrow *arrow = blocks[i]->arrows[j];
+                        blocks[i]->arrows.removeAt(j);
+                        scene->removeItem(arrow);
+                        delete arrow;
+                    }
+                    break;
+                }
+            }
+
+        }
+    }
+
+    // удаление выбранного блока
+    blocks.removeOne(selectedBlock);
+    blocksMap.remove(selectedBlock->block.id);
+    scene->removeItem(selectedBlock);
+    delete selectedBlock;
+    selectedBlock = nullptr;
+
+    // отправка изменений на сервер
+    emit transmitDeletedBlock(changedBlocks);
 }

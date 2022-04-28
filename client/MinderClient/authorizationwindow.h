@@ -30,7 +30,7 @@ signals:
     void on_openSettingsWindowButtonClicked();
     void on_closeAuthorizationWindowButtonClicked();
 
-    void on_login(LoginData data);
+    void on_login(const LoginData &data);
 
 private:
     Ui::AuthorizationWindow *ui;

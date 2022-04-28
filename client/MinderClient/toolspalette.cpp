@@ -7,6 +7,7 @@ ToolsPalette::ToolsPalette(QWidget *parent) :
 {
     ui->setupUi(this);
     initConnections();
+    scaleChanged(DEF_SCALE / 100);
 }
 
 ToolsPalette::~ToolsPalette()
@@ -21,4 +22,10 @@ void ToolsPalette::initConnections()
     connect(ui->btnZoomPlus, &QPushButton::clicked, this, &ToolsPalette::on_zoomPlusButtonClicked);
     connect(ui->btnZoomMinus, &QPushButton::clicked, this, &ToolsPalette::on_zoomMinusButtonClicked);
     connect(ui->btnZoomHome, &QPushButton::clicked, this, &ToolsPalette::on_zoomHomeButtonClicked);
+}
+
+void ToolsPalette::scaleChanged(const double scale)
+{
+//    qDebug() << scale;
+    ui->labelScale->setText(QString::number(std::round(scale * 10000.0) / 100.0) + QString("%"));
 }

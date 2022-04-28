@@ -15,14 +15,17 @@ void SessionWindow::initConnections()
     connect(ui->btnQuit, &QPushButton::clicked, this, &SessionWindow::on_closeSessionWindowButtonClicked);
 
     connect(ui->widgetToolsPalette, &ToolsPalette::on_addNewBlockButtonClicked, this, &SessionWindow::addNewBlockButtonClicked);
-    connect(ui->widgetToolsPalette, &ToolsPalette::on_deleteBlockButtonClicked, this, &SessionWindow::deleteBlockButtonClicked);
+    connect(ui->widgetToolsPalette, &ToolsPalette::on_deleteBlockButtonClicked, ui->widgetMindMap, &MindMap::deleteBlock);
     connect(ui->widgetToolsPalette, &ToolsPalette::on_zoomPlusButtonClicked, this, &SessionWindow::zoomPlusButtonClicked);
     connect(ui->widgetToolsPalette, &ToolsPalette::on_zoomMinusButtonClicked, this, &SessionWindow::zoomMinusButtonClicked);
     connect(ui->widgetToolsPalette, &ToolsPalette::on_zoomHomeButtonClicked, this, &SessionWindow::zoomHomeButtonClicked);
 
     connect(&newBlockWindow, &NewBlockCreationWindow::transmitNewBlock, this, &SessionWindow::getNewBlock);
     connect(&newBlockWindow, &NewBlockCreationWindow::on_closeNewBlockCreationWindowButtonClicked, this, &SessionWindow::closeNewBlockCreationWindow);
+
     connect(ui->widgetMindMap, &MindMap::transmitNewBlock, this, &SessionWindow::transmitNewBlock);
+    connect(ui->widgetMindMap, &MindMap::transmitDeletedBlock, this, &SessionWindow::transmitDeletedBlock);
+    connect(ui->widgetMindMap, &MindMap::scaleChanged, ui->widgetToolsPalette, &ToolsPalette::scaleChanged);
 }
 
 SessionWindow::~SessionWindow()
@@ -105,19 +108,22 @@ void SessionWindow::deleteBlockButtonClicked()
 void SessionWindow::zoomPlusButtonClicked()
 {
     qDebug() << "Session Window: zoom plus";
+    ui->widgetMindMap->changeScale(BZOOMPLUS_D);
 }
 
 void SessionWindow::zoomMinusButtonClicked()
 {
     qDebug() << "Session Window: zoom minus";
+    ui->widgetMindMap->changeScale(BZOOMMINUS_D);
 }
 
 void SessionWindow::zoomHomeButtonClicked()
 {
     qDebug() << "Session Window: zoom home";
+    ui->widgetMindMap->setScale(DEF_SCALE);
 }
 
-void SessionWindow::setNewBlockId(const long newBlockId)
+void SessionWindow::setNewBlockId(const size_t newBlockId)
 {
     qDebug() << "Session Window: set id for new block";
 
