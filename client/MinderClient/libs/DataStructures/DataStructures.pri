@@ -1,0 +1,5 @@
+INCLUDEPATH += $$PWD
+HEADERS += $$PWD/Arrow.h
+SOURCES +=
+FORMS +=
+RESOURCES +=

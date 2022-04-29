@@ -37,7 +37,7 @@ void MindMap::wheelEvent(QWheelEvent *event)
 
     if(event->modifiers() & Qt::ControlModifier)
     {
-        if(event->angleDelta().y() > 0)
+        if(event->angleDelta().y() < 0)
         {
             changeScale(WZOOMMINUS_D);
         }

@@ -102,7 +102,7 @@ void LogicController::sendNewBlock(const Block &newBlock)
     Block b = newBlock;
     b.id = ++testBlockId;
     b.position = newBlock.position - QPoint(10,10);
-    screenController.receiveBlock(b);
+//    screenController.receiveBlock(b);
 }
 
 void LogicController::requestUpdateMindMapInSession(const size_t sessionId)
