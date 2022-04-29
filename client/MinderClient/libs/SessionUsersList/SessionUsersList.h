@@ -23,6 +23,8 @@ public:
 
 private:
     Ui::SessionUsersList *ui;
+
+    friend class test_SessionUsersList;
 };
 
 #endif // SESSIONUSERSLIST_H

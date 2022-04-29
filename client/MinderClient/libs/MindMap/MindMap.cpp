@@ -33,7 +33,7 @@ MindMap::~MindMap()
 
 void MindMap::wheelEvent(QWheelEvent *event)
 {
-    //    qDebug() << "MindMap: whell event " << event->angleDelta();
+        qDebug() << "MindMap: whell event " << event->angleDelta();
 
     if(event->modifiers() & Qt::ControlModifier)
     {
@@ -56,7 +56,7 @@ void MindMap::wheelEvent(QWheelEvent *event)
 
 void MindMap::updateMindMap(const MindMapData &data)
 {
-    //    qDebug() << "MinaMap: update image";
+    qDebug() << "MinaMap: update mind map image";
 
     scene->clear();
     blocks.clear();
@@ -85,7 +85,7 @@ void MindMap::updateMindMap(const MindMapData &data)
 
 void MindMap::drawNewBlock(const Block &block)
 {
-    //    qDebug() << "MindMap: draw new block";
+    qDebug() << "MindMap: draw new block";
 
     newBlock = new BlockImage(block);
 
@@ -99,7 +99,7 @@ void MindMap::drawNewBlock(const Block &block)
 
 void MindMap::addArrow(BlockImage *blockImage)
 {
-    qDebug() << "MindMap: add arrow";
+    qDebug() << "MindMap: add arrow" << blockImage->block.id << " " << blockImage->block.parentId;
 
     if(blockImage->block.parentId > 0)
     {
@@ -165,6 +165,7 @@ void MindMap::setNewBlockId(const size_t newBlockId)
 
 void MindMap::drawBlock(const Block &block)
 {
+    qDebug() << "MindMap: draw block";
 
     BlockImage *blockImage = new BlockImage(block);
 
@@ -177,7 +178,8 @@ void MindMap::drawBlock(const Block &block)
 
 void MindMap::setScale(const double newScalePerc)
 {
-    qDebug() << "Set scale " << newScalePerc;
+    qDebug() << "MindMap : Set scale " << newScalePerc;
+
     factor = newScalePerc / (baseFactor * 100);
     baseFactor *= factor;
     ui->graphicsViewMindMap->scale(factor, factor);
@@ -187,6 +189,8 @@ void MindMap::setScale(const double newScalePerc)
 
 void MindMap::changeScale(const double dscalePerc)
 {
+    qDebug() << "MindMap : Change scale " << dscalePerc;
+
     factor = dscalePerc > 0 ? 1 + dscalePerc / 100 :  1 / (1 - dscalePerc / 100);
     baseFactor *= factor;
     ui->graphicsViewMindMap->scale(factor, factor);
@@ -196,6 +200,7 @@ void MindMap::changeScale(const double dscalePerc)
 void MindMap::deleteBlock()
 {
     qDebug() << "MindMap: Delete block";
+
     if(selectedBlock == nullptr)
     {
         QMessageBox::about(this, "Note", "Select block at first");

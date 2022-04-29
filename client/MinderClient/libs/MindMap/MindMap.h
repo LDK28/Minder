@@ -68,6 +68,8 @@ private:
 
     BlockImage *selectedBlock;
     BlockImage *newBlock;
+
+    friend class test_MindMap;
 };
 
 #endif // MINDMAP_H

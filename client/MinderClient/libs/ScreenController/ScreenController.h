@@ -118,6 +118,8 @@ private:
     SessionConnectionWindow sessionConnectionWindow;
     SessionCreationWindow sessionCreationWindow;
     SessionWindow *sessionWindow;
+
+    friend class test_ScreenController;
 };
 
 #endif // SCREENCONTROLLER_H
