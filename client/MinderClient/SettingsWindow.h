@@ -21,16 +21,15 @@ public:
     explicit SettingsWindow(QWidget *parent = nullptr);
     ~SettingsWindow();
 
-private:
+signals:
+    void on_closeSettingsWindowButtonClicked();
+    void on_saveSettings(const ViewDataStructures::SettingsData &data);
+
+protected:
     void closeEvent(QCloseEvent *event);
 
 private slots:
     void on_saveSettingsButtonClicked();
-
-signals:
-    void on_closeSettingsWindowButtonClicked();
-
-    void on_saveSettings(const SettingsData &data);
 
 private:
     Ui::SettingsWindow *ui;

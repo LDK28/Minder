@@ -20,19 +20,17 @@ class Arrow;
 class BlockImage: public QGraphicsTextItem
 {
 public:
-    BlockImage(const Block &b);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
+    explicit BlockImage(const Block &b);
 
     enum { Type = UserType + 1 };
 
     int type() const override { return Type; }
-
     void addArrow(Arrow *arrow) { this->arrows.append(arrow);}
     void deleteArrow(Arrow *arrow) { Q_UNUSED(arrow); }//this-> arrow = nullptr;};
 
 protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 public:

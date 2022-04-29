@@ -22,12 +22,8 @@ public:
     explicit NewBlockCreationWindow(QWidget *parent = nullptr);
     ~NewBlockCreationWindow();
 
-private:
-    void initConnections();
-    void closeEvent(QCloseEvent *event);
-
 signals:
-    void transmitNewBlock(const Block& data);
+    void transmitNewBlock(const ViewDataStructures::Block& data);
     void on_closeNewBlockCreationWindowButtonClicked();
 
 private slots:
@@ -35,8 +31,11 @@ private slots:
     void on_changeTextFontButtonClicked();
     void on_changeBackgroundColorButtonClicked();
     void on_changeBorderColorButtonClicked();
-
     void packBlockData();
+
+private:
+    void initConnections();
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::NewBlockCreationWindow *ui;

@@ -28,19 +28,13 @@ public:
     explicit SessionWindow(const SessionData &data, QWidget *parent = nullptr);
     ~SessionWindow();
 
-    void showEvent(QShowEvent *event);
-
-private:
-    void closeEvent(QCloseEvent *event);
-    void initConnections();
-
     //Interface
 signals:
     void on_closeSessionWindowButtonClicked();
     void getUsersListData(const long sessionId);
     void getMindMapData(const long sessionId);
-    void transmitNewBlock(const Block &newBlock);
-    void transmitDeletedBlock(const MindMapData & changedBlocks);
+    void transmitNewBlock(const ViewDataStructures::Block &newBlock);
+    void transmitDeletedBlock(const ViewDataStructures::MindMapData & changedBlocks);
 
 public:
     void updateUsersList(const UsersInSessionData &data);
@@ -60,10 +54,17 @@ private slots:
     void zoomHomeButtonClicked();
 
     // from new block window
-    void getNewBlock(const Block & newBlock);
+    void getNewBlock(const ViewDataStructures::Block & newBlock);
     void closeNewBlockCreationWindow();
 
     // from mind map widget
+
+protected:
+    void showEvent(QShowEvent *event);
+    void closeEvent(QCloseEvent *event);
+
+private:
+    void initConnections();
 
 private:
     Ui::SessionWindow *ui;

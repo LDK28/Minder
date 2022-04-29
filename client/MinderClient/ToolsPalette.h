@@ -19,9 +19,6 @@ public:
     explicit ToolsPalette(QWidget *parent = nullptr);
     ~ToolsPalette();
 
-private:
-    void initConnections();
-
 signals:
     void on_addNewBlockButtonClicked();
     void on_deleteBlockButtonClicked();
@@ -31,6 +28,9 @@ signals:
 
 public slots:
     void scaleChanged(const double scale);
+
+private:
+    void initConnections();
 
 private:
     Ui::ToolsPalette *ui;

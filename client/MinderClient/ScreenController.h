@@ -34,28 +34,28 @@ public:
 signals: // to logic controller
     // from auth window
 
-    void transmitLoginData(const LoginData &data);
+    void transmitLoginData(const ViewDataStructures::LoginData &data);
 
     // from register window
 
-    void transmitRegisterData(const RegisterData &data);
+    void transmitRegisterData(const ViewDataStructures::RegisterData &data);
 
     // from settings window
 
-    void transmitSettings(const SettingsData &data);
+    void transmitSettings(const ViewDataStructures::SettingsData &data);
 
     // from session creation window
 
-    void transmitCreationNewSession(const SessionCreationData &data);
+    void transmitCreationNewSession(const ViewDataStructures::SessionCreationData &data);
 
     // from session connection window
 
-    void transmitConnectionToSession(const SessionConnectionData &data);
+    void transmitConnectionToSession(const ViewDataStructures::SessionConnectionData &data);
 
     // from session window
 
-    void sendNewBlock(const Block &newBlock);
-    void transmitDeletedBlock(const MindMapData & changedBlocks);
+    void sendNewBlock(const ViewDataStructures::Block &newBlock);
+    void transmitDeletedBlock(const ViewDataStructures::MindMapData & changedBlocks);
     void sessionClosed();
 
     // from screen controller
@@ -67,12 +67,12 @@ public slots: // from logic contloller
     void validationLoginDataSuccess();
     void validationRegisterDataSuccess();
     void savingSettingsSuccess();
-    void connectionToSessionSuccess(const SessionData &data);
-    void creationNewSessionSuccess(const SessionData &data);
-    void receiveUsersListInSession(const UsersInSessionData &data);
-    void receiveMindMapDataInSession(const MindMapData &data);
+    void connectionToSessionSuccess(const ViewDataStructures::SessionData &data);
+    void creationNewSessionSuccess(const ViewDataStructures::SessionData &data);
+    void receiveUsersListInSession(const ViewDataStructures::UsersInSessionData &data);
+    void receiveMindMapDataInSession(const ViewDataStructures::MindMapData &data);
     void receiveNewBlockId(const long newBlockId);
-    void receiveBlock(const Block& block);
+    void receiveBlock(const ViewDataStructures::Block& block);
 
     // end Interface
 

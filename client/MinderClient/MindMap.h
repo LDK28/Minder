@@ -29,24 +29,26 @@ class MindMap : public QFrame
 public:
     explicit MindMap(QWidget *parent = nullptr);
     ~MindMap();
-    void wheelEvent(QWheelEvent *event) override;
 
     // Interface
 signals:
-    void transmitNewBlock(const Block & newBlock);
-    void transmitDeletedBlock(const MindMapData & changedBlocks);
+    void transmitNewBlock(const ViewDataStructures::Block & newBlock);
+    void transmitDeletedBlock(const ViewDataStructures::MindMapData & changedBlocks);
     void scaleChanged(const double scale);
 
 public slots:
-    void updateMindMap(const MindMapData &data);
-    void drawBlock(const Block &block);
-    void drawNewBlock(const Block &newBlock);
+    void updateMindMap(const ViewDataStructures::MindMapData &data);
+    void drawBlock(const ViewDataStructures::Block &block);
+    void drawNewBlock(const ViewDataStructures::Block &newBlock);
     void setNewBlockId(const size_t newBlockId);
     void deleteBlock();
     void setScale(const double newScalePerc);
     void changeScale(const double dscalePerc);
 
     // end Interface
+
+protected:
+    void wheelEvent(QWheelEvent *event) override;
 
 private:
     void addArrow(BlockImage *block);

@@ -21,16 +21,16 @@ public:
     explicit SessionCreationWindow(QWidget *parent = nullptr);
     ~SessionCreationWindow();
 
-private:
+signals:
+    void on_createNewSession(const ViewDataStructures::SessionCreationData &data);
+    void on_openSessionConnectionWindowButtonClicked();
+    void on_closeSessionCreationWindowButtonClicked();
+
+protected:
     void closeEvent(QCloseEvent *event);
 
 private slots:
     void on_createNewSessionButtonClicked();
-
-signals:
-    void on_createNewSession(const SessionCreationData &data);
-    void on_openSessionConnectionWindowButtonClicked();
-    void on_closeSessionCreationWindowButtonClicked();
 
 private:
     Ui::SessionCreationWindow *ui;

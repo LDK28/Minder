@@ -22,6 +22,14 @@ NewBlockCreationWindow::NewBlockCreationWindow(QWidget *parent) :
 
 }
 
+void NewBlockCreationWindow::closeEvent(QCloseEvent *event)
+{
+    Q_UNUSED(event);
+    qDebug() << "New Block creation window: close event";
+
+    emit on_closeNewBlockCreationWindowButtonClicked();
+}
+
 void NewBlockCreationWindow::initConnections()
 {
     connect(ui->btnBackgroudColor, &QPushButton::clicked, this, &NewBlockCreationWindow::on_changeBackgroundColorButtonClicked);
@@ -30,14 +38,6 @@ void NewBlockCreationWindow::initConnections()
     connect(ui->btnTextFont, &QPushButton::clicked, this, &NewBlockCreationWindow::on_changeTextFontButtonClicked);
 
     connect(ui->btnAdd, &QPushButton::clicked, this, &NewBlockCreationWindow::packBlockData);
-}
-
-void NewBlockCreationWindow::closeEvent(QCloseEvent *event)
-{
-    Q_UNUSED(event);
-    qDebug() << "New Block creation window: close event";
-
-    emit on_closeNewBlockCreationWindowButtonClicked();
 }
 
 void NewBlockCreationWindow::packBlockData()

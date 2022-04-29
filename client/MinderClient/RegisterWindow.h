@@ -21,17 +21,16 @@ public:
     explicit RegisterWindow(QWidget *parent = nullptr);
     ~RegisterWindow();
 
-private:
+signals:
+    void on_openLoginWindowButtonCLicked();
+    void on_closeRegisterWindowButtonClicked();
+    void on_register(const ViewDataStructures::RegisterData data);
+
+protected:
     void closeEvent(QCloseEvent *event);
 
 private slots:
     void on_registerButtonClicked();
-
-signals:
-    void on_openLoginWindowButtonCLicked();
-    void on_closeRegisterWindowButtonClicked();
-
-    void on_register(RegisterData data);
 
 private:
     Ui::RegisterWindow *ui;

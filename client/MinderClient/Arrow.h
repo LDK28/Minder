@@ -8,7 +8,7 @@ class Arrow : public QGraphicsLineItem
 {
 public:
     enum { Type = UserType + 2 };
-    Arrow(BlockImage *parentBlock = nullptr, BlockImage *childBlock = nullptr,
+    explicit Arrow(BlockImage *parentBlock = nullptr, BlockImage *childBlock = nullptr,
           QGraphicsItem *parent = nullptr);
 
     int type() const override { return Type; }
