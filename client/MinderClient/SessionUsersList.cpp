@@ -1,19 +1,19 @@
 #include "SessionUsersList.h"
-#include "ui_sessionuserlist.h"
+#include "ui_SessionUsersList.h"
 
-SessionUserList::SessionUserList(QWidget *parent) :
+SessionUsersList::SessionUsersList(QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::SessionUserList)
+    ui(new Ui::SessionUsersList)
 {
     ui->setupUi(this);
 }
 
-SessionUserList::~SessionUserList()
+SessionUsersList::~SessionUsersList()
 {
     delete ui;
 }
 
-void SessionUserList::updateUsersList(const UsersInSessionData &data)
+void SessionUsersList::updateUsersList(const UsersInSessionData &data)
 {
     qDebug() << "Session users list: updating data";
     this->ui->listWidgetUsersInSession->clear();

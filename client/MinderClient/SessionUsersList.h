@@ -8,21 +8,21 @@
 using namespace ViewDataStructures;
 
 namespace Ui {
-class SessionUserList;
+class SessionUsersList;
 }
 
-class SessionUserList : public QFrame
+class SessionUsersList : public QFrame
 {
     Q_OBJECT
 
 public:
-    explicit SessionUserList(QWidget *parent = nullptr);
-    ~SessionUserList();
+    explicit SessionUsersList(QWidget *parent = nullptr);
+    ~SessionUsersList();
 
     void updateUsersList(const UsersInSessionData &data);
 
 private:
-    Ui::SessionUserList *ui;
+    Ui::SessionUsersList *ui;
 };
 
 #endif // SESSIONUSERSLIST_H

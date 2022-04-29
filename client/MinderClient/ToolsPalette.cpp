@@ -1,5 +1,5 @@
 #include "ToolsPalette.h"
-#include "ui_toolspalette.h"
+#include "ui_ToolsPalette.h"
 
 ToolsPalette::ToolsPalette(QWidget *parent) :
     QFrame(parent),

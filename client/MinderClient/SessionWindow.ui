@@ -234,7 +234,7 @@
       <number>15</number>
      </property>
      <item>
-      <widget class="SessionUserList" name="widgetSessionUsersList" native="true">
+      <widget class="SessionUsersList" name="widgetSessionUsersList" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Maximum" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
@@ -323,21 +323,21 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>SessionUserList</class>
+   <class>SessionUsersList</class>
    <extends>QWidget</extends>
-   <header>sessionuserlist.h</header>
+   <header>SessionUsersList.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ToolsPalette</class>
    <extends>QWidget</extends>
-   <header>toolspalette.h</header>
+   <header>ToolsPalette.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>MindMap</class>
    <extends>QWidget</extends>
-   <header>mindmap.h</header>
+   <header>MindMap.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -1,5 +1,5 @@
 #include "SessionCreationWindow.h"
-#include "ui_sessioncreationwindow.h"
+#include "ui_SessionCreationWindow.h"
 
 SessionCreationWindow::SessionCreationWindow(QWidget *parent) :
     QWidget(parent),

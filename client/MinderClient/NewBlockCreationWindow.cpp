@@ -1,5 +1,5 @@
 #include "NewBlockCreationWindow.h"
-#include "ui_newblockcreationwindow.h"
+#include "ui_NewBlockCreationWindow.h"
 
 #include <QMessageBox>
 

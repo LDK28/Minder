@@ -1,5 +1,5 @@
 #include "SessionWindow.h"
-#include "ui_sessionwindow.h"
+#include "ui_SessionWindow.h"
 
 SessionWindow::SessionWindow(const SessionData &data, QWidget *parent) :
     QWidget(parent),

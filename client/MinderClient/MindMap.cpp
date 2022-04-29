@@ -1,5 +1,5 @@
 #include "MindMap.h"
-#include "ui_mindmap.h"
+#include "ui_MindMap.h"
 
 MindMap::MindMap(QWidget *parent) :
     QFrame(parent),

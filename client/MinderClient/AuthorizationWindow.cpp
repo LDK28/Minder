@@ -1,5 +1,5 @@
 #include "AuthorizationWindow.h"
-#include "ui_authorizationwindow.h"
+#include "ui_AuthorizationWindow.h"
 
 AuthorizationWindow::AuthorizationWindow(QWidget *parent) :
     QWidget(parent),
