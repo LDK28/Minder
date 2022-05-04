@@ -11,7 +11,6 @@ Q_OBJECT
 public:
     explicit DrawingLogic() = default;
     explicit DrawingLogic(std::shared_ptr<HttpClient> network_) : network(network_) {}
-    explicit DrawingLogic(HttpClient *network_) : network(network_) {}
     ~DrawingLogic() = default;
 public slots:
     void sendNewBlock(const Block &newBlock);
