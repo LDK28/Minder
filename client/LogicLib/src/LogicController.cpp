@@ -58,7 +58,9 @@ void LogicController::disconnectView() {
 }
 
 void LogicController::changeSettings(const SettingsData &settings) {
-    if (!settings.serverPort.contains(regNum) || settings.serverIP.contains(regIP)) {
+    QRegExp rxNum(regNum);
+    QRegExp rxIp(regIP);
+    if (!rxNum.exactMatch(settings.serverPort) || !rxIp.exactMatch(settings.serverIP)) {
         emit sessionConnectionFailed();
         return;
     }
@@ -90,7 +92,8 @@ void LogicController::createNewSession(const SessionCreationData &session) {
 }
 
 void LogicController::connectToSession(const SessionConnectionData &session) {
-    if (!session.id.contains(regNum)) {
+    QRegExp rxNum(regNum);
+    if (!rxNum.exactMatch(session.id)) {
         emit sessionConnectionFailed();
         return;
     }

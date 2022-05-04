@@ -17,21 +17,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    DrawingLogic.cpp \
-    HttpClient.cpp \
-    LogicController.cpp \
-    ScreenController.cpp \
-    UserLogic.cpp
+    src/DrawingLogic.cpp \
+    src/HttpClient.cpp \
+    src/LogicController.cpp \
+    src/ScreenController.cpp \
+    src/UserLogic.cpp
 
 HEADERS += \
-    ClientData.h \
-    DrawingLogic.h \
-    HttpClient.h \
-    LogicLib_global.h \
-    LogicController.h \
-    ScreenController.h \
-    DataStructures.h \
-    UserLogic.h
+    inc/ClientData.h \
+    inc/DrawingLogic.h \
+    inc/HttpClient.h \
+    inc/LogicLib_global.h \
+    inc/LogicController.h \
+    inc/ScreenController.h \
+    inc/DataStructures.h \
+    inc/UserLogic.h
+
+INCLUDEPATH += inc/
 
 # Default rules for deployment.
 unix {

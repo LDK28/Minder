@@ -15,8 +15,11 @@ Q_OBJECT
 public:
     explicit LogicController() : network(nullptr), user(network), drawing(network),
         screenController(nullptr) {}
-    explicit LogicController(std::shared_ptr<HttpClient> network_, ScreenController *screenController_ = nullptr) :
+    explicit LogicController(const std::shared_ptr<HttpClient> &network_, ScreenController *screenController_ = nullptr) :
         network(network_), user(network_), drawing(network_),
+        screenController(screenController_) {}
+    explicit LogicController(HttpClient *network_, ScreenController *screenController_ = nullptr) :
+        network(network_), user(network), drawing(network),
         screenController(screenController_) {}
     ~LogicController() = default;
     void connectView();

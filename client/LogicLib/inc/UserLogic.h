@@ -11,6 +11,7 @@ Q_OBJECT
 public:
     explicit UserLogic() = default;
     explicit UserLogic(std::shared_ptr<HttpClient> network_) : network(network_) {}
+    explicit UserLogic(HttpClient *network_) : network(network_) {}
     ~UserLogic() = default;
 public slots:
     //void deleteUser();
