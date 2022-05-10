@@ -41,7 +41,7 @@ signals:
     //void updateUsersListInSession(const UsersInSessionData &data);
 
 private:
-    HttpClient *network = nullptr;
+    HttpClient *network;
     UserLogic user;
     DrawingLogic drawing;
     std::shared_ptr <ScreenController> screenController;

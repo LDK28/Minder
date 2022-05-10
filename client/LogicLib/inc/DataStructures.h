@@ -82,16 +82,16 @@ struct SessionData
     explicit SessionData(size_t id_, const QString &name_) : id(id_), name(name_) {}
 };
 
-struct User
-{
-    QString nickname;
-    User(const QString &nickname) : nickname(nickname) {}
-};
+//struct User
+//{
+//    QString nickname;
+//    User(const QString &nickname) : nickname(nickname) {}
+//};
 
-struct UsersInSessionData
-{
-    QList<User> users;
-};
+//struct UsersInSessionData
+//{
+//    QList<User> users;
+//};
 
 class Block
 {
