@@ -4,42 +4,43 @@
 #include <string>
 #include <vector>
 
+namespace HttpClientData {
 typedef enum {
     SUCCESS, FAILED
 } returnCode;
 
-struct NewSession {
+struct SessionCreationData {
     std::string name;
     std::string password;
 
-    explicit NewSession() : name(), password() {}
-    explicit NewSession(const std::string &name_, const std::string &password_) : name(name_), password(password_) {}
+    explicit SessionCreationData() : name(), password() {}
+    explicit SessionCreationData(const std::string &name_, const std::string &password_) : name(name_), password(password_) {}
 
-    bool operator==(const NewSession& other) const {
+    bool operator==(const SessionCreationData& other) const {
         return name == other.name && password == other.password;
     }
 };
 
-struct ExistSession {
+struct SessionConnectionData {
     size_t id;
     std::string password;
 
-    explicit ExistSession() : id(0), password() {}
-    explicit ExistSession(size_t id_, const std::string &password_) : id(id_), password(password_) {}
+    explicit SessionConnectionData() : id(0) {}
+    explicit SessionConnectionData(size_t id_, const std::string &password_) : id(id_), password(password_) {}
 
-    bool operator==(const ExistSession& other) const {
+    bool operator==(const SessionConnectionData& other) const {
         return id == other.id && password == other.password;
     }
 };
 
-struct Settings {
+struct SettingsData {
     std::string ip;
     std::string port;
 
-    explicit Settings() : ip(), port() {}
-    explicit Settings(const std::string &ip_, const std::string &port_) : ip(ip_), port(port_) {}
+    explicit SettingsData() = default;
+    explicit SettingsData(const std::string &ip_, const std::string &port_) : ip(ip_), port(port_) {}
 
-    bool operator==(const Settings& other) const {
+    bool operator==(const SettingsData& other) const {
         return ip == other.ip && port == other.port;
     }
 };
@@ -58,7 +59,7 @@ struct Font {
     int weight;
     bool italic;
 
-    explicit Font() : family(), pointSize(-1), weight(-1), italic(false) {}
+    explicit Font() : pointSize(-1), weight(50), italic(false) {}
     explicit Font(const std::string &family_, int pointSize_, int weight_, bool italic_) :
         family(family_), pointSize(pointSize_), weight(weight_), italic(italic_) {}
 
@@ -81,7 +82,7 @@ struct Color {
     }
 };
 
-struct BlockData {
+struct Block {
     size_t id;
     size_t parentId;
     int posX;
@@ -93,25 +94,25 @@ struct BlockData {
     Color borderColor;
     Color bgColor;
 
-    explicit BlockData() : id(0), parentId(0), posX(0), posY(0), text(), font(), fontColor(),
-                    borderColor(), bgColor() {}
+    explicit Block() : id(0), parentId(0), posX(0), posY(0), borderColor(255, 0, 0), bgColor(255, 255, 0) {}
 
-    explicit BlockData(size_t id_, size_t parentId_, int posX_, int posY_, const std::string &text_,
+    explicit Block(size_t id_, size_t parentId_, int posX_, int posY_, const std::string &text_,
         const Font &font_, const Color &fontColor_, const Color &borderColor_, const Color &bgColor_) :
         id(id_), parentId(parentId_), posX(posX_), posY(posY_), text(text_), font(font_),
         fontColor(fontColor_), borderColor(borderColor_), bgColor(bgColor_) {}
 
-    bool operator==(const BlockData& other) const {
+    bool operator==(const Block& other) const {
         return id == other.id && parentId == other.parentId && posX == other.posX &&
         posY == other.posY && text == other.text && font == other.font &&
         fontColor == other.fontColor && borderColor == other.borderColor && bgColor == other.bgColor;
     }
 };
 
-struct ListBlocks {
-    std::vector<BlockData> blocks;
+struct MindMapData {
+    std::vector<Block> blocks;
 
-    explicit ListBlocks() = default;
+    explicit MindMapData() = default;
 };
+}
 
 #endif // CLIENTDATA_H

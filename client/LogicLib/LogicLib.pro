@@ -18,10 +18,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     src/DrawingLogic.cpp \
-    src/HttpClient.cpp \
     src/LogicController.cpp \
-    src/ScreenController.cpp \
-    src/UserLogic.cpp
+    src/UserLogic.cpp \
+    src/ScreenController.cpp
 
 HEADERS += \
     inc/ClientData.h \

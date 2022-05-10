@@ -24,7 +24,6 @@ SOURCES += \
         $$PWD/../LogicLib/src/UserLogic.cpp \
         $$PWD/../LogicLib/src/DrawingLogic.cpp \
         $$PWD/../LogicLib/src/LogicController.cpp \
-        $$PWD/../LogicLib/src/HttpClient.cpp \
         $$PWD/../LogicLib/src/ScreenController.cpp
 
 INCLUDEPATH += $$PWD/../LogicLib/inc/ inc/

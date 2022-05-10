@@ -6,15 +6,17 @@
 class HttpClient {
 public:
     HttpClient() = default;
-    ~HttpClient() = default;
+    virtual ~HttpClient() = default;
 
-    returnCode updateSettings(const Settings &);
-    std::string checkConnectionToSession(const ExistSession &);
-    size_t createSession(const NewSession &);
+    virtual HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &) = 0;
+    virtual std::string checkConnectionToSession(const HttpClientData::SessionConnectionData &) = 0;
+    virtual size_t createSession(const HttpClientData::SessionCreationData &) = 0;
     //void getUsers(UsersList);
-    void addBlock(const BlockData &);
-    ListBlocks getCurrentStateDesk(const size_t);
-    void disconnect();
+    virtual void addBlock(const HttpClientData::Block &) = 0;
+    virtual void changeBlock(const HttpClientData::Block &) = 0;
+    virtual void deleteBlock(size_t) = 0;
+    virtual HttpClientData::MindMapData getCurrentStateDesk(const size_t) = 0;
+    virtual void disconnect() = 0;
 };
 
 #endif // HTTPCLIENT_H

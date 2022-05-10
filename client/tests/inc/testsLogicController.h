@@ -5,90 +5,90 @@
 #include "mockClient.h"
 
 TEST(LogicController, changeSettingsSuccess) {
-  std::shared_ptr <MockHttpClient> network(new MockHttpClient);
+  MockHttpClient network;
 
-  Settings settings("120.210.120.210", "8000");
-  EXPECT_CALL(*network, updateSettings(settings)).Times(1);
+  HttpClientData::SettingsData settings("120.210.120.210", "8000");
+  EXPECT_CALL(network, updateSettings(settings)).Times(1);
 
-  LogicController controller(network);
-  SettingsData newSettings("120.210.120.210", "8000");
+  LogicController controller(&network);
+  ViewDataStructures::SettingsData newSettings("120.210.120.210", "8000");
   controller.changeSettings(newSettings);
 }
 
 TEST(LogicController, changeSettingsFailedIP) {
-  std::shared_ptr <MockHttpClient> network(new MockHttpClient);
+  MockHttpClient network;
 
-  Settings settings;
-  EXPECT_CALL(*network, updateSettings(settings)).Times(0);
+  HttpClientData::SettingsData settings;
+  EXPECT_CALL(network, updateSettings(settings)).Times(0);
 
-  LogicController controller(network);
-  SettingsData newSettings("skvjkjvbsa", "8000");
+  LogicController controller(&network);
+  ViewDataStructures::SettingsData newSettings("skvjkjvbsa", "8000");
   controller.changeSettings(newSettings);
 }
 
 TEST(LogicController, changeSettingsFailedPort) {
-  std::shared_ptr <MockHttpClient> network(new MockHttpClient);
+  MockHttpClient network;
 
-  Settings settings;
-  EXPECT_CALL(*network, updateSettings(settings)).Times(0);
+  HttpClientData::SettingsData settings;
+  EXPECT_CALL(network, updateSettings(settings)).Times(0);
 
-  LogicController controller(network);
-  SettingsData newSettings("120.210.120.210", "khsvbd");
+  LogicController controller(&network);
+  ViewDataStructures::SettingsData newSettings("120.210.120.210", "khsvbd");
   controller.changeSettings(newSettings);
 }
 
 TEST(LogicController, createNewSessionSuccess) {
-  std::shared_ptr <MockHttpClient> network(new MockHttpClient);
+  MockHttpClient network;
 
-  NewSession session("Room_1", "pq7st26");
-  EXPECT_CALL(*network, createSession(session)).Times(1);
+  HttpClientData::SessionCreationData session("Room_1", "pq7st26");
+  EXPECT_CALL(network, createSession(session)).Times(1);
 
-  LogicController controller(network);
+  LogicController controller(&network);
 
-  SessionCreationData creationData("Room_1", "pq7st26", "pq7st26");
+  ViewDataStructures::SessionCreationData creationData("Room_1", "pq7st26", "pq7st26");
   controller.createNewSession(creationData);
 }
 
 TEST(LogicController, createNewSessionFailed) {
-  std::shared_ptr <MockHttpClient> network(new MockHttpClient);
+  MockHttpClient network;
 
-  NewSession session;
-  EXPECT_CALL(*network, createSession(session)).Times(0);
+  HttpClientData::SessionCreationData session;
+  EXPECT_CALL(network, createSession(session)).Times(0);
 
-  LogicController controller(network);
+  LogicController controller(&network);
 
-  SessionCreationData creationData("Room_1", "pq7st26", "abareb");
+  ViewDataStructures::SessionCreationData creationData("Room_1", "pq7st26", "abareb");
   controller.createNewSession(creationData);
 }
 
 TEST(LogicController, connectToSessionSuccess) {
-  std::shared_ptr <MockHttpClient> network(new MockHttpClient);
+  MockHttpClient network;
 
-  ExistSession session(67152, "pq7st26");
-  EXPECT_CALL(*network, checkConnectionToSession(session)).Times(1);
+  HttpClientData::SessionConnectionData session(67152, "pq7st26");
+  EXPECT_CALL(network, checkConnectionToSession(session)).Times(1);
 
-  LogicController controller(network);
-  SessionConnectionData connectionData("67152", "pq7st26");
+  LogicController controller(&network);
+  ViewDataStructures::SessionConnectionData connectionData("67152", "pq7st26");
   controller.connectToSession(connectionData);
 }
 
 TEST(LogicController, connectToSessionFailed) {
-  std::shared_ptr <MockHttpClient> network(new MockHttpClient);
+  MockHttpClient network;
 
-  ExistSession session;
-  EXPECT_CALL(*network, checkConnectionToSession(session)).Times(0);
+  HttpClientData::SessionConnectionData session;
+  EXPECT_CALL(network, checkConnectionToSession(session)).Times(0);
 
-  LogicController controller(network);
-  SessionConnectionData connectionData("aaaaa", "pq7st26");
+  LogicController controller(&network);
+  ViewDataStructures::SessionConnectionData connectionData("aaaaa", "pq7st26");
   controller.connectToSession(connectionData);
 }
 
 TEST(LogicController, disconnectSession) {
-  std::shared_ptr <MockHttpClient> network(new MockHttpClient);
+  MockHttpClient network;
 
-  EXPECT_CALL(*network, disconnect()).Times(1);
+  EXPECT_CALL(network, disconnect()).Times(1);
 
-  LogicController controller(network);
+  LogicController controller(&network);
   controller.disconnectSession();
 }
 

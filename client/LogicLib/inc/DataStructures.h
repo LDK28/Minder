@@ -17,18 +17,30 @@
 #define MAKE_ENUM(VAR) VAR,
 #define MAKE_STRINGS(VAR) #VAR,
 
-//struct LoginData
-//{
-//    QString nickname;
-//    QString password;
-//};
+#define DEF_SCALE 100
 
-//struct RegisterData
-//{
-//    QString nickname;
-//    QString password;
-//    QString repeatPassword;
-//};
+#define BZOOMPLUS_D 20
+#define BZOOMMINUS_D -20
+
+#define WZOOMPLUS_D 5
+#define WZOOMMINUS_D -5
+
+
+namespace ViewDataStructures
+{
+
+struct LoginData
+{
+    QString nickname;
+    QString password;
+};
+
+struct RegisterData
+{
+    QString nickname;
+    QString password;
+    QString repeatPassword;
+};
 
 struct SettingsData
 {
@@ -66,20 +78,20 @@ struct SessionData
     size_t id;
     QString name;
 
-    explicit SessionData() : id(0), name() {}
+    explicit SessionData() : id(0) {}
     explicit SessionData(size_t id_, const QString &name_) : id(id_), name(name_) {}
 };
 
-//struct User
-//{
-//    QString nickname;
-//    User(const QString &nickname) : nickname(nickname) {}
-//};
+struct User
+{
+    QString nickname;
+    User(const QString &nickname) : nickname(nickname) {}
+};
 
-//struct UsersInSessionData
-//{
-//    QList<User> users;
-//};
+struct UsersInSessionData
+{
+    QList<User> users;
+};
 
 class Block
 {
@@ -101,11 +113,11 @@ public:
     QColor borderColor;
     QColor backgroundColor;
 
-    explicit Block() : id(0), parentId(0), position(QPoint(0, 0)), type(0), text(), textFont(),
+    explicit Block() : id(0), parentId(0), position(QPoint(0, 0)), type(0),
         textColor(Qt::black), borderColor(Qt::red), backgroundColor(Qt::yellow) {}
 
     explicit Block(size_t id_, size_t parentId_, const QPoint &pos, const QString &text_,
-        const QFont &font, const QColor &textColor_, const QColor &borderColor_, const QColor &bgColor, int type_ = 0) :
+                   const QFont &font, const QColor &textColor_, const QColor &borderColor_, const QColor &bgColor, int type_ = 0) :
         id(id_), parentId(parentId_), position(pos), type(type_), text(text_), textFont(font),
         textColor(textColor_), borderColor(borderColor_), backgroundColor(bgColor) {}
 
@@ -121,6 +133,6 @@ struct MindMapData
 
     explicit MindMapData() = default;
 };
-
+}
 
 #endif // DATASTRUCTURES_H

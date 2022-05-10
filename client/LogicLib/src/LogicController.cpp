@@ -29,6 +29,9 @@ void LogicController::connectView() {
     connect(screenController.get(), &ScreenController::getMindMapInSessionData, &drawing, &DrawingLogic::getMindMapInSession);
     connect(&drawing, &DrawingLogic::updateMindMapDataInSession, screenController.get(), &ScreenController::receiveMindMapDataInSession);
 
+    connect(&drawing, &DrawingLogic::addNewBlock, screenController.get(), &ScreenController::receiveBlock);
+    connect(&drawing, &DrawingLogic::deleteBlock, screenController.get(), &ScreenController::receiveDeletedBlockId);
+
     connect(screenController.get(), &ScreenController::sessionClosed, this, &LogicController::disconnectSession);
 }
 
@@ -54,10 +57,13 @@ void LogicController::disconnectView() {
     disconnect(screenController.get(), &ScreenController::getMindMapInSessionData, &drawing, &DrawingLogic::getMindMapInSession);
     disconnect(&drawing, &DrawingLogic::updateMindMapDataInSession, screenController.get(), &ScreenController::receiveMindMapDataInSession);
 
+    disconnect(&drawing, &DrawingLogic::addNewBlock, screenController.get(), &ScreenController::receiveBlock);
+    disconnect(&drawing, &DrawingLogic::deleteBlock, screenController.get(), &ScreenController::receiveDeletedBlockId);
+
     disconnect(screenController.get(), &ScreenController::sessionClosed, this, &LogicController::disconnectSession);
 }
 
-void LogicController::changeSettings(const SettingsData &settings) {
+void LogicController::changeSettings(const ViewDataStructures::SettingsData &settings) {
     QRegExp rxNum(regNum);
     QRegExp rxIp(regIP);
     if (!rxNum.exactMatch(settings.serverPort) || !rxIp.exactMatch(settings.serverIP)) {
@@ -65,46 +71,46 @@ void LogicController::changeSettings(const SettingsData &settings) {
         return;
     }
 
-    Settings convSettings = convertSettings(settings);
-    returnCode rc = network->updateSettings(convSettings);
+    HttpClientData::SettingsData convSettings = convertSettings(settings);
+    HttpClientData::returnCode rc = network->updateSettings(convSettings);
 
-    if (rc == SUCCESS) {
+    if (rc == HttpClientData::SUCCESS) {
         emit changeSettingsSuccess();
     } else {
         emit changeSettingsFailed();
     }
 }
 
-void LogicController::createNewSession(const SessionCreationData &session) {
+void LogicController::createNewSession(const ViewDataStructures::SessionCreationData &session) {
     if (session.password != session.repeatPassword) {
         emit sessionCreationFailed();
         return;
     }
 
-    NewSession convSession = convertNewSession(session);
+    HttpClientData::SessionCreationData convSession = convertNewSession(session);
     size_t sessionId = network->createSession(convSession);
 
     if (sessionId == 0) {
         emit sessionCreationFailed();
     } else {
-        emit sessionCreationSuccess(SessionData(sessionId, session.name));
+        emit sessionCreationSuccess(ViewDataStructures::SessionData(sessionId, session.name));
     }
 }
 
-void LogicController::connectToSession(const SessionConnectionData &session) {
+void LogicController::connectToSession(const ViewDataStructures::SessionConnectionData &session) {
     QRegExp rxNum(regNum);
     if (!rxNum.exactMatch(session.id)) {
         emit sessionConnectionFailed();
         return;
     }
 
-    ExistSession convSession = convertExistSession(session);
+    HttpClientData::SessionConnectionData convSession = convertExistSession(session);
     std::string sessionName = network->checkConnectionToSession(convSession);
 
     if (sessionName.empty()) {
         emit sessionConnectionFailed();
     } else {
-        emit sessionConnectionSuccess(SessionData(session.id.toInt(), QString::fromStdString(sessionName)));
+        emit sessionConnectionSuccess(ViewDataStructures::SessionData(session.id.toInt(), QString::fromStdString(sessionName)));
     }
 }
 
@@ -124,15 +130,23 @@ void LogicController::disconnectSession() {
     network->disconnect();
 }
 
-Settings LogicController::convertSettings(const SettingsData &settings) {
-    return Settings(settings.serverIP.toStdString(), settings.serverPort.toStdString());
+void LogicController::receiveNewBlock(const HttpClientData::Block &block) {
+    drawing.sendReceivedNewBlock(block);
 }
 
-NewSession LogicController::convertNewSession(const SessionCreationData &session) {
-    return NewSession(session.name.toStdString(), session.password.toStdString());
+void LogicController::receiveDeletedBlock(size_t id) {
+    drawing.sendReceivedDeletedBlock(id);
 }
 
-ExistSession LogicController::convertExistSession(const SessionConnectionData &session) {
-    return ExistSession(session.id.toInt(), session.password.toStdString());
+HttpClientData::SettingsData LogicController::convertSettings(const ViewDataStructures::SettingsData &settings) {
+    return HttpClientData::SettingsData(settings.serverIP.toStdString(), settings.serverPort.toStdString());
+}
+
+HttpClientData::SessionCreationData LogicController::convertNewSession(const ViewDataStructures::SessionCreationData &session) {
+    return HttpClientData::SessionCreationData(session.name.toStdString(), session.password.toStdString());
+}
+
+HttpClientData::SessionConnectionData LogicController::convertExistSession(const ViewDataStructures::SessionConnectionData &session) {
+    return HttpClientData::SessionConnectionData(session.id.toInt(), session.password.toStdString());
 }
 

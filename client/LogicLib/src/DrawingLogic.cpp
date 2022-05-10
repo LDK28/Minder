@@ -1,51 +1,69 @@
 #include "DrawingLogic.h"
 
-void DrawingLogic::sendNewBlock(const Block &newBlock) {
-    //check position??
+void DrawingLogic::sendNewBlock(const ViewDataStructures::Block &newBlock) {
+    //check position
 
-    BlockData convBlock = convertBlock(newBlock);
+    HttpClientData::Block convBlock = convertBlock(newBlock);
 
     network->addBlock(convBlock);
 
     emit sendNewBlockIdToSession(convBlock.id);
 }
 
-void DrawingLogic::getMindMapInSession(const size_t sessionId) {
-    ListBlocks getMap = network->getCurrentStateDesk(sessionId);
+void DrawingLogic::sendDeletedBlock(const ViewDataStructures::MindMapData &changedBlocks) {
+    for(int i = 1; i < changedBlocks.blocks.count(); ++i) {
+        HttpClientData::Block convBlock = convertBlock(changedBlocks.blocks.at(i));
+        network->changeBlock(convBlock);
+    }
+    network->deleteBlock(changedBlocks.blocks.at(0).id);
+}
 
-    MindMapData map = convertMap(getMap);
+void DrawingLogic::getMindMapInSession(const size_t sessionId) {
+    HttpClientData::MindMapData getMap = network->getCurrentStateDesk(sessionId);
+
+    ViewDataStructures::MindMapData map = convertMap(getMap);
 
     emit updateMindMapDataInSession(map);
 }
 
-BlockData DrawingLogic::convertBlock(const Block &newBlock) {
-    QFont newFont = newBlock.textFont;
-    Font font(newFont.family().toStdString(), newFont.pointSize(), newFont.weight(), newFont.italic());
+void DrawingLogic::sendReceivedNewBlock(const HttpClientData::Block &receivedBlock) {
+    ViewDataStructures::Block convBlock = reverseConvertBlock(receivedBlock);
 
-    Color fontColor;
+    emit addNewBlock(convBlock);
+}
+
+void DrawingLogic::sendReceivedDeletedBlock(size_t id) {
+    emit deleteBlock(id);
+}
+
+HttpClientData::Block DrawingLogic::convertBlock(const ViewDataStructures::Block &newBlock) {
+    QFont newFont = newBlock.textFont;
+    HttpClientData::Font font(newFont.family().toStdString(), newFont.pointSize(), newFont.weight(), newFont.italic());
+
+    HttpClientData::Color fontColor;
     newBlock.textColor.getRgb(&fontColor.r, &fontColor.g, &fontColor.b);
 
-    Color borderColor;
+    HttpClientData::Color borderColor;
     newBlock.borderColor.getRgb(&borderColor.r, &borderColor.g, &borderColor.b);
 
-    Color bgColor;
+    HttpClientData::Color bgColor;
     newBlock.backgroundColor.getRgb(&bgColor.r, &bgColor.g, &bgColor.b);
 
-    return BlockData(newBlock.id, newBlock.parentId, newBlock.position.x(), newBlock.position.y(),
+    return HttpClientData::Block(newBlock.id, newBlock.parentId, newBlock.position.x(), newBlock.position.y(),
                      newBlock.text.toStdString(), font, fontColor, borderColor, bgColor);
 }
 
-MindMapData DrawingLogic::convertMap(const ListBlocks &map) {
-    MindMapData convMap;
+ViewDataStructures::MindMapData DrawingLogic::convertMap(const HttpClientData::MindMapData &map) {
+    ViewDataStructures::MindMapData convMap;
     for (auto it = map.blocks.cbegin(); it != map.blocks.cend(); ++it) {
-        Block block = reverseConvertBlock(*it);
+        ViewDataStructures::Block block = reverseConvertBlock(*it);
         convMap.blocks.append(block);
     }
 
     return convMap;
 }
 
-Block DrawingLogic::reverseConvertBlock(const BlockData &block) {
+ViewDataStructures::Block DrawingLogic::reverseConvertBlock(const HttpClientData::Block &block) {
     QFont font(QString::fromStdString(block.font.family), block.font.pointSize,
                block.font.weight, block.font.italic);
 
@@ -55,7 +73,7 @@ Block DrawingLogic::reverseConvertBlock(const BlockData &block) {
 
     QColor backgroundColor = QColor(block.fontColor.r, block.fontColor.g, block.fontColor.b);
 
-    return Block(block.id, block.parentId, QPoint(block.posX, block.posY),
+    return ViewDataStructures::Block(block.id, block.parentId, QPoint(block.posX, block.posY),
                  QString::fromStdString(block.text), font, textColor, borderColor, backgroundColor);
 }
 
