@@ -1,0 +1,35 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ server ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
+jobs:
+  deploy:                                         
+    runs-on: ubuntu-latest
+    steps: echo "hello world"
+          
+services:
+  # Label used to access the service container
+  postgres:
+    # Docker Hub image
+    image: postgres
+    # Provide the password for postgres
+    env:
+      POSTGRES_PASSWORD: postgres
+    # Set health checks to wait until postgres has started
+    options: >-
+      --health-cmd pg_isready
+      --health-interval 10s
+      --health-timeout 5s
+      --health-retries 5
+    ports:
+      # Maps tcp port 5432 on service container to the host
+      - 5432:5432
