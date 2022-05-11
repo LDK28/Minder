@@ -32,5 +32,5 @@ jobs:
       - name: Run a one-line script
         run: echo Hello, world!
       - name: connect to db
-        run: psql --username=postgres --dbname=postgres
+        run: psql postgresql://postgres:postgres@localhost:5432/postgres
           
