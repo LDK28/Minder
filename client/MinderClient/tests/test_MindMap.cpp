@@ -18,7 +18,7 @@ private slots: // должны быть приватными
     void test_setScale();
     void test_drawNewBlock();
     void test_drawBlock();
-    void test_deleteBlock();
+    void test_deleteSelectedBlock();
     void test_updateMindMap();
     
 };
@@ -112,7 +112,7 @@ void test_MindMap::test_drawBlock()
     QCOMPARE(mm.blocksMap[10], mm.blocks.at(0));
 }
 
-void test_MindMap::test_deleteBlock()
+void test_MindMap::test_deleteSelectedBlock()
 {
     MindMap mm;
 
@@ -120,7 +120,7 @@ void test_MindMap::test_deleteBlock()
     mm.selectedBlock = mm.blocks.at(0);
     QSignalSpy spy(&mm, &MindMap::transmitDeletedBlock);
 
-    mm.deleteBlock();
+    mm.deleteSelectedBlock();
     spy.wait(100);
     QCOMPARE(spy.count(), 1);
     QList<QVariant> arguments = spy.takeFirst();
