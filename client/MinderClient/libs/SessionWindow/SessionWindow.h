@@ -31,18 +31,23 @@ public:
     //Interface
 signals:
     void on_closeSessionWindowButtonClicked();
+
     void getUsersListData(const long sessionId);
+
     void getMindMapData(const long sessionId);
     void transmitNewBlock(const ViewDataStructures::Block &newBlock);
     void transmitDeletedBlock(const ViewDataStructures::MindMapData & changedBlocks);
 
 public:
+    void setSessionData(const SessionData &data);
+    SessionData getSessionData() { return sessionData; }
+
     void updateUsersList(const UsersInSessionData &data);
+
     void updateMindMap(const MindMapData &data);
     void setNewBlockId(const size_t newBlockId);
     void setBlock(const Block &block);
-    void setSessionData(const SessionData &data);
-    SessionData getSessionData() { return sessionData; }
+    void deleteBlock(const size_t id);
     // End Interface
 
 private slots:

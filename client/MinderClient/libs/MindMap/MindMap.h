@@ -41,9 +41,10 @@ public slots:
     void drawBlock(const ViewDataStructures::Block &block);
     void drawNewBlock(const ViewDataStructures::Block &newBlock);
     void setNewBlockId(const size_t newBlockId);
-    void deleteBlock();
     void setScale(const double newScalePerc);
     void changeScale(const double dscalePerc);
+    void deleteSelectedBlock();
+    void blockWasDeleted(const size_t id);
 
     // end Interface
 
@@ -53,6 +54,7 @@ protected:
 private:
     void addArrow(BlockImage *block);
     void initConnections();
+    MindMapData deleteBlock(BlockImage **targetBlock);
 
 private slots:
     void changeSelectedBlock();

@@ -260,3 +260,11 @@ void ScreenController::receiveBlock(const Block& block)
     assert(sessionWindow);
     sessionWindow->setBlock(block);
 }
+
+
+void ScreenController::receiveDeltedBlockId(const size_t id)
+{
+    qDebug() << "Screen controller: receive deleted block from another user";
+
+    sessionWindow->deleteBlock(id);
+}

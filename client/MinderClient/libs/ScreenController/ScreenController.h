@@ -73,6 +73,7 @@ public slots: // from logic contloller
     void receiveMindMapDataInSession(const ViewDataStructures::MindMapData &data);
     void receiveNewBlockId(const long newBlockId);
     void receiveBlock(const ViewDataStructures::Block& block);
+    void receiveDeltedBlockId(const size_t id);
 
     // end Interface
 

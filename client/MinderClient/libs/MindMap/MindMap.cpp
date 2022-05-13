@@ -197,9 +197,16 @@ void MindMap::changeScale(const double dscalePerc)
     emit scaleChanged(baseFactor);
 }
 
-void MindMap::deleteBlock()
+void MindMap::blockWasDeleted(const size_t id)
 {
-    qDebug() << "MindMap: Delete block";
+    qDebug() << "MindMap: Delete selected block (another user)";
+  BlockImage *targetBlock = blocksMap[id];
+  deleteBlock(&targetBlock);
+}
+
+void MindMap::deleteSelectedBlock()
+{
+    qDebug() << "MindMap: Delete selected block (this user)";
 
     if(selectedBlock == nullptr)
     {
@@ -208,19 +215,28 @@ void MindMap::deleteBlock()
     }
     qDebug() << " " << selectedBlock->block.id;
 
+    MindMapData changedBlocks = deleteBlock(&selectedBlock);
 
+    // отправка изменений на сервер
+    emit transmitDeletedBlock(changedBlocks);
+
+}
+
+MindMapData MindMap::deleteBlock(BlockImage **targetBlock)
+{
+    assert(targetBlock && *targetBlock);
     MindMapData changedBlocks;
-    changedBlocks.blocks.append(selectedBlock->block); // удаляемый блок
+    changedBlocks.blocks.append((*targetBlock)->block); // удаляемый блок
 
     // Удаление стрелки от предка удаляемого блока к удаляемому блоку
-    if(selectedBlock->block.parentId != 0)
+    if((*targetBlock)->block.parentId != 0)
     {
-        for(int i = 0; i < blocksMap[selectedBlock->block.parentId]->arrows.count(); ++i)
+        for(int i = 0; i < blocksMap[(*targetBlock)->block.parentId]->arrows.count(); ++i)
         {
-            if(blocksMap[selectedBlock->block.parentId]->arrows[i]->getChildBlock() == selectedBlock)
+            if(blocksMap[(*targetBlock)->block.parentId]->arrows[i]->getChildBlock() == (*targetBlock))
             {
-                Arrow *arrow = blocksMap[selectedBlock->block.parentId]->arrows.at(i);
-                blocksMap[selectedBlock->block.parentId]->arrows.removeAt(i);
+                Arrow *arrow = blocksMap[(*targetBlock)->block.parentId]->arrows.at(i);
+                blocksMap[(*targetBlock)->block.parentId]->arrows.removeAt(i);
                 scene->removeItem(arrow);
                 delete arrow;
                 break;
@@ -231,20 +247,20 @@ void MindMap::deleteBlock()
     //изменение потомков удаляемого блока
     for(int i = 0; i < blocks.count(); ++i)
     {
-        if(blocks[i]->block.parentId == selectedBlock->block.id)
+        if(blocks[i]->block.parentId == (*targetBlock)->block.id)
         {
             // Изменеине предка
-            blocks[i]->block.parentId = selectedBlock->block.parentId;
+            blocks[i]->block.parentId = (*targetBlock)->block.parentId;
             changedBlocks.blocks.append(blocks[i]->block); // изменненный блок
 
             // удаление стрелки от удаляемого к его потомку
             for(int j = 0; j < blocks[i]->arrows.count(); ++j)
             {
-                if(blocks[i]->arrows[j]->getParentBlock() == selectedBlock)
+                if(blocks[i]->arrows[j]->getParentBlock() == (*targetBlock))
                 {
-                    if(selectedBlock->block.parentId != 0)
+                    if((*targetBlock)->block.parentId != 0)
                     {
-                        blocks[i]->arrows[j]->changeParentBlock(blocksMap[selectedBlock->block.parentId]);
+                        blocks[i]->arrows[j]->changeParentBlock(blocksMap[(*targetBlock)->block.parentId]);
                     }
                     else
                     {
@@ -261,12 +277,11 @@ void MindMap::deleteBlock()
     }
 
     // удаление выбранного блока
-    blocks.removeOne(selectedBlock);
-    blocksMap.remove(selectedBlock->block.id);
-    scene->removeItem(selectedBlock);
-    delete selectedBlock;
-    selectedBlock = nullptr;
+    blocks.removeOne((*targetBlock));
+    blocksMap.remove((*targetBlock)->block.id);
+    scene->removeItem((*targetBlock));
+    delete (*targetBlock);
+    (*targetBlock) = nullptr;
 
-    // отправка изменений на сервер
-    emit transmitDeletedBlock(changedBlocks);
+    return changedBlocks;
 }

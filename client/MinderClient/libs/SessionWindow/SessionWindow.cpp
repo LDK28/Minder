@@ -17,7 +17,7 @@ void SessionWindow::initConnections()
     connect(ui->btnQuit, &QPushButton::clicked, this, &SessionWindow::on_closeSessionWindowButtonClicked);
 
     connect(ui->widgetToolsPalette, &ToolsPalette::on_addNewBlockButtonClicked, this, &SessionWindow::addNewBlockButtonClicked);
-    connect(ui->widgetToolsPalette, &ToolsPalette::on_deleteBlockButtonClicked, ui->widgetMindMap, &MindMap::deleteBlock);
+    connect(ui->widgetToolsPalette, &ToolsPalette::on_deleteBlockButtonClicked, ui->widgetMindMap, &MindMap::deleteSelectedBlock);
     connect(ui->widgetToolsPalette, &ToolsPalette::on_zoomPlusButtonClicked, this, &SessionWindow::zoomPlusButtonClicked);
     connect(ui->widgetToolsPalette, &ToolsPalette::on_zoomMinusButtonClicked, this, &SessionWindow::zoomMinusButtonClicked);
     connect(ui->widgetToolsPalette, &ToolsPalette::on_zoomHomeButtonClicked, this, &SessionWindow::zoomHomeButtonClicked);
@@ -138,4 +138,11 @@ void SessionWindow::setBlock(const Block &block)
     qDebug() << "Session Window: set block";
 
     ui->widgetMindMap->drawBlock(block);
+}
+
+void SessionWindow::deleteBlock(const size_t id)
+{
+    qDebug() << "Session Window: another user deleted block";
+
+    ui->widgetMindMap->blockWasDeleted(id);
 }
