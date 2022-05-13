@@ -1,17 +1,19 @@
 #include <vector>
 
 #include "DatabaseClient.h"
+#include <memory>
 
 class DatabaseSessionClient {
-   private:
-    DatabaseClient *client;
+ private:
+    std::shared_ptr<DatabaseClient> client;
 
-   public:
-    json createSession();
-    json addUsersInSession(json);
-    bool checkSession(int id);
-    json updateSession(json);
-    json getSessionInfo(int id);
-    json selectSessionsWithUser(int userId);
-    json deleteSession(int id);
+ public:
+    DatabaseSessionClient(std::shared_ptr<DatabaseClient> cl);
+
+    json createSession(json data) const;
+    bool checkSession(std::string name) const;
+    json updateSession(json) const;
+    json getSessionInfo(int id) const;
+    json selectSessionsWithUser(int userId) const;
+    json deleteSession(int id) const;
 };

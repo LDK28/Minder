@@ -6,63 +6,233 @@ using json = nlohmann::json;
 
 #include "DatabaseUsersClient.h"
 
-TEST(create_user, testBasic) {
-    json request = {{"name:", "Dima"}};
-    json expectedResponse = {{"id", 1}, {"name:", "Dima"}};
+const std::string sessionsTableName = "sessions";
 
-    DatabaseUsersClient client;
-    json response = client.createUser(request);
-    EXPECT_STREQ(expectedResponse.dump().c_str(), response.dump().c_str());
+std::vector<std::string> sessionsTableFields = {"name", "password"};
+
+std::vector<std::string> sessionsnames = {"sess1", "sess2", "sess3", "sess4",
+                                          "sess5"};
+std::vector<std::string> sessionsPasswords = {"123", "123", "123", "123",
+                                              "123"};
+
+std::vector<int> sessionsSessionsIds = {1, 1, 2, 2, 3};
+
+const std::string usrTableName = "users";
+
+std::vector<std::string> userTableFields = {"username", "password",
+                                            "session_id"};
+
+std::vector<std::string> usernames = {"dima", "valera", "vika", "dasha",
+                                      "polina"};
+std::vector<std::string> userPasswords = {
+    "dima_pass", "valera_pass", "vika_pass", "dasha_pass", "polina_pass"};
+
+std::vector<int> userSessionsIds = {1, 1, 2, 2, 3};
+
+class TestEnvironment : public ::testing::Environment {
+ public:
+    static DatabaseUsersClient getClient() {
+        std::shared_ptr<DatabaseClient> pg =
+            std::make_shared<PostgreDatabaseClient>();
+        static DatabaseUsersClient cl(pg);
+        return cl;
+    }
+
+    static void fillSessionTable() {
+        std::string query = "INSERT INTO " + sessionsTableName + " (";
+        for (int i = 0; i < sessionsTableFields.size(); ++i) {
+            query += sessionsTableFields[i];
+
+            if (i != sessionsTableFields.size() - 1) {
+                query += ", ";
+            }
+        }
+
+        query += ")\n";
+
+        query += "VALUES ";
+
+        for (int i = 0; i < sessionsnames.size(); ++i) {
+            query += "(";
+            query += "\'" + sessionsnames[i] + "\',";
+            query += sessionsPasswords[i];
+            query += ")";
+
+            if (i != sessionsnames.size() - 1) {
+                query += ", ";
+            }
+        }
+
+        query += ";";
+
+        std::shared_ptr<DatabaseClient> pg =
+            std::make_shared<PostgreDatabaseClient>();
+
+        // std::cout << query;
+        pg->query(query);
+    }
+
+    static void fillUsersTable() {
+        std::string query = "INSERT INTO " + usrTableName + " (";
+        for (int i = 0; i < userTableFields.size(); ++i) {
+            query += userTableFields[i];
+
+            if (i != userTableFields.size() - 1) {
+                query += ", ";
+            }
+        }
+
+        query += ")\n";
+
+        query += "VALUES ";
+
+        for (int i = 0; i < usernames.size(); ++i) {
+            query += "(";
+            query += "\'" + usernames[i] + "\',";
+            query += "\'" + userPasswords[i] + "\',";
+            query += std::to_string(userSessionsIds[i]);
+            query += ")";
+
+            if (i != usernames.size() - 1) {
+                query += ", ";
+            }
+        }
+
+        query += ";";
+
+        std::shared_ptr<DatabaseClient> pg =
+            std::make_shared<PostgreDatabaseClient>();
+
+        pg->query(query);
+    }
+
+    static void copy_table(std::string tableName, std::string copyName) {
+        std::string queryCreate =
+            "CREATE TABLE" + copyName + "(LIKE" + tableName + "INCLUDING ALL);";
+        std::string queryCopy =
+            "INSERT INTO" + copyName + "TABLE" + tableName + ";";
+
+        std::shared_ptr<DatabaseClient> pg =
+            std::make_shared<PostgreDatabaseClient>();
+
+        pg->query(queryCreate);
+        pg->query(queryCopy);
+    }
+
+    // Initialise the timestamp.
+    virtual void SetUp() {
+        getClient();
+        fillSessionTable();
+        fillUsersTable();
+    }
+};
+
+TEST(get_user_info, simpletest) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+    int id = 1;
+    json usr = cl.getUserInfo(id);
+    // std::cout << usr << std::endl;
+    ASSERT_EQ(usernames[0], usr["users"][0]["username"].get<std::string>());
+    ASSERT_EQ(userPasswords[0], usr["users"][0]["password"].get<std::string>());
 }
 
-TEST(checkUser, testBasic) {
-    json request = {{"name:", "Dima"}};
-    bool expectedResponse = true;
-
-    DatabaseUsersClient client;
-    bool response = client.checkUser(request);
-    EXPECT_EQ(response, expectedResponse);
+TEST(get_user_info_by_name, simpletest) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+    std::string name = usernames[0];
+    json usr = cl.getUserByName(name);
+    // std::cout << usr << std::endl;
+    ASSERT_EQ(usernames[0], usr["users"][0]["username"].get<std::string>());
+    ASSERT_EQ(userPasswords[0], usr["users"][0]["password"].get<std::string>());
 }
 
-TEST(getAllUsersInfo, testBasic) {
-    json expectedResponse = {
-        {{"id", 1}, {"name:", "Dima"}, {"session_id", 1}},
-        {{"id", 2}, {"name:", "Nastya"}, {"session_id", 1}},
-        {{"id", 3}, {"name:", "Uliana"}, {"session_id", 1}}};
+TEST(create_user, simpleCreate) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+    std::string copyName = usrTableName + "Copy";
 
-    DatabaseUsersClient client;
-    json response = client.getAllUsersInfo();
-    EXPECT_STREQ(expectedResponse.dump().c_str(), response.dump().c_str());
+    json req = {{"username", "aaaaaaaaaaaaabcdc"}, {"password", "12341234"}};
+    json resp = cl.createUser(req);
+    // std::cout << "test create " << resp.dump(2) << std::endl;
+    int id = std::stoi(resp["id"].get<std::string>());
+    json usr = cl.getUserInfo(id);
+    ASSERT_EQ(req["username"], usr["users"][0]["username"]);
+    ASSERT_EQ(req["password"], usr["users"][0]["password"]);
 }
 
-TEST(getUserInfo, testBasic) {
-    json expectedResponse = {{"id", 3}, {"name:", "Uliana"}, {"session_id", 1}};
-
-    DatabaseUsersClient client;
-    int userId = 3;
-    json response = client.getUserInfo(userId);
-    EXPECT_STREQ(expectedResponse.dump().c_str(), response.dump().c_str());
+TEST(create_user, existCreate) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+    json req = {{"username", "fail"}, {"password", "test"}};
+    json resp1 = cl.createUser(req);
+    json resp2 = cl.createUser(req);
+    ASSERT_EQ(resp2["status"], "error");
 }
 
-TEST(selectUsersByName, testBasic) {
-    std::string name("Dima");
+TEST(get_all_users_info, simpletest) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+    json usrs = cl.getAllUsersInfo();
+    // std::cout << usrs.dump(2) << std::endl;
 
-    json expectedResponse = {
-        {{"id", 1}, {"name:", name}, {"session_id", 1}},
-        {{"id", 5}, {"name:", name}, {"session_id", 3}},
-        {{"id", 7}, {"name:", name}, {"session_id", 9}}};
-
-    DatabaseUsersClient client;
-    json response = client.selectUsersByName(name);
-    EXPECT_STREQ(expectedResponse.dump().c_str(), response.dump().c_str());
+    for (int i = 0; i < usernames.size(); i++) {
+        ASSERT_EQ(usernames[i],
+                  usrs["users"][i]["username"].get<std::string>());
+        ASSERT_EQ(userPasswords[i],
+                  usrs["users"][i]["password"].get<std::string>());
+    }
 }
 
-TEST(deleteUsersById, testBasic) {
-    int userId = 3;
+TEST(check_user, testBasic) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+    ASSERT_TRUE(cl.checkUser(usernames[0]));
+}
 
-    json expectedResponse = {{"id", userId}, {"name:", "Uliana"}, {"session_id", 1}};
+TEST(check_user, testDontExist) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+    ASSERT_FALSE(cl.checkUser("Uliana"));
+}
 
-    DatabaseUsersClient client;
-    json response = client.deleteUsersById(userId);
-    EXPECT_STREQ(expectedResponse.dump().c_str(), response.dump().c_str());
+TEST(get_users_in_session, testBasic) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+
+    int sessionId = 1;
+    json usrs = cl.getUsersInSession(sessionId);
+    // std::cout << usrs.dump(2) << std::endl;
+
+    for (auto it = usrs["users"].begin(); it != usrs["users"].end(); ++it) {
+        std::string username = (*it)["username"].get<std::string>();
+        auto findIter = find(usernames.begin(), usernames.end(), username);
+        ASSERT_TRUE(findIter != usernames.end());
+        int usrIndex = findIter - usernames.begin();
+        ASSERT_EQ(sessionId, userSessionsIds[usrIndex]);
+    }
+}
+
+TEST(add_users_in_session, testOneUser) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+
+    std::vector<int> usersIds = {1, 2, 3};
+    int sessionId = 3;
+    json usrs = cl.addUsersInSession(usersIds, sessionId);
+    ASSERT_EQ(usrs["status"], "ok");
+}
+
+TEST(update_user, simpleTest) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+
+    json user = {
+        {"id", 2}, {"username", "valera12312341"}, {"password", "1234"}};
+    json resp = cl.updateUser(user);
+    ASSERT_EQ(resp["status"], "ok");
+}
+
+TEST(delete_user_by_id, simpleTest) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+
+    int userId = 2;
+    json resp = cl.deleteUsersById(userId);
+    ASSERT_EQ(resp["status"], "ok");
+}
+
+int main(int argc, char* argv[]) {
+    ::testing::InitGoogleTest(&argc, argv);
+    ::testing::AddGlobalTestEnvironment(new TestEnvironment);
+    return RUN_ALL_TESTS();
 }

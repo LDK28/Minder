@@ -2,17 +2,22 @@
 #include <string>
 
 #include "DatabaseClient.h"
+#include "PostgreDatabaseClient.h"
 
 class DatabaseUsersClient {
-   private:
-    DatabaseClient *client;
+ private:
+    std::shared_ptr<DatabaseClient> client;
 
-   public:
-    json createUser(json);
-    bool checkUser(json);
-    json getAllUsersInfo();
-    json getUserInfo(int id);
-    json selectUsersByName(std::string name);
-    json deleteUsersById(int id);
-
+ public:
+    DatabaseUsersClient() = default;
+    DatabaseUsersClient(std::shared_ptr<DatabaseClient> client);
+    json createUser(json) const;
+    bool checkUser(std::string name) const;
+    json addUsersInSession(std::vector<int> userId, int sessionId) const;
+    json getAllUsersInfo() const;
+    json updateUser(json) const;
+    json getUserInfo(int id) const;
+    json getUserByName(std::string name) const;
+    json getUsersInSession(int sessionId) const;
+    json deleteUsersById(int id) const;
 };
