@@ -3,8 +3,32 @@
 #include <boost/format.hpp>
 #include <iostream>
 
-PostgreDatabaseClient::PostgreDatabaseClient() {
-    con = std::make_shared<pqxx::connection>("dbname = db_minder user = p1xel");
+PostgreSQLConnectParams::PostgreSQLConnectParams(std::string user,
+                                                 std::string dbName,
+                                                 std::string password,
+                                                 std::string host)
+    : user(user), password(password), host(host), dbName(dbName) {}
+
+std::string PostgreSQLConnectParams::paramsToString() const {
+    std::string strParams = "dbname = " + dbName + " ";
+    strParams += "user = " + user + " ";
+
+    if (!password.empty()) {
+        strParams += "password = " + password + " ";
+    }
+
+    if (!password.empty()) {
+        strParams += "host = " + host + " ";
+    }
+    std::cout << strParams;
+    return strParams;
+}
+
+PostgreDatabaseClient::PostgreDatabaseClient(
+    std::shared_ptr<PostgreSQLConnectParams> conParams)
+    : connectParams(conParams) {
+    con = std::make_shared<pqxx::connection>(connectParams->paramsToString());
+    // con = std::make_shared<pqxx::connection>("dbname = db_minder user = postgres");
 
     if ((*con).is_open()) {
         std::cout << "Opened database successfully: " << (*con).dbname()

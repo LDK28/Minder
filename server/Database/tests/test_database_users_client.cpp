@@ -31,9 +31,17 @@ std::vector<int> userSessionsIds = {1, 1, 2, 2, 3};
 
 class TestEnvironment : public ::testing::Environment {
  public:
+    static std::shared_ptr<PostgreDatabaseClient> getPgClient() {
+        static std::shared_ptr<PostgreSQLConnectParams> conParams =
+            std::make_shared<PostgreSQLConnectParams>("p1xel", "db_minder");
+
+        static std::shared_ptr<PostgreDatabaseClient> pg =
+            std::make_shared<PostgreDatabaseClient>(conParams);
+
+        return pg;
+    }
     static DatabaseUsersClient getClient() {
-        std::shared_ptr<DatabaseClient> pg =
-            std::make_shared<PostgreDatabaseClient>();
+        static std::shared_ptr<DatabaseClient> pg = getPgClient();
         static DatabaseUsersClient cl(pg);
         return cl;
     }
@@ -65,11 +73,11 @@ class TestEnvironment : public ::testing::Environment {
 
         query += ";";
 
-        std::shared_ptr<DatabaseClient> pg =
-            std::make_shared<PostgreDatabaseClient>();
+        std::shared_ptr<DatabaseClient> pg = getPgClient();
 
         // std::cout << query;
-        pg->query(query);
+        json req = pg->query(query);
+        // std::cout << req.dump(5);
     }
 
     static void fillUsersTable() {
@@ -100,8 +108,7 @@ class TestEnvironment : public ::testing::Environment {
 
         query += ";";
 
-        std::shared_ptr<DatabaseClient> pg =
-            std::make_shared<PostgreDatabaseClient>();
+        std::shared_ptr<DatabaseClient> pg = getPgClient();
 
         pg->query(query);
     }
@@ -121,6 +128,7 @@ class TestEnvironment : public ::testing::Environment {
 
     // Initialise the timestamp.
     virtual void SetUp() {
+        getPgClient();
         getClient();
         fillSessionTable();
         fillUsersTable();
@@ -226,8 +234,7 @@ TEST(update_user, simpleTest) {
 TEST(update_user, lessFieldsTest) {
     DatabaseUsersClient cl = TestEnvironment::getClient();
 
-    json user = {
-        {"id", 2}, {"username", "varela123"}};
+    json user = {{"id", 2}, {"username", "varela123"}};
     json resp = cl.updateUser(user);
     ASSERT_EQ(resp["status"], "ok");
 }
