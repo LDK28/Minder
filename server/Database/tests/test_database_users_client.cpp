@@ -223,6 +223,15 @@ TEST(update_user, simpleTest) {
     ASSERT_EQ(resp["status"], "ok");
 }
 
+TEST(update_user, lessFieldsTest) {
+    DatabaseUsersClient cl = TestEnvironment::getClient();
+
+    json user = {
+        {"id", 2}, {"username", "varela123"}};
+    json resp = cl.updateUser(user);
+    ASSERT_EQ(resp["status"], "ok");
+}
+
 TEST(delete_user_by_id, simpleTest) {
     DatabaseUsersClient cl = TestEnvironment::getClient();
 

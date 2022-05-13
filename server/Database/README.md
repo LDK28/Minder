@@ -14,6 +14,9 @@
 
 ## DatabaseUsersClient
 
+### Поля
+```{"username", "password", "session_id"}```
+
 ### createUser
 ```json createUser(json) const;```
 
@@ -115,11 +118,11 @@ json usrs = cl.addUsersInSession(usersIds, sessionId);
 ### updateUser
 ```json DatabaseUsersClient::updateUser(json sessData) const```
 
-Формат запроса: 
+Формат запроса(возможно упускать каждое из полей): 
 ```    
-std::vector<int> usersIds = {1, 2, 3};
-int sessionId = 3;
-json usrs = cl.addUsersInSession(usersIds, sessionId);
+json user = {
+    {"id", 2}, {"username", "valera12312341"}, {"password", "1234"}};
+json resp = cl.updateUser(user);
 ```
 Формат ответа:
 ```
@@ -173,6 +176,7 @@ json usr = cl.getUserByName(name);
 ```
 
 Формат ответа(Поле users, но user там один):
+
 ```
 {
     "status" : "ok",
