@@ -82,6 +82,7 @@ HttpClientData::MidnMapData InterfaceHttpClient::getMap(HttpClientData::SessionC
     std::string serverMsg = sendRequest(request);
     json dataJson = json::parse(serverMsg);
     HttpClientData::MidnMapData data;
-    data.blocks = dataJson.get<std::vector<HttpClientData::Block>>();
+    // data.blocks = dataJson["data"].get<std::vector<HttpClientData::Block>>();
+    // data.blocks = dataJson["Configuration"];
     return data;
 };
