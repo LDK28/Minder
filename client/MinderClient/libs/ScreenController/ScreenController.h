@@ -17,8 +17,6 @@
 #include "ToolsPalette.h"
 #include "NewBlockCreationWindow.h"
 
-using namespace ViewDataStructures;
-
 class ScreenController: public QObject
 {
     Q_OBJECT

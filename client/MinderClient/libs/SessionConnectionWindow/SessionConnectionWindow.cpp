@@ -25,7 +25,7 @@ void SessionConnectionWindow::closeEvent(QCloseEvent *event)
 void SessionConnectionWindow::on_connectToSessionButtonClicked()
 {
     qDebug() << "Session connection pack data";
-    SessionConnectionData data(ui->lineSessiond->text(), ui->lineSessionPassword->text());
+    ViewDataStructures::SessionConnectionData data(ui->lineSessiond->text(), ui->lineSessionPassword->text());
     qDebug() << "  " << data.id << " " << data.password;
     emit on_connectToSession(data);
 }

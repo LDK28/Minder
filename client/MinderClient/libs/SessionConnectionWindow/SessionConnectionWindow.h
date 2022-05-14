@@ -7,8 +7,6 @@
 
 #include "DataStructures.h"
 
-using namespace ViewDataStructures;
-
 namespace Ui {
 class SessionConnectionWindow;
 }

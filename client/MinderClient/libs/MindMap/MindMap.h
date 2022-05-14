@@ -15,9 +15,6 @@
 #include "BlockImage.h"
 #include "Arrow.h"
 
-
-using namespace ViewDataStructures;
-
 namespace Ui {
 class MindMap;
 }
@@ -54,7 +51,7 @@ protected:
 private:
     void addArrow(BlockImage *block);
     void initConnections();
-    MindMapData deleteBlock(BlockImage **targetBlock);
+    ViewDataStructures::MindMapData deleteBlock(BlockImage **targetBlock);
 
 private slots:
     void changeSelectedBlock();

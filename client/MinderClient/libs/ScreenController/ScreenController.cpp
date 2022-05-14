@@ -79,7 +79,7 @@ void ScreenController::deinitSessionConnections()
 
 // Screen controller
 
-void ScreenController::receiveUsersListInSession(const UsersInSessionData &data)
+void ScreenController::receiveUsersListInSession(const ViewDataStructures::UsersInSessionData &data)
 {
     qDebug() << "Screen controller: receieved users list for SessionWidnow";
     assert(sessionWindow);
@@ -213,7 +213,7 @@ void ScreenController::savingSettingsSuccess()
     authWindow.show();
 }
 
-void ScreenController::connectionToSessionSuccess(const SessionData &data)
+void ScreenController::connectionToSessionSuccess(const ViewDataStructures::SessionData &data)
 {
     qDebug() << "Screen controller: connection to existing session success";
 
@@ -225,7 +225,7 @@ void ScreenController::connectionToSessionSuccess(const SessionData &data)
     sessionWindow->show();
 }
 
-void ScreenController::creationNewSessionSuccess(const SessionData &data)
+void ScreenController::creationNewSessionSuccess(const ViewDataStructures::SessionData &data)
 {
     qDebug() << "Screen controller: creation new session success";
 
@@ -245,7 +245,7 @@ void ScreenController::receiveNewBlockId(const long newBlockId)
     sessionWindow->setNewBlockId(newBlockId);
 }
 
-void ScreenController::receiveMindMapDataInSession(const MindMapData &data)
+void ScreenController::receiveMindMapDataInSession(const ViewDataStructures::MindMapData &data)
 {
     qDebug() << "Screen controller: receive new mindmap data";
 
@@ -253,7 +253,7 @@ void ScreenController::receiveMindMapDataInSession(const MindMapData &data)
     sessionWindow->updateMindMap(data);
 }
 
-void ScreenController::receiveBlock(const Block& block)
+void ScreenController::receiveBlock(const ViewDataStructures::Block& block)
 {
     qDebug() << "Screen controller: receive block";
 

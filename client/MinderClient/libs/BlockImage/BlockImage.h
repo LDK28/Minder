@@ -13,14 +13,12 @@
 
 #include "DataStructures.h"
 
-using namespace ViewDataStructures;
-
 class Arrow;
 
 class BlockImage: public QGraphicsTextItem
 {
 public:
-    explicit BlockImage(const Block &b);
+    explicit BlockImage(const ViewDataStructures::Block &b);
 
     enum { Type = UserType + 1 };
 
@@ -34,7 +32,7 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 public:
-    Block block;
+    ViewDataStructures::Block block;
     QList<Arrow *> arrows;
 };
 

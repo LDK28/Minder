@@ -26,7 +26,7 @@ void RegisterWindow::closeEvent(QCloseEvent *event)
 void RegisterWindow::on_registerButtonClicked()
 {
     qDebug() << "Register pack data";
-    RegisterData data = {ui->lineNickname->text(), ui->linePassword->text(), ui->lineRepeatPassword->text()};
+    ViewDataStructures::RegisterData data = {ui->lineNickname->text(), ui->linePassword->text(), ui->lineRepeatPassword->text()};
     qDebug() << "  " << data.nickname << " " << data.password << " " << data.repeatPassword;
     emit on_register(data);
 }

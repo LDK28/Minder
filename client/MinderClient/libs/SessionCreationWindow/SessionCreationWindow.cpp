@@ -27,7 +27,7 @@ void SessionCreationWindow::on_createNewSessionButtonClicked()
 {
     qDebug() << "Session creation pack data";
 
-    SessionCreationData data(ui->lineSessionName->text(), ui->lineNewSessionPassword->text(), ui->lineNewSessionRepeatPassword->text());
+    ViewDataStructures::SessionCreationData data(ui->lineSessionName->text(), ui->lineNewSessionPassword->text(), ui->lineNewSessionRepeatPassword->text());
     qDebug() << "  " << data.name << " " << data.password << " " << data.repeatPassword;
 
     emit on_createNewSession(data);

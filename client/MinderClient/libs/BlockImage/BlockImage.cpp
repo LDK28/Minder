@@ -1,7 +1,7 @@
 #include "BlockImage.h"
 #include "Arrow.h"
 
-BlockImage::BlockImage(const Block &b): QGraphicsTextItem(b.text),  block(b)
+BlockImage::BlockImage(const ViewDataStructures::Block &b): QGraphicsTextItem(b.text),  block(b)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemIsMovable, false);

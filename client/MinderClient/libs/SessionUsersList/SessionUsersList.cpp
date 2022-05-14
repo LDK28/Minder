@@ -13,7 +13,7 @@ SessionUsersList::~SessionUsersList()
     delete ui;
 }
 
-void SessionUsersList::updateUsersList(const UsersInSessionData &data)
+void SessionUsersList::updateUsersList(const ViewDataStructures::UsersInSessionData &data)
 {
     qDebug() << "Session users list: updating data";
     this->ui->listWidgetUsersInSession->clear();

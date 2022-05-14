@@ -33,7 +33,7 @@ MindMap::~MindMap()
 
 void MindMap::wheelEvent(QWheelEvent *event)
 {
-        qDebug() << "MindMap: whell event " << event->angleDelta();
+    qDebug() << "MindMap: whell event " << event->angleDelta();
 
     if(event->modifiers() & Qt::ControlModifier)
     {
@@ -54,7 +54,7 @@ void MindMap::wheelEvent(QWheelEvent *event)
     }
 }
 
-void MindMap::updateMindMap(const MindMapData &data)
+void MindMap::updateMindMap(const ViewDataStructures::MindMapData &data)
 {
     qDebug() << "MinaMap: update mind map image";
 
@@ -83,7 +83,7 @@ void MindMap::updateMindMap(const MindMapData &data)
 
 }
 
-void MindMap::drawNewBlock(const Block &block)
+void MindMap::drawNewBlock(const ViewDataStructures::Block &block)
 {
     qDebug() << "MindMap: draw new block";
 
@@ -163,7 +163,7 @@ void MindMap::setNewBlockId(const size_t newBlockId)
     newBlock = nullptr;
 }
 
-void MindMap::drawBlock(const Block &block)
+void MindMap::drawBlock(const ViewDataStructures::Block &block)
 {
     qDebug() << "MindMap: draw block";
 
@@ -200,8 +200,8 @@ void MindMap::changeScale(const double dscalePerc)
 void MindMap::blockWasDeleted(const size_t id)
 {
     qDebug() << "MindMap: Delete selected block (another user)";
-  BlockImage *targetBlock = blocksMap[id];
-  deleteBlock(&targetBlock);
+    BlockImage *targetBlock = blocksMap[id];
+    deleteBlock(&targetBlock);
 }
 
 void MindMap::deleteSelectedBlock()
@@ -215,17 +215,17 @@ void MindMap::deleteSelectedBlock()
     }
     qDebug() << " " << selectedBlock->block.id;
 
-    MindMapData changedBlocks = deleteBlock(&selectedBlock);
+    ViewDataStructures::MindMapData changedBlocks = deleteBlock(&selectedBlock);
 
     // отправка изменений на сервер
     emit transmitDeletedBlock(changedBlocks);
 
 }
 
-MindMapData MindMap::deleteBlock(BlockImage **targetBlock)
+ViewDataStructures::MindMapData MindMap::deleteBlock(BlockImage **targetBlock)
 {
     assert(targetBlock && *targetBlock);
-    MindMapData changedBlocks;
+    ViewDataStructures::MindMapData changedBlocks;
     changedBlocks.blocks.append((*targetBlock)->block); // удаляемый блок
 
     // Удаление стрелки от предка удаляемого блока к удаляемому блоку

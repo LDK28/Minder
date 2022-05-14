@@ -1,7 +1,7 @@
 #include "SessionWindow.h"
 #include "ui_SessionWindow.h"
 
-SessionWindow::SessionWindow(const SessionData &data, QWidget *parent) :
+SessionWindow::SessionWindow(const ViewDataStructures::SessionData &data, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SessionWindow)
 {
@@ -55,21 +55,21 @@ void SessionWindow::showEvent(QShowEvent *event)
     emit getMindMapData(sessionData.id);
 }
 
-void SessionWindow::setSessionData(const SessionData &data)
+void SessionWindow::setSessionData(const ViewDataStructures::SessionData &data)
 {
     sessionData = data;
     ui->labelSessionId->setText(QString::number(sessionData.id));
     ui->labelSessionName->setText(QString::number(sessionData.id));
 }
 
-void SessionWindow::updateUsersList(const UsersInSessionData &data)
+void SessionWindow::updateUsersList(const ViewDataStructures::UsersInSessionData &data)
 {
     qDebug() << "Session window: update users list";
 
     this->ui->widgetSessionUsersList->updateUsersList(data);
 }
 
-void SessionWindow::updateMindMap(const MindMapData &data)
+void SessionWindow::updateMindMap(const ViewDataStructures::MindMapData &data)
 {
     qDebug() << "Session window: update mindmap";
 
@@ -84,7 +84,7 @@ void SessionWindow::addNewBlockButtonClicked()
     this->setEnabled(false);
 }
 
-void SessionWindow::getNewBlock(const Block &newBlock)
+void SessionWindow::getNewBlock(const ViewDataStructures::Block &newBlock)
 {
     qDebug() << "Session Window: got new block: "; newBlock.print();
 
@@ -133,7 +133,7 @@ void SessionWindow::setNewBlockId(const size_t newBlockId)
     ui->widgetMindMap->setNewBlockId(newBlockId);
 }
 
-void SessionWindow::setBlock(const Block &block)
+void SessionWindow::setBlock(const ViewDataStructures::Block &block)
 {
     qDebug() << "Session Window: set block";
 

@@ -5,8 +5,6 @@
 
 #include "DataStructures.h"
 
-using namespace ViewDataStructures;
-
 namespace Ui {
 class SessionUsersList;
 }
@@ -19,7 +17,7 @@ public:
     explicit SessionUsersList(QWidget *parent = nullptr);
     ~SessionUsersList();
 
-    void updateUsersList(const UsersInSessionData &data);
+    void updateUsersList(const ViewDataStructures::UsersInSessionData &data);
 
 private:
     Ui::SessionUsersList *ui;

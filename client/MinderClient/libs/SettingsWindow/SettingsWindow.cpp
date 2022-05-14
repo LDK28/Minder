@@ -25,7 +25,7 @@ void SettingsWindow::closeEvent(QCloseEvent *event)
 void SettingsWindow::on_saveSettingsButtonClicked()
 {
     qDebug() << "Settings window: pack data";
-    SettingsData data(ui->lineServerIP->text(), ui->lineServerPort->text());
+    ViewDataStructures::SettingsData data(ui->lineServerIP->text(), ui->lineServerPort->text());
     qDebug() << "  " << data.serverIP << " " << data.serverPort;
     emit on_saveSettings(data);
 }

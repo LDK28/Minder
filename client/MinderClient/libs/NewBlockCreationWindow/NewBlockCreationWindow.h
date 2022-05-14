@@ -8,8 +8,6 @@
 
 #include "DataStructures.h"
 
-using namespace ViewDataStructures;
-
 namespace Ui {
 class NewBlockCreationWindow;
 }
@@ -39,7 +37,7 @@ private:
 
 private:
     Ui::NewBlockCreationWindow *ui;
-    Block newBlock;
+    ViewDataStructures::Block newBlock;
 
 };
 

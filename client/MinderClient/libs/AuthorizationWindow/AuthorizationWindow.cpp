@@ -28,7 +28,7 @@ void AuthorizationWindow::closeEvent(QCloseEvent *event)
 void AuthorizationWindow::on_loginButtonClicked()
 {
     qDebug() << "Authorization pack data";
-    LoginData data = {ui->lineNickname->text(), ui->linePassword->text()};
+    ViewDataStructures::LoginData data = {ui->lineNickname->text(), ui->linePassword->text()};
     qDebug() << "  " << data.nickname << " " << data.password;
     emit on_login(data);
 }

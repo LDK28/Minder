@@ -14,8 +14,6 @@
 #include "MindMap.h"
 #include "NewBlockCreationWindow.h"
 
-using namespace ViewDataStructures;
-
 namespace Ui {
 class SessionWindow;
 }
@@ -25,7 +23,7 @@ class SessionWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit SessionWindow(const SessionData &data, QWidget *parent = nullptr);
+    explicit SessionWindow(const ViewDataStructures::SessionData &data, QWidget *parent = nullptr);
     ~SessionWindow();
 
     //Interface
@@ -39,14 +37,14 @@ signals:
     void transmitDeletedBlock(const ViewDataStructures::MindMapData & changedBlocks);
 
 public:
-    void setSessionData(const SessionData &data);
-    SessionData getSessionData() { return sessionData; }
+    void setSessionData(const ViewDataStructures::SessionData &data);
+    ViewDataStructures::SessionData getSessionData() { return sessionData; }
 
-    void updateUsersList(const UsersInSessionData &data);
+    void updateUsersList(const ViewDataStructures::UsersInSessionData &data);
 
-    void updateMindMap(const MindMapData &data);
+    void updateMindMap(const ViewDataStructures::MindMapData &data);
     void setNewBlockId(const size_t newBlockId);
-    void setBlock(const Block &block);
+    void setBlock(const ViewDataStructures::Block &block);
     void deleteBlock(const size_t id);
     // End Interface
 
@@ -75,7 +73,7 @@ private:
     Ui::SessionWindow *ui;
     NewBlockCreationWindow newBlockWindow;
 
-    SessionData sessionData;
+    ViewDataStructures::SessionData sessionData;
 };
 
 #endif // SESSIONWINDOW_H
