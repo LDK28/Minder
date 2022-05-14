@@ -63,10 +63,20 @@ signals: // to logic controller
 
 public slots: // from logic contloller
     void validationLoginDataSuccess();
+    void validationLoginDataFailure(const QString &errMsg);
+
     void validationRegisterDataSuccess();
+    void validationRegisterDataFailure(const QString &errMsg);
+
     void savingSettingsSuccess();
+    void savingSettingsFailure(const QString &errMsg);
+
     void connectionToSessionSuccess(const ViewDataStructures::SessionData &data);
+    void connectionToSessionFailure(const QString &errMsg);
+
     void creationNewSessionSuccess(const ViewDataStructures::SessionData &data);
+    void creationNewSessionFailure(const QString &errMsg);
+
     void receiveUsersListInSession(const ViewDataStructures::UsersInSessionData &data);
     void receiveMindMapDataInSession(const ViewDataStructures::MindMapData &data);
     void receiveNewBlockId(const long newBlockId);

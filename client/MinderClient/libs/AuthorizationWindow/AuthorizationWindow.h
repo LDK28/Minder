@@ -21,6 +21,7 @@ public:
 
 private:
     void closeEvent(QCloseEvent *event);
+    void initConnections();
 
 private slots:
     void on_loginButtonClicked();
@@ -31,6 +32,10 @@ signals:
     void on_closeAuthorizationWindowButtonClicked();
 
     void on_login(const ViewDataStructures::LoginData &data);
+
+public:
+    void showErrorMsg(const QString &errMsg);
+    void hideErrorMsg();
 
 private:
     Ui::AuthorizationWindow *ui;

@@ -23,6 +23,9 @@ signals:
     void on_openNewSessionCreationWindowButtonClicked();
     void on_closeSessionConnectionWindowButtonClicked();
     void on_connectToSession(const ViewDataStructures::SessionConnectionData &data);
+public:
+    void showErrorMsg(const QString &errMsg);
+    void hideErrorMsg();
 
 protected:
     void closeEvent(QCloseEvent *event);

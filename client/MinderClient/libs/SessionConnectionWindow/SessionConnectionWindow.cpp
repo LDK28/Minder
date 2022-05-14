@@ -6,6 +6,7 @@ SessionConnectionWindow::SessionConnectionWindow(QWidget *parent) :
     ui(new Ui::SessionConnectionWindow)
 {
     ui->setupUi(this);
+    ui->labelErrorMsg->hide();
     connect(ui->btnCreateNewSession, &QPushButton::clicked, this, &SessionConnectionWindow::on_openNewSessionCreationWindowButtonClicked);
     connect(ui->btnConnectToSession, &QPushButton::clicked, this, &SessionConnectionWindow::on_connectToSessionButtonClicked);
 }
@@ -28,4 +29,15 @@ void SessionConnectionWindow::on_connectToSessionButtonClicked()
     ViewDataStructures::SessionConnectionData data(ui->lineSessiond->text(), ui->lineSessionPassword->text());
     qDebug() << "  " << data.id << " " << data.password;
     emit on_connectToSession(data);
+}
+
+void SessionConnectionWindow::showErrorMsg(const QString &errMsg)
+{
+    ui->labelErrorMsg->setText(errMsg);
+    ui->labelErrorMsg->show();
+}
+
+void SessionConnectionWindow::hideErrorMsg()
+{
+    ui->labelErrorMsg->hide();
 }

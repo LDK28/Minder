@@ -23,6 +23,10 @@ signals:
     void on_closeSettingsWindowButtonClicked();
     void on_saveSettings(const ViewDataStructures::SettingsData &data);
 
+public:
+    void showErrorMsg(const QString &errMsg);
+    void hideErrorMsg();
+
 protected:
     void closeEvent(QCloseEvent *event);
 

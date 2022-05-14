@@ -40,7 +40,8 @@ void LogicController::validateLoginData(LoginData data)
 {
     qDebug() << "Logic controller: validation login data test(success): " << data.nickname << " " << data.password;
 
-    emit validationLoginDataSuccess();
+//    emit validationLoginDataSuccess();
+    screenController.validationLoginDataFailure("123");
 }
 
 void LogicController::validateRegisterData(RegisterData data)

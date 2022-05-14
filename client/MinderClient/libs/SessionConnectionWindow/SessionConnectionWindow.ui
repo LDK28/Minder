@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>391</width>
-    <height>377</height>
+    <width>476</width>
+    <height>570</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QLabel" name="labelMinder">
      <property name="font">
@@ -61,69 +61,92 @@
     </spacer>
    </item>
    <item>
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="labelSessionId">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="labelErrorMsg">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <pointsize>13</pointsize>
+         <italic>true</italic>
         </font>
        </property>
        <property name="text">
-        <string>Room id:</string>
-       </property>
-       <property name="margin">
-        <number>8</number>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="lineSessiond">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
+        <string>&lt;error&gt;</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <property name="placeholderText">
-        <string>1234</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="labelSessionPassword">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Room password:</string>
+        <set>Qt::AlignCenter</set>
        </property>
        <property name="margin">
-        <number>8</number>
+        <number>5</number>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="lineSessionPassword">
-       <property name="font">
-        <font>
-         <pointsize>14</pointsize>
-        </font>
-       </property>
-       <property name="echoMode">
-        <enum>QLineEdit::Password</enum>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-       </property>
-       <property name="placeholderText">
-        <string>*****</string>
-       </property>
-      </widget>
+     <item>
+      <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="labelSessionId">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Room id:</string>
+         </property>
+         <property name="margin">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineSessiond">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="placeholderText">
+          <string>1234</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="labelSessionPassword">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Room password:</string>
+         </property>
+         <property name="margin">
+          <number>8</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="lineSessionPassword">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="placeholderText">
+          <string>*****</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

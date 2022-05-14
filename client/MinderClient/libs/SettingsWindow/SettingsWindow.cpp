@@ -6,6 +6,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) :
     ui(new Ui::SettingsWindow)
 {
     ui->setupUi(this);
+    ui->labelErrorMsg->hide();
     connect(ui->btnSave, &QPushButton::clicked, this, &SettingsWindow::on_saveSettingsButtonClicked);
 }
 
@@ -28,5 +29,16 @@ void SettingsWindow::on_saveSettingsButtonClicked()
     ViewDataStructures::SettingsData data(ui->lineServerIP->text(), ui->lineServerPort->text());
     qDebug() << "  " << data.serverIP << " " << data.serverPort;
     emit on_saveSettings(data);
+}
+
+void SettingsWindow::showErrorMsg(const QString &errMsg)
+{
+    ui->labelErrorMsg->setText(errMsg);
+    ui->labelErrorMsg->show();
+}
+
+void SettingsWindow::hideErrorMsg()
+{
+    ui->labelErrorMsg->hide();
 }
 

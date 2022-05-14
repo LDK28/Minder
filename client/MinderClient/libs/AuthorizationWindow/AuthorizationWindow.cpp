@@ -6,15 +6,21 @@ AuthorizationWindow::AuthorizationWindow(QWidget *parent) :
     ui(new Ui::AuthorizationWindow)
 {
     ui->setupUi(this);
-    connect(ui->btnRegister, &QPushButton::clicked, this, &AuthorizationWindow::on_openRegisterWindowButtonClicked);
-    connect(ui->btnSettings, &QPushButton::clicked, this, &AuthorizationWindow::on_openSettingsWindowButtonClicked);
-
-    connect(ui->btnLogin, &QPushButton::clicked, this, &AuthorizationWindow::on_loginButtonClicked);
+    ui->labelErrorMsg->hide();
+    initConnections();
 }
 
 AuthorizationWindow::~AuthorizationWindow()
 {
     delete ui;
+}
+
+void AuthorizationWindow::initConnections()
+{
+
+    connect(ui->btnRegister, &QPushButton::clicked, this, &AuthorizationWindow::on_openRegisterWindowButtonClicked);
+    connect(ui->btnSettings, &QPushButton::clicked, this, &AuthorizationWindow::on_openSettingsWindowButtonClicked);
+    connect(ui->btnLogin, &QPushButton::clicked, this, &AuthorizationWindow::on_loginButtonClicked);
 }
 
 void AuthorizationWindow::closeEvent(QCloseEvent *event)
@@ -33,3 +39,13 @@ void AuthorizationWindow::on_loginButtonClicked()
     emit on_login(data);
 }
 
+void AuthorizationWindow::showErrorMsg(const QString &errMsg)
+{
+    ui->labelErrorMsg->setText(errMsg);
+    ui->labelErrorMsg->show();
+}
+
+void AuthorizationWindow::hideErrorMsg()
+{
+    ui->labelErrorMsg->hide();
+}

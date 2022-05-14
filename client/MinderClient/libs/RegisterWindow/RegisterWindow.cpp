@@ -31,3 +31,14 @@ void RegisterWindow::on_registerButtonClicked()
     emit on_register(data);
 }
 
+void RegisterWindow::showErrorMsg(const QString &errMsg)
+{
+    ui->labelErrorMsg->setText(errMsg);
+    ui->labelErrorMsg->show();
+}
+
+void RegisterWindow::hideErrorMsg()
+{
+    ui->labelErrorMsg->hide();
+}
+

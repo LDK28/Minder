@@ -6,6 +6,7 @@ SessionCreationWindow::SessionCreationWindow(QWidget *parent) :
     ui(new Ui::SessionCreationWindow)
 {
     ui->setupUi(this);
+    ui->labelErrorMsg->hide();
     connect(ui->btnCreateNewSession, &QPushButton::clicked, this, &SessionCreationWindow::on_createNewSessionButtonClicked);
     connect(ui->btnConnectToExistingSession, &QPushButton::clicked, this, &SessionCreationWindow::on_openSessionConnectionWindowButtonClicked);
 }
@@ -31,5 +32,16 @@ void SessionCreationWindow::on_createNewSessionButtonClicked()
     qDebug() << "  " << data.name << " " << data.password << " " << data.repeatPassword;
 
     emit on_createNewSession(data);
+}
+
+void SessionCreationWindow::showErrorMsg(const QString &errMsg)
+{
+    ui->labelErrorMsg->setText(errMsg);
+    ui->labelErrorMsg->show();
+}
+
+void SessionCreationWindow::hideErrorMsg()
+{
+    ui->labelErrorMsg->hide();
 }
 

@@ -24,6 +24,10 @@ signals:
     void on_closeRegisterWindowButtonClicked();
     void on_register(const ViewDataStructures::RegisterData data);
 
+public:
+    void showErrorMsg(const QString &errMsg);
+    void hideErrorMsg();
+
 protected:
     void closeEvent(QCloseEvent *event);
 

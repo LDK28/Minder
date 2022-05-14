@@ -24,6 +24,10 @@ signals:
     void on_openSessionConnectionWindowButtonClicked();
     void on_closeSessionCreationWindowButtonClicked();
 
+public:
+    void showErrorMsg(const QString &errMsg);
+    void hideErrorMsg();
+
 protected:
     void closeEvent(QCloseEvent *event);
 

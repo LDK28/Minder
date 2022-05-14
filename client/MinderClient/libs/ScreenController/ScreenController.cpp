@@ -268,3 +268,38 @@ void ScreenController::receiveDeltedBlockId(const size_t id)
 
     sessionWindow->deleteBlock(id);
 }
+
+void ScreenController::validationLoginDataFailure(const QString &errMsg)
+{
+    qDebug() << "Screen controller: login fail";
+
+    authWindow.showErrorMsg(errMsg);
+}
+
+void ScreenController::validationRegisterDataFailure(const QString &errMsg)
+{
+    qDebug() << "Screen controller: register fail";
+
+    regWindow.showErrorMsg(errMsg);
+}
+
+void ScreenController::savingSettingsFailure(const QString &errMsg)
+{
+    qDebug() << "Screen controller: saving settings fail";
+
+    settingsWindow.showErrorMsg(errMsg);
+}
+
+void ScreenController::connectionToSessionFailure(const QString &errMsg)
+{
+    qDebug() << "Screen controller: connection to session fail";
+
+    sessionConnectionWindow.showErrorMsg(errMsg);
+}
+
+void ScreenController::creationNewSessionFailure(const QString &errMsg)
+{
+    qDebug() << "Screen controller: creation session fail";
+
+    sessionCreationWindow.showErrorMsg(errMsg);
+}
