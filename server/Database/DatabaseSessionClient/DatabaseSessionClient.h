@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 
 #include "DatabaseClient.h"
@@ -14,6 +15,5 @@ class DatabaseSessionClient {
     bool checkSession(std::string name) const;
     json updateSession(json) const;
     json getSessionInfo(int id) const;
-    json selectSessionsWithUser(int userId) const;
     json deleteSession(int id) const;
 };

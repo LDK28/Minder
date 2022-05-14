@@ -8,8 +8,7 @@ json sqlSessionResponseToJson(json sqlResponse) {
     for (auto &el : sqlResponse["rows"]) {
         json tmpSession = {{"id", el[0]},
                            {"name", el[1]},
-                           {"password", el[2]},
-                           {"desk_id", el[3]}};
+                           {"password", el[2]}};
         response["sessions"].push_back(tmpSession);
     }
 
@@ -23,8 +22,8 @@ DatabaseSessionClient::DatabaseSessionClient(std::shared_ptr<DatabaseClient> cl)
 json DatabaseSessionClient::createSession(json data) const {
     json request = {
         {"table_name", "sessions"},
-        {"columns", {"name", "password", "desk_id"}},
-        {"values", {data["name"], data["password"], data["desk_id"]}}};
+        {"columns", {"name", "password"}},
+        {"values", {data["name"], data["password"]}}};
 
     // std::cout << request.dump(2) << std::endl;
     json response = client->insert(request);
@@ -54,7 +53,7 @@ json DatabaseSessionClient::updateSession(json sessData) const {
         request["SET"].push_back(curSetValue);
     }
 
-    std::cout << request.dump(1) << std::endl;
+    // std::cout << request.dump(1) << std::endl;
     json resp = client->update(request);
     return resp;
 }
@@ -65,23 +64,7 @@ json DatabaseSessionClient::getSessionInfo(int id) const {
     json resp = client->select(request);
     if (resp["status"] == "ok") {
         json newResponse = sqlSessionResponseToJson(resp);
-        std::cout << newResponse.dump(2) << std::endl;
-        return newResponse;
-    } else {
-        return resp;
-    }
-}
-json DatabaseSessionClient::selectSessionsWithUser(int userId) const {
-    json request = {{"FROM", {"sessions", "users"}},
-                    {"SELECT", {"sessions.*"}},
-                    {"condition", "users.id=" + std::to_string(userId) +
-                                      " and sessions.id = users.session_id"}};
-    std::cout << request.dump(1) << std::endl;
-
-    json resp = client->select(request);
-    if (resp["status"] == "ok") {
-        json newResponse = sqlSessionResponseToJson(resp);
-        std::cout << newResponse.dump(2) << std::endl;
+        // std::cout << newResponse.dump(2) << std::endl;
         return newResponse;
     } else {
         return resp;

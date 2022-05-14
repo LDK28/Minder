@@ -1,3 +1,4 @@
+#pragma once
 #include "DatabaseClient.h"
 
 class DatabaseDrawDeskClient {
@@ -7,7 +8,7 @@ class DatabaseDrawDeskClient {
  public:
     DatabaseDrawDeskClient(std::shared_ptr<DatabaseClient> cl);
     json createDesk(json) const;
-    json getDeskData(int deskId) const;
-    json updateDeskData(json) const;
-    json getBlocksFromDesk(int deskId) const;
+    json getDeskInfo(int deskId) const;
+    json updateDesk(json) const;
+    json getBlocksInfoFromDesk(int deskId) const;
 };
