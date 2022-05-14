@@ -15,8 +15,9 @@ public:
 public slots:
     //void deleteUser();
     //void getUsers(Users &users);
+    //updateUsersListInSession
 signals:
-    //void sendUsers();
+    void sendUsers();
 private:
     HttpClient *network = nullptr;
 };

@@ -10,3 +10,4 @@
 #endif
 
 #endif // LOGICLIB_GLOBAL_H
+

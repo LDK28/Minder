@@ -20,8 +20,8 @@ void LogicController::connectView() {
     connect(this, &LogicController::sessionConnectionSuccess, screenController.get(), &ScreenController::connectionToSessionSuccess);
     connect(this, &LogicController::sessionConnectionFailed, screenController.get(), &ScreenController::connectionToSessionFailed);
 
-//    connect(screenController.get(), &ScreenController::getUsersInSessionData, this, &LogicController::getUsersListInSession);
-//    connect(this, &LogicController::updateUsersListInSession, screenController.get(), &ScreenController::receiveUsersListInSession);
+    connect(screenController.get(), &ScreenController::getUsersInSessionData, this, &LogicController::getUsersListInSession);
+    connect(this, &LogicController::updateUsersListInSession, screenController.get(), &ScreenController::receiveUsersListInSession);
 
     connect(screenController.get(), &ScreenController::sendNewBlock, &drawing, &DrawingLogic::sendNewBlock);
     connect(&drawing, &DrawingLogic::sendNewBlockIdToSession, screenController.get(), &ScreenController::receiveNewBlockId);

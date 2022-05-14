@@ -5,7 +5,7 @@ void DrawingLogic::sendNewBlock(const ViewDataStructures::Block &newBlock) {
 
     HttpClientData::Block convBlock = convertBlock(newBlock);
 
-    network->addBlock(convBlock);
+    size_t id = network->addBlock(convBlock);
 
     emit sendNewBlockIdToSession(convBlock.id);
 }
