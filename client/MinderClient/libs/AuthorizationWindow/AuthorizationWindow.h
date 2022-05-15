@@ -19,6 +19,16 @@ public:
     explicit AuthorizationWindow(QWidget *parent = nullptr);
     ~AuthorizationWindow();
 
+signals:
+    void on_openRegisterWindowButtonClicked();
+    void on_openSettingsWindowButtonClicked();
+    void on_closeAuthorizationWindowButtonClicked();
+    void on_login(const ViewDataStructures::LoginData &data);
+
+public:
+    void showErrorMsg(const QString &errMsg);
+    void hideErrorMsg();
+
 private:
     void closeEvent(QCloseEvent *event);
     void initConnections();
@@ -26,16 +36,6 @@ private:
 private slots:
     void on_loginButtonClicked();
 
-signals:
-    void on_openRegisterWindowButtonClicked();
-    void on_openSettingsWindowButtonClicked();
-    void on_closeAuthorizationWindowButtonClicked();
-
-    void on_login(const ViewDataStructures::LoginData &data);
-
-public:
-    void showErrorMsg(const QString &errMsg);
-    void hideErrorMsg();
 
 private:
     Ui::AuthorizationWindow *ui;

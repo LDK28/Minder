@@ -82,7 +82,7 @@ void test_MindMap::test_drawNewBlock()
     QSignalSpy spy(&mm, &MindMap::transmitNewBlock);
 
 
-    mm.drawNewBlock(Block(999, 998, QPoint(-100, -100), "dwadaw", QFont(), QColor(), QColor(), QColor(), 0));
+    mm.drawNewBlock(ViewDataStructures::Block(999, 998, QPoint(-100, -100), "dwadaw", QFont(), QColor(), QColor(), QColor(), 0));
     QTEST_ASSERT(mm.newBlock != nullptr);
     mm.newBlock->setSelected(true);
     mm.newBlock->setSelected(false);
@@ -90,7 +90,7 @@ void test_MindMap::test_drawNewBlock()
     spy.wait(100);
     QCOMPARE(spy.count(), 1);
     QList<QVariant> arguments = spy.takeFirst();
-    Block newTestBl = qvariant_cast<Block>(arguments[0]);
+    ViewDataStructures::Block newTestBl = qvariant_cast<ViewDataStructures::Block>(arguments[0]);
 
     QCOMPARE(newTestBl.id, (unsigned long)999);
     QCOMPARE(newTestBl.parentId, (unsigned long)0);
@@ -107,7 +107,7 @@ void test_MindMap::test_drawBlock()
 {
     MindMap mm;
 
-    mm.drawBlock(Block(10, 0, QPoint(-100, -100), "dwadaw", QFont(), QColor(), QColor(), QColor(), 0));
+    mm.drawBlock(ViewDataStructures::Block(10, 0, QPoint(-100, -100), "dwadaw", QFont(), QColor(), QColor(), QColor(), 0));
     QCOMPARE(mm.blocks.at(0)->block.id, (unsigned long)10);
     QCOMPARE(mm.blocksMap[10], mm.blocks.at(0));
 }
@@ -116,7 +116,7 @@ void test_MindMap::test_deleteSelectedBlock()
 {
     MindMap mm;
 
-    mm.drawBlock(Block(10, 0, QPoint(-100, -100), "dwadaw", QFont(), QColor(), QColor(), QColor(), 0));
+    mm.drawBlock(ViewDataStructures::Block(10, 0, QPoint(-100, -100), "dwadaw", QFont(), QColor(), QColor(), QColor(), 0));
     mm.selectedBlock = mm.blocks.at(0);
     QSignalSpy spy(&mm, &MindMap::transmitDeletedBlock);
 
@@ -124,17 +124,17 @@ void test_MindMap::test_deleteSelectedBlock()
     spy.wait(100);
     QCOMPARE(spy.count(), 1);
     QList<QVariant> arguments = spy.takeFirst();
-    MindMapData data = qvariant_cast<MindMapData>(arguments[0]);
+    ViewDataStructures::MindMapData data = qvariant_cast<ViewDataStructures::MindMapData>(arguments[0]);
     QCOMPARE(data.blocks.at(0).id, (unsigned long)10);
 }
 
 void test_MindMap::test_updateMindMap()
 {
     MindMap mm;
-    MindMapData data;
+    ViewDataStructures::MindMapData data;
     for(int i = 0; i < 2; ++i)
     {
-        Block b;
+        ViewDataStructures::Block b;
         b.id = i+1;
         b.parentId = i;
         b.text = QString::number(i + 1);

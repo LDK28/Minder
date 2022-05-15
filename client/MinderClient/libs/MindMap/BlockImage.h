@@ -20,9 +20,6 @@ class BlockImage: public QGraphicsTextItem
 public:
     explicit BlockImage(const ViewDataStructures::Block &b);
 
-    enum { Type = UserType + 1 };
-
-    int type() const override { return Type; }
     void addArrow(Arrow *arrow) { this->arrows.append(arrow);}
     void deleteArrow(Arrow *arrow) { Q_UNUSED(arrow); }//this-> arrow = nullptr;};
 
@@ -30,10 +27,12 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+    int type() const override { return Type; }
 
 public:
     ViewDataStructures::Block block;
     QList<Arrow *> arrows;
+    enum { Type = UserType + 1 };
 };
 
 #endif // BLOCKIMAGE_H

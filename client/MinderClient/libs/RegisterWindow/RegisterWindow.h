@@ -28,7 +28,7 @@ public:
     void showErrorMsg(const QString &errMsg);
     void hideErrorMsg();
 
-protected:
+private:
     void closeEvent(QCloseEvent *event);
 
 private slots:

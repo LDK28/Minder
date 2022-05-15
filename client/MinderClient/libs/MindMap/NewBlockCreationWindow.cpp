@@ -22,6 +22,11 @@ NewBlockCreationWindow::NewBlockCreationWindow(QWidget *parent) :
 
 }
 
+NewBlockCreationWindow::~NewBlockCreationWindow()
+{
+    delete ui;
+}
+
 void NewBlockCreationWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event);
@@ -38,20 +43,6 @@ void NewBlockCreationWindow::initConnections()
     connect(ui->btnTextFont, &QPushButton::clicked, this, &NewBlockCreationWindow::on_changeTextFontButtonClicked);
 
     connect(ui->btnAdd, &QPushButton::clicked, this, &NewBlockCreationWindow::packBlockData);
-}
-
-void NewBlockCreationWindow::packBlockData()
-{
-    qDebug() << "New block creation: pack block";
-
-    newBlock.text = ui->plainTextEdit->toPlainText();
-
-    emit transmitNewBlock(newBlock);
-}
-
-NewBlockCreationWindow::~NewBlockCreationWindow()
-{
-    delete ui;
 }
 
 void NewBlockCreationWindow::on_changeTextColorButtonClicked()
@@ -104,4 +95,13 @@ void NewBlockCreationWindow::on_changeTextFontButtonClicked()
     {
         QMessageBox::about(this, "Error", "Invalid font");
     }
+}
+
+void NewBlockCreationWindow::packBlockData()
+{
+    qDebug() << "New block creation: pack block";
+
+    newBlock.text = ui->plainTextEdit->toPlainText();
+
+    emit transmitNewBlock(newBlock);
 }

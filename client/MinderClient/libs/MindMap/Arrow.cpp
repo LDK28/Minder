@@ -32,12 +32,6 @@ QPainterPath Arrow::shape() const
     return path;
 }
 
-void Arrow::updatePosition()
-{
-    QLineF line(mapFromItem(parentBlock, parentBlock->boundingRect().width() / 2, parentBlock->boundingRect().height() / 2), mapFromItem(childBlock, childBlock->boundingRect().width() / 2, childBlock->boundingRect().height() / 2));
-    setLine(line);
-}
-
 void Arrow::paint(QPainter *painter, const QStyleOptionGraphicsItem *,
                   QWidget *)
 {
@@ -95,4 +89,10 @@ void Arrow::changeChildBlock(BlockImage * newChildBlock)
 {
     childBlock = newChildBlock;
     updatePosition();
+}
+
+void Arrow::updatePosition()
+{
+    QLineF line(mapFromItem(parentBlock, parentBlock->boundingRect().width() / 2, parentBlock->boundingRect().height() / 2), mapFromItem(childBlock, childBlock->boundingRect().width() / 2, childBlock->boundingRect().height() / 2));
+    setLine(line);
 }

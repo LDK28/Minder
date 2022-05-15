@@ -10,6 +10,7 @@ MindMap::MindMap(QWidget *parent) :
     newBlock(nullptr)
 {
     qDebug() <<"Mind map ctor";
+
     /////////UI///////
     ui->setupUi(this);
 
@@ -21,14 +22,14 @@ MindMap::MindMap(QWidget *parent) :
     initConnections();
 }
 
-void MindMap::initConnections()
-{
-    connect(scene, &QGraphicsScene::selectionChanged, this, &MindMap::changeSelectedBlock);
-}
-
 MindMap::~MindMap()
 {
     delete ui;
+}
+
+void MindMap::initConnections()
+{
+    connect(scene, &QGraphicsScene::selectionChanged, this, &MindMap::changeSelectedBlock);
 }
 
 void MindMap::wheelEvent(QWheelEvent *event)
@@ -52,6 +53,27 @@ void MindMap::wheelEvent(QWheelEvent *event)
     {
         QFrame::wheelEvent(event);
     }
+}
+
+void MindMap::setScale(const double newScalePerc)
+{
+    qDebug() << "MindMap : Set scale " << newScalePerc;
+
+    factor = newScalePerc / (baseFactor * 100);
+    baseFactor *= factor;
+    ui->graphicsViewMindMap->scale(factor, factor);
+    qDebug() << factor << baseFactor;
+    emit scaleChanged(baseFactor);
+}
+
+void MindMap::changeScale(const double dscalePerc)
+{
+    qDebug() << "MindMap : Change scale " << dscalePerc;
+
+    factor = dscalePerc > 0 ? 1 + dscalePerc / 100 :  1 / (1 - dscalePerc / 100);
+    baseFactor *= factor;
+    ui->graphicsViewMindMap->scale(factor, factor);
+    emit scaleChanged(baseFactor);
 }
 
 void MindMap::updateMindMap(const ViewDataStructures::MindMapData &data)
@@ -97,59 +119,6 @@ void MindMap::drawNewBlock(const ViewDataStructures::Block &block)
     addArrow(newBlock);
 }
 
-void MindMap::addArrow(BlockImage *blockImage)
-{
-    qDebug() << "MindMap: add arrow" << blockImage->block.id << " " << blockImage->block.parentId;
-
-    if(blockImage->block.parentId > 0)
-    {
-        Arrow *newArrow = new Arrow(blocksMap[blockImage->block.parentId], blockImage);
-
-        blocksMap[blockImage->block.parentId]->arrows.append(newArrow);
-        blockImage->arrows.append(newArrow);
-
-        newArrow->updatePosition();
-        scene->addItem(newArrow);
-    }
-}
-
-void MindMap::changeSelectedBlock()
-{
-    selectedBlock = scene->selectedItems().count() ?
-                qgraphicsitem_cast<BlockImage *>(scene->selectedItems().at(0))
-              :
-                nullptr;
-
-    if(newBlock)
-    {
-        if(selectedBlock == newBlock)
-        {
-            qDebug() << "Start moving new block";
-
-            newBlock->setFlag(QGraphicsItem::ItemIsMovable, true);
-        }
-        else
-        {
-            qDebug() << "Stop moving new block";
-
-            newBlock->setFlag(QGraphicsItem::ItemIsMovable, false);
-
-            // send new block
-            newBlock->block.position = QPoint(newBlock->pos().toPoint());
-            newBlock->setFlag(QGraphicsTextItem::ItemIsSelectable, false);
-
-            emit transmitNewBlock(newBlock->block);
-            //
-
-            qDebug() << "   Selected block: " << (selectedBlock ? selectedBlock->block.id : 0);
-        }
-    }
-    else
-    {
-        qDebug() << "Selected block: " << (selectedBlock ? selectedBlock->block.id : 0);
-    }
-}
-
 void MindMap::setNewBlockId(const size_t newBlockId)
 {
     qDebug() << "MindMap: get new block id";
@@ -176,25 +145,20 @@ void MindMap::drawBlock(const ViewDataStructures::Block &block)
     addArrow(blockImage);
 }
 
-void MindMap::setScale(const double newScalePerc)
+void MindMap::addArrow(BlockImage *blockImage)
 {
-    qDebug() << "MindMap : Set scale " << newScalePerc;
+    qDebug() << "MindMap: add arrow" << blockImage->block.id << " " << blockImage->block.parentId;
 
-    factor = newScalePerc / (baseFactor * 100);
-    baseFactor *= factor;
-    ui->graphicsViewMindMap->scale(factor, factor);
-    qDebug() << factor << baseFactor;
-    emit scaleChanged(baseFactor);
-}
+    if(blockImage->block.parentId > 0)
+    {
+        Arrow *newArrow = new Arrow(blocksMap[blockImage->block.parentId], blockImage);
 
-void MindMap::changeScale(const double dscalePerc)
-{
-    qDebug() << "MindMap : Change scale " << dscalePerc;
+        blocksMap[blockImage->block.parentId]->arrows.append(newArrow);
+        blockImage->arrows.append(newArrow);
 
-    factor = dscalePerc > 0 ? 1 + dscalePerc / 100 :  1 / (1 - dscalePerc / 100);
-    baseFactor *= factor;
-    ui->graphicsViewMindMap->scale(factor, factor);
-    emit scaleChanged(baseFactor);
+        newArrow->updatePosition();
+        scene->addItem(newArrow);
+    }
 }
 
 void MindMap::blockWasDeleted(const size_t id)
@@ -284,4 +248,41 @@ ViewDataStructures::MindMapData MindMap::deleteBlock(BlockImage **targetBlock)
     (*targetBlock) = nullptr;
 
     return changedBlocks;
+}
+
+void MindMap::changeSelectedBlock()
+{
+    selectedBlock = scene->selectedItems().count() ?
+                qgraphicsitem_cast<BlockImage *>(scene->selectedItems().at(0))
+              :
+                nullptr;
+
+    if(newBlock)
+    {
+        if(selectedBlock == newBlock)
+        {
+            qDebug() << "Start moving new block";
+
+            newBlock->setFlag(QGraphicsItem::ItemIsMovable, true);
+        }
+        else
+        {
+            qDebug() << "Stop moving new block";
+
+            newBlock->setFlag(QGraphicsItem::ItemIsMovable, false);
+
+            // send new block
+            newBlock->block.position = QPoint(newBlock->pos().toPoint());
+            newBlock->setFlag(QGraphicsTextItem::ItemIsSelectable, false);
+
+            emit transmitNewBlock(newBlock->block);
+            //
+
+            qDebug() << "   Selected block: " << (selectedBlock ? selectedBlock->block.id : 0);
+        }
+    }
+    else
+    {
+        qDebug() << "Selected block: " << (selectedBlock ? selectedBlock->block.id : 0);
+    }
 }

@@ -1,7 +1,7 @@
 #ifndef MINDMAP_H
 #define MINDMAP_H
-#include <QFrame>
 
+#include <QFrame>
 #include <QWidget>
 #include <QList>
 #include <QGraphicsItem>
@@ -42,11 +42,8 @@ public slots:
     void changeScale(const double dscalePerc);
     void deleteSelectedBlock();
     void blockWasDeleted(const size_t id);
-
     // end Interface
 
-protected:
-    void wheelEvent(QWheelEvent *event) override;
 
 private:
     void addArrow(BlockImage *block);
@@ -56,9 +53,13 @@ private:
 private slots:
     void changeSelectedBlock();
 
+protected:
+    void wheelEvent(QWheelEvent *event) override;
+
 private:
     Ui::MindMap *ui;
     QGraphicsScene *scene;
+
     double factor;
     double baseFactor;
 

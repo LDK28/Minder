@@ -7,24 +7,25 @@
 class Arrow : public QGraphicsLineItem
 {
 public:
-    enum { Type = UserType + 2 };
     explicit Arrow(BlockImage *parentBlock = nullptr, BlockImage *childBlock = nullptr,
           QGraphicsItem *parent = nullptr);
-
-    int type() const override { return Type; }
-    QRectF boundingRect() const override;
-    QPainterPath shape() const override;
 
     void changeChildBlock(BlockImage * newChildBlock);
     void changeParentBlock(BlockImage * newParentBlock);
     BlockImage *getParentBlock() const { return parentBlock; }
     BlockImage *getChildBlock() const { return childBlock; }
-
     void updatePosition();
+
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                QWidget *widget = nullptr) override;
+    int type() const override { return Type; }
+    QRectF boundingRect() const override;
+    QPainterPath shape() const override;
+
+public:
+    enum { Type = UserType + 2 };
 
 private:
     BlockImage *parentBlock;

@@ -13,12 +13,9 @@ SRC_PATH = "src/"
 RESOURCES_PATH = "resources/"
 TESTS_PATH = "tests/"
 
-include($${LIB_PATH}/Arrow/Arrow.pri)
 include($${LIB_PATH}/AuthorizationWindow/AuthorizationWindow.pri)
-include($${LIB_PATH}/BlockImage/BlockImage.pri)
 include($${LIB_PATH}/LogicController/LogicController.pri)
 include($${LIB_PATH}/MindMap/MindMap.pri)
-include($${LIB_PATH}/NewBlockCreationWindow/NewBlockCreationWindow.pri)
 include($${LIB_PATH}/RegisterWindow/RegisterWindow.pri)
 include($${LIB_PATH}/ScreenController/ScreenController.pri)
 include($${LIB_PATH}/SessionConnectionWindow/SessionConnectionWindow.pri)

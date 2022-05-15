@@ -6,12 +6,18 @@ ScreenController::ScreenController(QObject *parent):
 {
     initConnections();
     authWindow.show();
-    //    sessionWindow.show();
 }
 
 ScreenController::~ScreenController()
 {
     qDebug() << "Screen controller destructor";
+
+    if(sessionWindow)
+    {
+        deinitSessionConnections();
+        delete sessionWindow;
+        sessionWindow = nullptr;
+    }
 }
 
 void ScreenController::initConnections()
@@ -20,41 +26,25 @@ void ScreenController::initConnections()
     connect(&authWindow, &AuthorizationWindow::on_closeAuthorizationWindowButtonClicked, this, &ScreenController::closeAuthorizationWindow);
     connect(&authWindow, &AuthorizationWindow::on_openRegisterWindowButtonClicked, this, &ScreenController::openRegisterWindow);
     connect(&authWindow, &AuthorizationWindow::on_openSettingsWindowButtonClicked, this, &ScreenController::openSettingsWindow);
-
     connect(&authWindow, &AuthorizationWindow::on_login, this, &ScreenController::transmitLoginData);
-
-    // to auth window
 
     // from register window
     connect(&regWindow, &RegisterWindow::on_closeRegisterWindowButtonClicked, this, &ScreenController::closeRegisterWindow);
     connect(&regWindow, &RegisterWindow::on_openLoginWindowButtonCLicked, this, &ScreenController::openLoginWindow);
-
     connect(&regWindow, &RegisterWindow::on_register, this, &ScreenController::transmitRegisterData);
-
-    // to register window
-
 
     // from settings window
     connect(&settingsWindow, &SettingsWindow::on_closeSettingsWindowButtonClicked, this, &ScreenController::closeSettingsWindow);
-
     connect(&settingsWindow, &SettingsWindow::on_saveSettings, this, &ScreenController::transmitSettings);
 
-    // to settings window
-
     // from session creation window
-
     connect(&sessionCreationWindow, &SessionCreationWindow::on_closeSessionCreationWindowButtonClicked, this, &ScreenController::closeSessionCreationWindow);
     connect(&sessionCreationWindow, &SessionCreationWindow::on_openSessionConnectionWindowButtonClicked, this, &ScreenController::openSessionConnectionWindow);
-
     connect(&sessionCreationWindow, &SessionCreationWindow::on_createNewSession, this, &ScreenController::transmitCreationNewSession);
 
-    // to session creation window
-
     // from session connection window
-
     connect(&sessionConnectionWindow, &SessionConnectionWindow::on_closeSessionConnectionWindowButtonClicked, this, &ScreenController::closeSessionConnectionWindow);
     connect(&sessionConnectionWindow, &SessionConnectionWindow::on_openNewSessionCreationWindowButtonClicked, this, &ScreenController::openSessionCreationWindow);
-
     connect(&sessionConnectionWindow, &SessionConnectionWindow::on_connectToSession, this, &ScreenController::transmitConnectionToSession);
 }
 
@@ -77,16 +67,7 @@ void ScreenController::deinitSessionConnections()
     disconnect(sessionWindow, &SessionWindow::getMindMapData, this, &ScreenController::getMindMapInSessionData);
 }
 
-// Screen controller
-
-void ScreenController::receiveUsersListInSession(const ViewDataStructures::UsersInSessionData &data)
-{
-    qDebug() << "Screen controller: receieved users list for SessionWidnow";
-    assert(sessionWindow);
-    sessionWindow->updateUsersList(data);
-}
-
-// from auth window
+///////////////////auth window////////////////////////////
 
 void ScreenController::closeAuthorizationWindow()
 {
@@ -111,7 +92,22 @@ void ScreenController::openSettingsWindow()
     settingsWindow.show();
 }
 
-// from register window
+void ScreenController::validationLoginDataSuccess()
+{
+    qDebug() << "Screen controller: login success";
+
+    authWindow.close();
+    sessionConnectionWindow.show();
+}
+
+void ScreenController::validationLoginDataFailure(const QString &errMsg)
+{
+    qDebug() << "Screen controller: login fail";
+
+    authWindow.showErrorMsg(errMsg);
+}
+
+//////////////// register window///////////////////////////////
 
 void ScreenController::closeRegisterWindow()
 {
@@ -128,7 +124,22 @@ void ScreenController::openLoginWindow()
     authWindow.show();
 }
 
-// from settings window
+void ScreenController::validationRegisterDataSuccess()
+{
+    qDebug() << "Screen controller: register  success";
+
+    regWindow.close();
+    authWindow.show();
+}
+
+void ScreenController::validationRegisterDataFailure(const QString &errMsg)
+{
+    qDebug() << "Screen controller: register fail";
+
+    regWindow.showErrorMsg(errMsg);
+}
+
+//////////////////////////// settings window //////////////////////////////////////////////////
 
 void ScreenController::closeSettingsWindow()
 {
@@ -138,7 +149,23 @@ void ScreenController::closeSettingsWindow()
     authWindow.show();
 }
 
-// from session creation window
+
+void ScreenController::savingSettingsSuccess()
+{
+    qDebug() << "Screen controller: saving settings success";
+
+    settingsWindow.close();
+    authWindow.show();
+}
+
+void ScreenController::savingSettingsFailure(const QString &errMsg)
+{
+    qDebug() << "Screen controller: saving settings fail";
+
+    settingsWindow.showErrorMsg(errMsg);
+}
+
+//////////////////////////////// session creation window ////////////////////////////////////////
 
 void ScreenController::closeSessionCreationWindow()
 {
@@ -155,7 +182,26 @@ void ScreenController::openSessionConnectionWindow()
     sessionConnectionWindow.show();
 }
 
-// from session connection window
+void ScreenController::creationNewSessionSuccess(const ViewDataStructures::SessionData &data)
+{
+    qDebug() << "Screen controller: creation new session success";
+
+    sessionCreationWindow.close();
+
+    sessionWindow = new SessionWindow(data);
+    initSessionConnections();
+
+    sessionWindow->show();
+}
+
+void ScreenController::creationNewSessionFailure(const QString &errMsg)
+{
+    qDebug() << "Screen controller: creation session fail";
+
+    sessionCreationWindow.showErrorMsg(errMsg);
+}
+
+///////////////////////////////////// session connection window////////////////////////////////////////////////
 
 void ScreenController::closeSessionConnectionWindow()
 {
@@ -172,47 +218,6 @@ void ScreenController::openSessionCreationWindow()
     sessionCreationWindow.show();
 }
 
-// from session connection window
-
-void ScreenController::closeSessionWindow()
-{
-    qDebug() << "Screen controller: accepted close event from SessionWindow";
-
-//    deinitSessionConnections();
-    delete sessionWindow;
-    sessionWindow = nullptr;
-
-    sessionConnectionWindow.show();
-}
-
-
-
-// from logic controller
-
-void ScreenController::validationLoginDataSuccess()
-{
-    qDebug() << "Screen controller: login success";
-
-    authWindow.close();
-    sessionConnectionWindow.show();
-}
-
-void ScreenController::validationRegisterDataSuccess()
-{
-    qDebug() << "Screen controller: register  success";
-
-    regWindow.close();
-    authWindow.show();
-}
-
-void ScreenController::savingSettingsSuccess()
-{
-    qDebug() << "Screen controller: saving settings success";
-
-    settingsWindow.close();
-    authWindow.show();
-}
-
 void ScreenController::connectionToSessionSuccess(const ViewDataStructures::SessionData &data)
 {
     qDebug() << "Screen controller: connection to existing session success";
@@ -225,24 +230,31 @@ void ScreenController::connectionToSessionSuccess(const ViewDataStructures::Sess
     sessionWindow->show();
 }
 
-void ScreenController::creationNewSessionSuccess(const ViewDataStructures::SessionData &data)
+void ScreenController::connectionToSessionFailure(const QString &errMsg)
 {
-    qDebug() << "Screen controller: creation new session success";
+    qDebug() << "Screen controller: connection to session fail";
 
-    sessionCreationWindow.close();
-
-    sessionWindow = new SessionWindow(data);
-    initSessionConnections();
-
-    sessionWindow->show();
+    sessionConnectionWindow.showErrorMsg(errMsg);
 }
 
-void ScreenController::receiveNewBlockId(const long newBlockId)
-{
-    qDebug() << "Screen controller: receiver new block id " << newBlockId;
+/////////////////////////////////////////// session window///////////////////////////////////////////
 
-    assert(sessionWindow != nullptr);
-    sessionWindow->setNewBlockId(newBlockId);
+void ScreenController::closeSessionWindow()
+{
+    qDebug() << "Screen controller: accepted close event from SessionWindow";
+
+    deinitSessionConnections();
+    delete sessionWindow;
+    sessionWindow = nullptr;
+
+    sessionConnectionWindow.show();
+}
+
+void ScreenController::receiveUsersListInSession(const ViewDataStructures::UsersInSessionData &data)
+{
+    qDebug() << "Screen controller: receieved users list for SessionWidnow";
+    //
+    sessionWindow->updateUsersList(data);
 }
 
 void ScreenController::receiveMindMapDataInSession(const ViewDataStructures::MindMapData &data)
@@ -253,6 +265,14 @@ void ScreenController::receiveMindMapDataInSession(const ViewDataStructures::Min
     sessionWindow->updateMindMap(data);
 }
 
+void ScreenController::receiveNewBlockId(const long newBlockId)
+{
+    qDebug() << "Screen controller: receiver new block id " << newBlockId;
+
+    assert(sessionWindow != nullptr);
+    sessionWindow->setNewBlockId(newBlockId);
+}
+
 void ScreenController::receiveBlock(const ViewDataStructures::Block& block)
 {
     qDebug() << "Screen controller: receive block";
@@ -261,45 +281,9 @@ void ScreenController::receiveBlock(const ViewDataStructures::Block& block)
     sessionWindow->setBlock(block);
 }
 
-
 void ScreenController::receiveDeltedBlockId(const size_t id)
 {
     qDebug() << "Screen controller: receive deleted block from another user";
 
     sessionWindow->deleteBlock(id);
-}
-
-void ScreenController::validationLoginDataFailure(const QString &errMsg)
-{
-    qDebug() << "Screen controller: login fail";
-
-    authWindow.showErrorMsg(errMsg);
-}
-
-void ScreenController::validationRegisterDataFailure(const QString &errMsg)
-{
-    qDebug() << "Screen controller: register fail";
-
-    regWindow.showErrorMsg(errMsg);
-}
-
-void ScreenController::savingSettingsFailure(const QString &errMsg)
-{
-    qDebug() << "Screen controller: saving settings fail";
-
-    settingsWindow.showErrorMsg(errMsg);
-}
-
-void ScreenController::connectionToSessionFailure(const QString &errMsg)
-{
-    qDebug() << "Screen controller: connection to session fail";
-
-    sessionConnectionWindow.showErrorMsg(errMsg);
-}
-
-void ScreenController::creationNewSessionFailure(const QString &errMsg)
-{
-    qDebug() << "Screen controller: creation session fail";
-
-    sessionCreationWindow.showErrorMsg(errMsg);
 }

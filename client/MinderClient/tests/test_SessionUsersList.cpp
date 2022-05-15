@@ -23,8 +23,8 @@ void test_SessionUsersList::test_updateUsersList()
 {
 
     SessionUsersList sul;
-    UsersInSessionData data;
-    data.users.append(User("1"));
+    ViewDataStructures::UsersInSessionData data;
+    data.users.append(ViewDataStructures::User("1"));
     sul.updateUsersList(data);
     QCOMPARE(1,1);
 }
