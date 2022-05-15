@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 6.0.2, 2022-04-30T01:55:41. -->
+<!-- Written by QtCreator 6.0.2, 2022-05-15T23:24:04. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -67,7 +67,20 @@
     <value type="bool" key="AutoTest.Framework.QtQuickTest">true</value>
     <value type="bool" key="AutoTest.Framework.QtTest">true</value>
    </valuemap>
-   <valuemap type="QVariantMap" key="AutoTest.CheckStates"/>
+   <valuemap type="QVariantMap" key="AutoTest.CheckStates">
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_MindMap.cpp:test_MindMap">Unchecked</value>
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_MindMap.cpp:test_changeScale">Unchecked</value>
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_MindMap.cpp:test_deleteSelectedBlock">Unchecked</value>
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_MindMap.cpp:test_drawBlock">Unchecked</value>
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_MindMap.cpp:test_drawNewBlock">Unchecked</value>
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_MindMap.cpp:test_setScale">Unchecked</value>
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_MindMap.cpp:test_updateMindMap">Unchecked</value>
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_ScreenController.cpp:test_Login">Unchecked</value>
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_ScreenController.cpp:test_ScreenController">Unchecked</value>
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_SessionUsersList.cpp:test_SessionUsersList">Unchecked</value>
+    <value type="Qt::CheckState" key="1@/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/test_SessionUsersList.cpp:test_updateUsersList">Unchecked</value>
+    <value type="Qt::CheckState" key="1@:Qt Test">Unchecked</value>
+   </valuemap>
    <value type="int" key="AutoTest.RunAfterBuild">0</value>
    <value type="bool" key="AutoTest.UseGlobal">true</value>
    <valuelist type="QVariantList" key="ClangCodeModel.CustomCommandLineKey"/>
@@ -156,12 +169,14 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/tests.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/gg/Desktop/MinderClient/Minder/client/MinderClient/tests/tests.pro</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
+    <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">/tmp/Minder/Client/tests/build-tests-Desktop_Qt_6_2_3_GCC_64bit-Debug</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>

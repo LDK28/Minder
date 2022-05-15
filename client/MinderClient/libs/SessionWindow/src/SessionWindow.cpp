@@ -8,7 +8,7 @@ SessionWindow::SessionWindow(const ViewDataStructures::SessionData &data, QWidge
     ui->setupUi(this);
     initConnections();
 
-    ui->widgetMindMap->setScale(DEF_SCALE);
+    ui->widgetMindMap->setScale(defaultScalePercent);
     setSessionData(data);
 }
 
@@ -110,19 +110,19 @@ void SessionWindow::deleteBlockButtonClicked()
 void SessionWindow::zoomPlusButtonClicked()
 {
     qDebug() << "Session Window: zoom plus";
-    ui->widgetMindMap->changeScale(BZOOMPLUS_D);
+    ui->widgetMindMap->changeScale(btnZoomPlusDeltaScalePercent);
 }
 
 void SessionWindow::zoomMinusButtonClicked()
 {
     qDebug() << "Session Window: zoom minus";
-    ui->widgetMindMap->changeScale(BZOOMMINUS_D);
+    ui->widgetMindMap->changeScale(btnZoomMinusDeltaScalePercent);
 }
 
 void SessionWindow::zoomHomeButtonClicked()
 {
     qDebug() << "Session Window: zoom home";
-    ui->widgetMindMap->setScale(DEF_SCALE);
+    ui->widgetMindMap->setScale(defaultScalePercent);
 }
 
 void SessionWindow::setNewBlockId(const size_t newBlockId)

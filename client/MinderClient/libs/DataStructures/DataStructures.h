@@ -10,21 +10,11 @@
 #include <QDebug>
 #include <QFont>
 
-#define TYPES_ENUM(ITEM) \
-    ITEM(Node) \
-    ITEM(Comment)
-
-#define MAKE_ENUM(VAR) VAR,
-#define MAKE_STRINGS(VAR) #VAR,
-
-#define DEF_SCALE 100
-
-#define BZOOMPLUS_D 20
-#define BZOOMMINUS_D -20
-
-#define WZOOMPLUS_D 5
-#define WZOOMMINUS_D -5
-
+const int defaultScalePercent = 100;
+const int btnZoomPlusDeltaScalePercent = 20;
+const int btnZoomMinusDeltaScalePercent = -20;
+const int wheelZoomPlusDeltaScalePercent = 5;
+const int wheelZoomMinusDeltaScalePercent = -5;
 
 namespace ViewDataStructures
 {
@@ -96,11 +86,6 @@ struct UsersInSessionData
 class Block
 {
 public:
-    enum Type
-    {
-        TYPES_ENUM(MAKE_ENUM)
-    };
-
     size_t id;
     size_t parentId;
     QPoint position;

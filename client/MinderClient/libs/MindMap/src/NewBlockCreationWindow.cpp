@@ -9,17 +9,6 @@ NewBlockCreationWindow::NewBlockCreationWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     initConnections();
-
-    const QStringList typesValues
-    {
-        TYPES_ENUM(MAKE_STRINGS)
-    };
-
-    for(int i = 0; i < typesValues.count(); ++i)
-    {
-        ui->comboBoxType->addItem(typesValues[i]);
-    }
-
 }
 
 NewBlockCreationWindow::~NewBlockCreationWindow()

@@ -1,16 +1,20 @@
-INCLUDEPATH += $$PWD
+HEADERS_PATH = $$PWD/inc
+SOURCES_PATH = $$PWD/src
+FORMS_PATH = $$PWD/ui
 
-HEADERS += $$PWD/MindMap.h \
-	   $$PWD/Arrow.h \
-	   $$PWD/BlockImage.h \
-           $$PWD/NewBlockCreationWindow.h
+INCLUDEPATH += $$PWD/inc
 
-SOURCES += $$PWD/MindMap.cpp \
-	   $$PWD/Arrow.cpp \
-	   $$PWD/BlockImage.cpp \
-           $$PWD/NewBlockCreationWindow.cpp
+HEADERS += $$HEADERS_PATH/MindMap.h \
+           $$HEADERS_PATH/Arrow.h \
+           $$HEADERS_PATH/BlockImage.h \
+           $$HEADERS_PATH/NewBlockCreationWindow.h
 
-FORMS += $$PWD/MindMap.ui \
-         $$PWD/NewBlockCreationWindow.ui
+SOURCES += $$SOURCES_PATH/MindMap.cpp \
+           $$SOURCES_PATH/Arrow.cpp \
+           $$SOURCES_PATH/BlockImage.cpp \
+           $$SOURCES_PATH/NewBlockCreationWindow.cpp
+
+FORMS += $$FORMS_PATH/MindMap.ui \
+         $$FORMS_PATH/NewBlockCreationWindow.ui
 
 RESOURCES +=

@@ -40,11 +40,11 @@ void MindMap::wheelEvent(QWheelEvent *event)
     {
         if(event->angleDelta().y() < 0)
         {
-            changeScale(WZOOMMINUS_D);
+            changeScale(wheelZoomMinusDeltaScalePercent);
         }
         else
         {
-            changeScale(WZOOMPLUS_D);
+            changeScale(wheelZoomPlusDeltaScalePercent);
         }
 
         event->accept();
