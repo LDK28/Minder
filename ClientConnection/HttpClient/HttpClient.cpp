@@ -1,5 +1,6 @@
 #include "HttpClient.hpp"
 
+// private
 int InterfaceHttpClient::connectServer()
 {
     this->sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -73,7 +74,22 @@ std::string InterfaceHttpClient::sendRequest(std::string request)
     return result;
 }
 
-HttpClientData::MidnMapData InterfaceHttpClient::getMap(HttpClientData::SessionConnectionData con)
+// public
+HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &){};
+
+std::string checkConnectionToSession(const HttpClientData::SessionConnectionData &){};
+
+size_t createSession(const HttpClientData::SessionCreationData &){};
+
+void getUsers(const HttpClientData::SessionConnectionData &);
+
+void addBlock(const HttpClientData::Block &, const HttpClientData::SessionConnectionData &){};
+
+void changeBlock(const HttpClientData::Block &, const HttpClientData::SessionConnectionData &){};
+
+void deleteBlock(const size_t id, const HttpClientData::SessionConnectionData &){};
+
+HttpClientData::MidnMapData InterfaceHttpClient::getCurrentStateDesk(HttpClientData::SessionConnectionData con)
 {
     std::string id, password, request;
     id = std::to_string(con.id);
@@ -86,3 +102,5 @@ HttpClientData::MidnMapData InterfaceHttpClient::getMap(HttpClientData::SessionC
     // data.blocks = dataJson["Configuration"];
     return data;
 };
+
+void disconnect(const size_t userId, const HttpClientData::SessionConnectionData &){};
