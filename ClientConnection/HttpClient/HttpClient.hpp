@@ -62,7 +62,7 @@ private:
     int port;
     int sd; // socket descriptor
 
-    std::string sendRequest(std::string request) override;
+    std::string sendRequest(std::string &request) override;
     int connectServer();
     int sendMsg(std::string msg);
     std::string recvMsg();
@@ -71,15 +71,11 @@ public:
     InterfaceHttpClient(/* args */){};
     ~InterfaceHttpClient(){};
 
-public:
-    HttpClient() = default;
-    virtual ~HttpClient() = default;
-
     // обновление настроек подключение к серверу(локально)
     HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &) override;
 
     // проверка сессии и верификация пароля, если есть: name сесcии, если нет
-    std::string checkConnectionToSession(const HttpClientData::SessionConnectionData &) = override;
+    std::string checkConnectionToSession(const HttpClientData::SessionConnectionData &) override;
 
     // создание новой сессии: возвращаю id, иначе 0
     size_t createSession(const HttpClientData::SessionCreationData &) override;

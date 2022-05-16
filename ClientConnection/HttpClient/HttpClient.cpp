@@ -58,7 +58,7 @@ std::string InterfaceHttpClient::recvMsg()
     return msg;
 }
 
-std::string InterfaceHttpClient::sendRequest(std::string request)
+std::string InterfaceHttpClient::sendRequest(std::string &request)
 {
     this->connectServer();
 
@@ -89,7 +89,7 @@ void changeBlock(const HttpClientData::Block &, const HttpClientData::SessionCon
 
 void deleteBlock(const size_t id, const HttpClientData::SessionConnectionData &){};
 
-HttpClientData::MidnMapData InterfaceHttpClient::getCurrentStateDesk(HttpClientData::SessionConnectionData con)
+HttpClientData::MindMapData InterfaceHttpClient::getCurrentStateDesk(const HttpClientData::SessionConnectionData &con)
 {
     std::string id, password, request;
     id = std::to_string(con.id);
@@ -97,7 +97,7 @@ HttpClientData::MidnMapData InterfaceHttpClient::getCurrentStateDesk(HttpClientD
     request = "GET blocks " + id + " " + password;
     std::string serverMsg = sendRequest(request);
     json dataJson = json::parse(serverMsg);
-    HttpClientData::MidnMapData data;
+    HttpClientData::MindMapData data;
     // data.blocks = dataJson["data"].get<std::vector<HttpClientData::Block>>();
     // data.blocks = dataJson["Configuration"];
     return data;

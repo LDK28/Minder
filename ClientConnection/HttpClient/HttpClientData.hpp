@@ -49,7 +49,13 @@ public:
         std::string password;
     };
 
-    struct MidnMapData
+    struct SessionCreationData
+    {
+        size_t id;
+        std::string password;
+    };
+
+    struct MindMapData
     {
         std::vector<Block> blocks;
     };
