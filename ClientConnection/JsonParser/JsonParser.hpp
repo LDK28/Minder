@@ -3,6 +3,7 @@
 
 #include "JsonParser.hpp"
 #include "json.hpp"
+#include "HttpClientData.hpp"
 
 using json = nlohmann::json;
 
@@ -20,6 +21,8 @@ public:
 
     struct FeatureName jsonToStruct(json data);
     json structToJson(struct FeatureName data);
+    json SessionConnectionDataToJson(const HttpClientData::SessionConnectionData &scData);
+
 };
 
 #endif

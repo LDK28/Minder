@@ -58,8 +58,8 @@ public:
 class InterfaceHttpClient : HttpClient
 {
 private:
-    int ip;
-    int port;
+    std::string ip;
+    std::string port;
     int sd; // socket descriptor
 
     std::string sendRequest(std::string &request) override;

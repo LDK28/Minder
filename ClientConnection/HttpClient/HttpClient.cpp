@@ -9,10 +9,10 @@ int InterfaceHttpClient::connectServer()
 
     // struct hostent* hp = gethostbyname("minder.com");
 
-    struct sockaddr_in addr;   // Адрес сервера
-    addr.sin_family = AF_INET; // Для интернет сокетов AF_INET !
-    addr.sin_port = htons(80); // port
-    addr.sin_addr.s_addr = inet_addr("8.8.8.8");
+    struct sockaddr_in addr;           // Адрес сервера
+    addr.sin_family = AF_INET;         // Для интернет сокетов AF_INET !
+    addr.sin_port = htons(this->port); // port
+    addr.sin_addr.s_addr = inet_addr(this->ip);
     // memcpy(&addr.sin_addr, hp->h_addr, hp->h_length);
 
     int connected = connect(this->sd, (struct sockaddr *)&addr, sizeof(addr));
@@ -75,9 +75,25 @@ std::string InterfaceHttpClient::sendRequest(std::string &request)
 }
 
 // public
-HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &){};
+HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &settings)
+{
+    this->ip = settings.ip;
+    this->port = settings.port;
+    return HttpClientData::returnCode::SUCCESS;
+};
 
-std::string checkConnectionToSession(const HttpClientData::SessionConnectionData &){};
+std::string checkConnectionToSession(const HttpClientData::SessionConnectionData &scData){
+    this.connectServer();
+
+    json data = JsonParser::SessionConnectionDataToJson(scData);
+    std::string msg = data.dump();
+
+    this.sendMsg(msg);
+
+    std::string result = this.recvMsg();
+    return result;
+
+};
 
 size_t createSession(const HttpClientData::SessionCreationData &){};
 
