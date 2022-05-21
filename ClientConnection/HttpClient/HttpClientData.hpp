@@ -1,3 +1,6 @@
+#ifndef HTTP_CLIENT_DATA_HPP
+#define HTTP_CLIENT_DATA_HPP
+
 #include <iostream>
 
 struct HttpClientData
@@ -40,7 +43,7 @@ public:
     struct SettingsData
     {
         std::string ip;
-        std::string port;
+        int port;
     };
 
     struct SessionConnectionData
@@ -51,7 +54,7 @@ public:
 
     struct SessionCreationData
     {
-        size_t id;
+        std::string name;
         std::string password;
     };
 
@@ -60,3 +63,5 @@ public:
         std::vector<Block> blocks;
     };
 };
+
+#endif // HTTP_CLIENT_DATA_HPP

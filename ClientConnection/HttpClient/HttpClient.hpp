@@ -34,7 +34,7 @@ public:
     virtual size_t createSession(const HttpClientData::SessionCreationData &) = 0;
 
     // get user names *from server
-    virtual void getUsers(const HttpClientData::SessionConnectionData &) = 0;
+    virtual std::string getUsers(const HttpClientData::SessionConnectionData &) = 0;
 
     // добавление блока в сессию, узнать у Димы нужен ли пароль или только id
     virtual void addBlock(const HttpClientData::Block &, const HttpClientData::SessionConnectionData &) = 0;
@@ -59,7 +59,7 @@ class InterfaceHttpClient : HttpClient
 {
 private:
     std::string ip;
-    std::string port;
+    int port;
     int sd; // socket descriptor
 
     std::string sendRequest(std::string &request) override;
@@ -81,7 +81,7 @@ public:
     size_t createSession(const HttpClientData::SessionCreationData &) override;
 
     // get user names *from server
-    void getUsers(const HttpClientData::SessionConnectionData &) override;
+    std::string getUsers(const HttpClientData::SessionConnectionData &) override;
 
     // добавление блока в сессию, узнать у Димы нужен ли пароль или только id
     void addBlock(const HttpClientData::Block &, const HttpClientData::SessionConnectionData &) override;

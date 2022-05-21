@@ -12,7 +12,7 @@ int InterfaceHttpClient::connectServer()
     struct sockaddr_in addr;           // Адрес сервера
     addr.sin_family = AF_INET;         // Для интернет сокетов AF_INET !
     addr.sin_port = htons(this->port); // port
-    addr.sin_addr.s_addr = inet_addr(this->ip);
+    addr.sin_addr.s_addr = inet_addr(this->ip.c_str());
     // memcpy(&addr.sin_addr, hp->h_addr, hp->h_length);
 
     int connected = connect(this->sd, (struct sockaddr *)&addr, sizeof(addr));
@@ -75,48 +75,74 @@ std::string InterfaceHttpClient::sendRequest(std::string &request)
 }
 
 // public
-HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &settings)
+HttpClientData::returnCode InterfaceHttpClient::updateSettings(const HttpClientData::SettingsData &settings)
 {
     this->ip = settings.ip;
     this->port = settings.port;
     return HttpClientData::returnCode::SUCCESS;
 };
 
-std::string checkConnectionToSession(const HttpClientData::SessionConnectionData &scData){
-    this.connectServer();
-
+std::string InterfaceHttpClient::checkConnectionToSession(const HttpClientData::SessionConnectionData &scData)
+{
     json data = JsonParser::SessionConnectionDataToJson(scData);
+    data["title"] = "CHECKCONNECTIONTOSESSION";
     std::string msg = data.dump();
 
-    this.sendMsg(msg);
+    std::string response = this->sendRequest(msg);
 
-    std::string result = this.recvMsg();
-    return result;
+    return response;
+};
+
+// создание новой сессии: возвращаю id, иначе 0
+size_t InterfaceHttpClient::createSession(const HttpClientData::SessionCreationData &scData)
+{
+    json data = JsonParser::SessionCreationDataToJson(scData);
+    data["title"] = "CREATESESSION";
+    std::string request = data.dump();
+
+    std::string response = this->sendRequest(request);
+    size_t id = std::stoi(response, nullptr, 10);
+
+    return id;
+};
+
+// get user names *from server
+std::string InterfaceHttpClient::getUsers(const HttpClientData::SessionConnectionData &scData)
+{
+    json data = JsonParser::SessionConnectionDataToJson(scData);
+    data["title"] = "GETUSERS";
+    std::string request = data.dump();
+
+    std::string response = this->sendRequest(request);
+
+    return response;
+}
+
+void InterfaceHttpClient::addBlock(const HttpClientData::Block &block, const HttpClientData::SessionConnectionData &scData){};
+
+void InterfaceHttpClient::changeBlock(const HttpClientData::Block &, const HttpClientData::SessionConnectionData &){};
+
+void InterfaceHttpClient::deleteBlock(const size_t id, const HttpClientData::SessionConnectionData &scData){
+    json data = JsonParser::SessionConnectionDataToJson(scData);
+    data["title"] = "DELETEBLOCK";
+    data["id"] = id;
+    std::string request = data.dump();
+
+    this->sendRequest(request);
 
 };
 
-size_t createSession(const HttpClientData::SessionCreationData &){};
-
-void getUsers(const HttpClientData::SessionConnectionData &);
-
-void addBlock(const HttpClientData::Block &, const HttpClientData::SessionConnectionData &){};
-
-void changeBlock(const HttpClientData::Block &, const HttpClientData::SessionConnectionData &){};
-
-void deleteBlock(const size_t id, const HttpClientData::SessionConnectionData &){};
-
-HttpClientData::MindMapData InterfaceHttpClient::getCurrentStateDesk(const HttpClientData::SessionConnectionData &con)
+HttpClientData::MindMapData InterfaceHttpClient::getCurrentStateDesk(const HttpClientData::SessionConnectionData &scData)
 {
-    std::string id, password, request;
-    id = std::to_string(con.id);
-    password = con.password;
-    request = "GET blocks " + id + " " + password;
-    std::string serverMsg = sendRequest(request);
-    json dataJson = json::parse(serverMsg);
-    HttpClientData::MindMapData data;
-    // data.blocks = dataJson["data"].get<std::vector<HttpClientData::Block>>();
-    // data.blocks = dataJson["Configuration"];
-    return data;
+    json data = JsonParser::SessionConnectionDataToJson(scData);
+    data["title"] = "GETCURRENTSTATEDESK";
+    std::string request = data.dump();
+
+    std::string response = sendRequest(request);
+    json dataJson = json::parse(response);
+    HttpClientData::MindMapData mmData;
+    // mmData.blocks = dataJson.get<std::vector<HttpClientData::Block>>();
+    return mmData;
 };
 
 void disconnect(const size_t userId, const HttpClientData::SessionConnectionData &){};

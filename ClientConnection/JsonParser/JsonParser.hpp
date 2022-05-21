@@ -7,22 +7,10 @@
 
 using json = nlohmann::json;
 
-struct FeatureName
+namespace JsonParser
 {
-};
-
-class JsonParser
-{
-private:
-    /* data */
-public:
-    JsonParser(/* args */){};
-    ~JsonParser(){};
-
-    struct FeatureName jsonToStruct(json data);
-    json structToJson(struct FeatureName data);
     json SessionConnectionDataToJson(const HttpClientData::SessionConnectionData &scData);
-
+    json SessionCreationDataToJson(const HttpClientData::SessionCreationData &scData);
 };
 
 #endif

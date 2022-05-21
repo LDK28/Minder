@@ -18,7 +18,7 @@ public:
     virtual json getDataFromDB(char &request) = 0;
     virtual void sendDataToDB(json data) = 0;
 
-    virtual json router(char &request, json data) = 0;
+    virtual std::string router(std::string &request) = 0;
 };
 
 class ServerLogic : BaseLogic
@@ -26,6 +26,7 @@ class ServerLogic : BaseLogic
 private:
     void prepareData();
 
+    json ActiveUsers;
 public:
     ServerLogic(/* args */){};
     ~ServerLogic(){};
@@ -35,7 +36,7 @@ public:
     json getDataFromDB(char &request) override;
     void sendDataToDB(json) override;
 
-    json router(char &request, json) override;
+    std::string router(std::string &request) override;
 };
 
 #endif
