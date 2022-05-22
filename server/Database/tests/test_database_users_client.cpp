@@ -61,6 +61,11 @@ TEST(check_user, testBasic) {
     ASSERT_TRUE(cl.checkUser(usernames[0]));
 }
 
+TEST(validate, testBasic) {
+    DatabaseUsersClient cl = TestEnvironment::getUsersClient();
+    ASSERT_TRUE(cl.validateUser(usernames[0], userPasswords[0]));
+}
+
 TEST(check_user, testDontExist) {
     DatabaseUsersClient cl = TestEnvironment::getUsersClient();
     ASSERT_FALSE(cl.checkUser("Uliana"));
@@ -120,5 +125,4 @@ int main(int argc, char* argv[]) {
     ::testing::InitGoogleTest(&argc, argv);
     ::testing::AddGlobalTestEnvironment(new TestEnvironment);
     return RUN_ALL_TESTS();
-
 }

@@ -18,6 +18,15 @@ TEST(get_session_info, simpletest) {
               session["sessions"][0]["password"].get<std::string>());
 }
 
+
+TEST(check_connection_to_session, simpleTest) {
+    DatabaseSessionClient cl = TestEnvironment::getSessionClient();
+
+    json resp = cl.checkConnectionToSession(1, "123");
+    ASSERT_TRUE(resp[STATUS_FIELD] == SUCCESS_STATUS);
+}
+
+
 TEST(create_session, simpleCreate) {
     DatabaseSessionClient cl = TestEnvironment::getSessionClient();
 

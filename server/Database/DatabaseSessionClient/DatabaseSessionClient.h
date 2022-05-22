@@ -1,8 +1,8 @@
 #pragma once
+#include <memory>
 #include <vector>
 
 #include "DatabaseClient.h"
-#include <memory>
 
 class DatabaseSessionClient {
  private:
@@ -11,9 +11,10 @@ class DatabaseSessionClient {
  public:
     DatabaseSessionClient(std::shared_ptr<DatabaseClient> cl);
 
-    json createSession(json data) const;
-    bool checkSession(std::string name) const;
-    json updateSession(json) const;
+    json createSession(const json &data) const;
+    bool checkSession(const std::string &name) const;
+    json updateSession(const json &) const;
     json getSessionInfo(int id) const;
     json deleteSession(int id) const;
+    json checkConnectionToSession(int id, const std::string &password);
 };

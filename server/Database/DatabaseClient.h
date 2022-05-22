@@ -3,6 +3,10 @@
 
 #include "json.hpp"
 
+const std::string STATUS_FIELD = "status";
+const std::string ERROR_STATUS = "error";
+const std::string SUCCESS_STATUS = "ok";
+
 using json = nlohmann::json;
 
 class DatabaseClient {

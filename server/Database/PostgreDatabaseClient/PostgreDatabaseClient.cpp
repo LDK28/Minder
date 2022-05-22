@@ -39,7 +39,7 @@ PostgreDatabaseClient::PostgreDatabaseClient(
 }
 
 json PostgreDatabaseClient::createTable(json req) {
-    json response = {{"status", "ok"}};
+    json response = {{STATUS_FIELD, SUCCESS_STATUS}};
     std::string sql = boost::str(boost::format("CREATE TABLE %1% (") %
                                  req["name"].get<std::string>());
     for (int i = 0; i < req["columns"].size(); i++) {
@@ -57,14 +57,14 @@ json PostgreDatabaseClient::createTable(json req) {
         worker.exec(sql.c_str());
         worker.commit();
     } catch (std::exception &e) {
-        response["status"] = "error";
+        response[STATUS_FIELD] = ERROR_STATUS;
         response["msg"] = e.what();
     }
 
     return response;
 }
 json PostgreDatabaseClient::dropTable(std::string tableName) {
-    json response = {{"status", "ok"}};
+    json response = {{STATUS_FIELD, SUCCESS_STATUS}};
     try {
         std::string sql = "DROP TABLE " + tableName + ";";
         pqxx::work worker(*con);
@@ -72,14 +72,14 @@ json PostgreDatabaseClient::dropTable(std::string tableName) {
         worker.exec(sql.c_str());
         worker.commit();
     } catch (std::exception &e) {
-        response["status"] = "error";
+        response[STATUS_FIELD] = ERROR_STATUS;
         response["msg"] = e.what();
     }
 
     return response;
 }
 json PostgreDatabaseClient::update(json req) {
-    json response = {{"status", "ok"}};
+    json response = {{STATUS_FIELD, SUCCESS_STATUS}};
     std::string sql = boost::str(boost::format("UPDATE %1% ") %
                                  req["table_name"].get<std::string>());
     sql += "SET ";
@@ -101,7 +101,7 @@ json PostgreDatabaseClient::update(json req) {
         worker.exec(sql.c_str());
         worker.commit();
     } catch (std::exception &e) {
-        response["status"] = "error";
+        response[STATUS_FIELD] = ERROR_STATUS;
         response["msg"] = e.what();
     }
 
@@ -110,7 +110,7 @@ json PostgreDatabaseClient::update(json req) {
 }
 
 json PostgreDatabaseClient::insert(json req) {
-    json response = {{"status", "ok"}};
+    json response = {{STATUS_FIELD, SUCCESS_STATUS}};
     // std::cout << req.dump(2);
     std::string sql = boost::str(boost::format("INSERT INTO %1% (") %
                                  req["table_name"].get<std::string>());
@@ -157,14 +157,14 @@ json PostgreDatabaseClient::insert(json req) {
                   req["table_name"].get<std::string>() + "\'" + ", \'id\'));");
         worker.commit();
 
-        if (resp_query["status"] == "ok")
+        if (resp_query[STATUS_FIELD] == SUCCESS_STATUS)
             response["id"] = resp_query["rows"][0][0];
         else {
             response = resp_query;
         }
         // std::cout << "val" << resp.dump(4);
     } catch (std::exception &e) {
-        response["status"] = "error";
+        response[STATUS_FIELD] = ERROR_STATUS;
         response["msg"] = e.what();
     }
 
@@ -172,7 +172,7 @@ json PostgreDatabaseClient::insert(json req) {
 }
 
 json PostgreDatabaseClient::select(json req) {
-    json response = {{"status", "ok"}};
+    json response = {{STATUS_FIELD, SUCCESS_STATUS}};
     std::string sql = "SELECT ";
     for (int i = 0; i < req["SELECT"].size(); i++) {
         sql += req["SELECT"][i].get<std::string>();
@@ -215,14 +215,14 @@ json PostgreDatabaseClient::select(json req) {
         // std::cout << response.dump(4) << std::endl;
 
     } catch (std::exception &e) {
-        response["status"] = "error";
+        response[STATUS_FIELD] = ERROR_STATUS;
         response["msg"] = e.what();
     }
 
     return response;
 }
 json PostgreDatabaseClient::remove(json req) {
-    json response = {{"status", "ok"}};
+    json response = {{STATUS_FIELD, SUCCESS_STATUS}};
     std::string sql = "DELETE FROM " + req["table_name"].get<std::string>();
     if (!req["condition"].empty()) {
         sql += " WHERE " + req["condition"].get<std::string>();
@@ -235,7 +235,7 @@ json PostgreDatabaseClient::remove(json req) {
         worker.exec(sql.c_str());
         worker.commit();
     } catch (std::exception &e) {
-        response["status"] = "error";
+        response[STATUS_FIELD] = ERROR_STATUS;
         response["msg"] = e.what();
     }
 
@@ -243,7 +243,7 @@ json PostgreDatabaseClient::remove(json req) {
 }
 
 json PostgreDatabaseClient::query(std::string queryString) {
-    json response = {{"status", "ok"}};
+    json response = {{STATUS_FIELD, SUCCESS_STATUS}};
     try {
         pqxx::work worker(*con);
 
@@ -260,7 +260,7 @@ json PostgreDatabaseClient::query(std::string queryString) {
         // std::cout << response.dump(4) << std::endl;
         worker.commit();
     } catch (std::exception &e) {
-        response["status"] = "error";
+        response[STATUS_FIELD] = ERROR_STATUS;
         response["msg"] = e.what();
     }
 

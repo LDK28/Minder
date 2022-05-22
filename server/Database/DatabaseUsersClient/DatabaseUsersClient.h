@@ -13,13 +13,15 @@ class DatabaseUsersClient {
  public:
     DatabaseUsersClient() = default;
     DatabaseUsersClient(std::shared_ptr<DatabaseClient> client);
-    json createUser(json) const;
-    bool checkUser(std::string name) const;
-    json addUsersInSession(std::vector<int> userId, int sessionId) const;
+    json createUser(const json &) const;
+    bool checkUser(const std::string &name) const;
+    bool validateUser(const std::string &name,
+                      const std::string &password) const;
+    json addUsersInSession(const std::vector<int> &userId, int sessionId) const;
     json getAllUsersInfo() const;
-    json updateUser(json) const;
+    json updateUser(const json &) const;
     json getUserInfo(int id) const;
-    json getUserByName(std::string name) const;
+    json getUserByName(const std::string &name) const;
     json getUsersInSession(int sessionId) const;
     json deleteUsersById(int id) const;
 };

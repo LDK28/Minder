@@ -2,35 +2,33 @@
 
 #include <iostream>
 
-json sqlSessionResponseToJson(json sqlResponse) {
-    json response = {{"status", "ok"}};
+json sqlSessionResponseToJson(const json &sqlResponse) {
+    json response = {{STATUS_FIELD, SUCCESS_STATUS}};
     response["sessions"] = {};
     for (auto &el : sqlResponse["rows"]) {
-        json tmpSession = {{"id", el[0]},
-                           {"name", el[1]},
-                           {"password", el[2]}};
+        json tmpSession = {{"id", el[0]}, {"name", el[1]}, {"password", el[2]}};
         response["sessions"].push_back(tmpSession);
     }
 
     return response;
 }
 
-DatabaseSessionClient::DatabaseSessionClient(std::shared_ptr<DatabaseClient> cl) {
+DatabaseSessionClient::DatabaseSessionClient(
+    std::shared_ptr<DatabaseClient> cl) {
     client = cl;
 }
 
-json DatabaseSessionClient::createSession(json data) const {
-    json request = {
-        {"table_name", "sessions"},
-        {"columns", {"name", "password"}},
-        {"values", {data["name"], data["password"]}}};
+json DatabaseSessionClient::createSession(const json &data) const {
+    json request = {{"table_name", "sessions"},
+                    {"columns", {"name", "password"}},
+                    {"values", {data["name"], data["password"]}}};
 
     // std::cout << request.dump(2) << std::endl;
     json response = client->insert(request);
     return response;
 }
 
-bool DatabaseSessionClient::checkSession(std::string name) const {
+bool DatabaseSessionClient::checkSession(const std::string &name) const {
     json request = {{"FROM", {"sessions"}},
                     {"SELECT", {"COUNT(id)"}},
                     {"condition", "name=\'" + name + "\'"}};
@@ -38,11 +36,32 @@ bool DatabaseSessionClient::checkSession(std::string name) const {
     return !(resp["rows"][0][0] == "0");
 }
 
-json DatabaseSessionClient::updateSession(json sessData) const {
+json DatabaseSessionClient::checkConnectionToSession(
+    int id, const std::string &password) {
+    
+    std::string condition = "id=" + std::to_string(id) + " and ";
+    condition += "password=\'" + password + "\'";
+    json request = {{"FROM", {"sessions"}},
+                    {"SELECT", {"*"}},
+                    {"condition", condition}};
+    json resp = client->select(request);
+
+    if (resp[STATUS_FIELD] == SUCCESS_STATUS) {
+        json newResponse = sqlSessionResponseToJson(resp);
+        // std::cout << newResponse.dump(2) << std::endl;
+        return newResponse;
+    } else {
+        return resp;
+    }
+}
+
+
+json DatabaseSessionClient::updateSession(const json &sessData) const {
     json request = {{"table_name", "sessions"},
                     {"SET", {}},
                     {"condition", "id=" + sessData["id"].dump()}};
-    for (json::iterator it = sessData.begin(); it != sessData.end(); ++it) {
+    for (json::const_iterator it = sessData.begin(); it != sessData.end();
+         ++it) {
         std::string curSetValue = it.key() + "=";
         if (it->is_string()) {
             curSetValue += "\'" + it->get<std::string>() + "\'";
@@ -62,7 +81,7 @@ json DatabaseSessionClient::getSessionInfo(int id) const {
                     {"SELECT", {"*"}},
                     {"condition", "id=" + std::to_string(id)}};
     json resp = client->select(request);
-    if (resp["status"] == "ok") {
+    if (resp[STATUS_FIELD] == SUCCESS_STATUS) {
         json newResponse = sqlSessionResponseToJson(resp);
         // std::cout << newResponse.dump(2) << std::endl;
         return newResponse;

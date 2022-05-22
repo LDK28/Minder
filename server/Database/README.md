@@ -199,3 +199,143 @@ json usr = cl.getUserByName(name);
     } ]
 }
 ```
+
+
+## DatabaseSessionClient
+
+### getSessionInfo
+
+```json createSession(json data) const;```
+
+Формат запроса: 
+```cpp
+json req = {{"name", "sess_to"}, {"password", "1234"}};
+json resp = cl.createSession(req);
+```
+
+Формат ответа:
+```
+{
+  "id": "6",
+  "status": "ok"
+}
+```
+
+или ошибка
+
+### getSessionInfo
+```json getSessionInfo(int id) const;```
+
+Формат запроса: 
+```cpp
+  int id = 1;
+  json session = cl.getSessionInfo(id);
+```
+
+Формат ответа(Поле users, но user там один):
+```json
+{
+  "sessions": [
+    {
+      "id": "1",
+      "name": "sess1",
+      "password": "123"
+    }
+  ],
+  "status": "ok"
+}
+```
+
+### updateSession
+```cpp
+json updateSession(json) const;
+```
+
+Формат запроса(возможно упускать каждое из полей): 
+```cpp
+  json session = {{"id", 2}, {"name", "good_sess"}, {"password", "1234"}};
+  json resp = cl.updateSession(session);
+```
+Формат ответа:
+```json
+{
+    "status" : "ok"
+}
+```
+
+или ошибка
+
+### deleteSession
+```json deleteSession(int id) const;```
+
+Формат запроса: 
+```    
+int sessId = 1;
+json resp = cl.deleteSession(sessId);
+```
+Формат ответа:
+```
+{
+    "status" : "ok"
+}
+```
+
+или ошибка
+
+
+### TMP
+
+getBlocksInfo
+
+```json
+{
+  "blocks": [
+    {
+      "color_background": "#69a832",
+      "color_border": "#69a832",
+      "color_text": "#69a832",
+      "desk_id": 1,
+      "font": "Arial",
+      "id": 1,
+      "parent_id": 0,
+      "txt": "dima",
+      "x": 20,
+      "y": 20
+    },
+    {
+      "color_background": "#69a832",
+      "color_border": "#69a832",
+      "color_text": "#69a832",
+      "desk_id": 1,
+      "font": "Arial",
+      "id": 2,
+      "parent_id": 0,
+      "txt": "valera",
+      "x": 30,
+      "y": 30
+    }
+  ],
+  "status": "ok"
+}
+
+```
+
+checkSessionconnection
+
+Только одна вернется 
+
+```json
+{
+  "sessions": [
+    {
+      "id": "1",
+      "name": "sess1",
+      "password": "123"
+    }
+  ],
+  "status": "ok"
+}
+```
+
+addblock.simpleTest
+{"id":"6","status":"ok"}

@@ -7,8 +7,11 @@ class DatabaseDrawDeskClient {
 
  public:
     DatabaseDrawDeskClient(std::shared_ptr<DatabaseClient> cl);
-    json createDesk(json) const;
+    json createDesk(const json &) const;
     json getDeskInfo(int deskId) const;
-    json updateDesk(json) const;
+    json updateDesk(const json &) const;
     json getBlocksInfoFromDesk(int deskId) const;
+    json addBlock(int deskId, const json &block);
+    json updateBlock(const json &block);
+    json deleteBlock(int blockId);
 };
