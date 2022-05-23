@@ -162,7 +162,27 @@ json resp = cl.deleteUsersById(userId);
 или ошибка
 
 ### checkUser
-```bool checkUser(std::string name) const;```
+```cpp
+bool checkUser(std::string name) const;
+```
+
+Формат запроса: 
+```    
+json resp = cl.checkUser("username");
+```
+Формат ответа:
+```
+{
+    "status" : "ok"
+}
+```
+
+или ошибка
+
+### validateUser
+```cpp
+bool validateUser(const std::string &name,const std::string &password) const;
+```
 
 Формат запроса: 
 ```    
@@ -205,7 +225,9 @@ json usr = cl.getUserByName(name);
 
 ### getSessionInfo
 
-```json createSession(json data) const;```
+```cpp
+json createSession(json data) const;
+```
 
 Формат запроса: 
 ```cpp
@@ -222,6 +244,17 @@ json resp = cl.createSession(req);
 ```
 
 или ошибка
+
+### checkSession
+```cpp
+bool checkSession(const std::string &name) const;
+```
+Формат ответа:
+`true` - если сессия с таким именем существует
+
+`false` - иначе
+
+
 
 ### getSessionInfo
 ```json getSessionInfo(int id) const;```
@@ -245,6 +278,33 @@ json resp = cl.createSession(req);
   "status": "ok"
 }
 ```
+
+### checkConnectionToSession
+```cpp
+json checkConnectionToSession(int id, const std::string &password);
+```
+Формат запроса:
+
+```cpp
+json resp = cl.checkConnectionToSession(1, "123");
+```
+
+Формат ответа(Поле users, но user там один):
+
+```json
+{
+  "sessions": [
+    {
+      "id": "1",
+      "name": "sess1",
+      "password": "123"
+    }
+  ],
+  "status": "ok"
+```
+
+ВНИМАТЕЛЬНО. Возвращается массив sessions, сделано с возможностью расширения.
+
 
 ### updateSession
 ```cpp
@@ -283,10 +343,86 @@ json resp = cl.deleteSession(sessId);
 или ошибка
 
 
-### TMP
+## DatabaseDrawDeskClient
 
-getBlocksInfo
+### createDesk
 
+```cpp
+json createDesk(const json &) const;
+```
+
+Формат запроса: 
+```cpp
+json req = {{"session_id", 3}};
+json resp = cl.createDesk(req);
+```
+Формат ответа:
+```json
+{
+  "id": "6",
+  "status": "ok"
+}
+
+```
+
+### getDeskInfo
+
+```cpp
+json getDeskInfo(int deskId) const;
+```
+
+Формат запроса: 
+```cpp
+int id = 1;
+json desk = cl.getDeskInfo(id);
+```
+Формат ответа:
+```json
+{
+  "desks": [
+    {
+      "id": 1,
+      "session_id": 1
+    }
+  ],
+  "status": "ok"
+}
+
+```
+
+Внимательно! Возвращается массив `desks` из одного элемента
+
+### updateDesk
+
+```cpp
+json updateDesk(const json &) const;
+```
+
+Формат запроса: 
+```cpp
+json desk = {{"id", 1}, {"session_id", 3}};
+json resp = cl.updateDesk(desk);
+```
+Формат ответа:
+```json
+{
+  "status": "ok"
+}
+
+```
+
+
+### getBlocksInfoFromDesk
+
+```cpp
+json getBlocksInfoFromDesk(int deskId) const;
+```
+
+Формат запроса: 
+```cpp
+json blocksResp = cl.getBlocksInfoFromDesk(1);
+```
+Формат ответа:
 ```json
 {
   "blocks": [
@@ -320,22 +456,86 @@ getBlocksInfo
 
 ```
 
-checkSessionconnection
+Блоки находятся в массиве `blocks`
 
-Только одна вернется 
 
+
+### addBlock
+
+```cpp
+json addBlock(int deskId, const json &block);
+```
+
+Формат запроса: 
+```cpp
+json block = {
+    {"parent_id", 0},
+    {"x", 20},
+    {"y", 20},
+    {"txt", "loool"},
+    {"desk_id", 1},
+    {"color_text", "#69a832"},
+    {"color_background", "#69a832"},
+    {"color_border", "#69a832"},
+    {"font", "Arial"}
+};
+int deskId = 1;
+json resp = cl.addBlock(deskId, block);
+```
+Формат ответа:
 ```json
 {
-  "sessions": [
-    {
-      "id": "1",
-      "name": "sess1",
-      "password": "123"
-    }
-  ],
+  "id": "6",
   "status": "ok"
 }
 ```
 
-addblock.simpleTest
-{"id":"6","status":"ok"}
+### updateBlock
+
+```cpp
+json updateBlock(const json &block);
+```
+
+Формат запроса: 
+```cpp
+json block = {
+    {"id", 5},
+    {"parent_id", 0},
+    {"x", 20},
+    {"y", 20},
+    {"txt", "polinochka"},
+    {"desk_id", 1},
+    {"color_text", "#69a832"},
+    {"color_background", "#69a832"},
+    {"color_border", "#69a832"},
+    {"font", "Arial"}
+};
+
+json resp = cl.updateBlock(block);
+```
+Формат ответа:
+```json
+{
+  "status": "ok"
+}
+
+```
+
+### deleteBlock
+
+```cpp
+json deleteBlock(int blockId);;
+```
+
+Формат запроса: 
+```cpp
+int blockId = 3;
+json resp = cl.deleteBlock(blockId);
+```
+Формат ответа:
+```json
+{
+  "status": "ok"
+}
+
+```
