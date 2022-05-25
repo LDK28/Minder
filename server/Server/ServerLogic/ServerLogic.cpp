@@ -11,4 +11,16 @@ std::string ServerLogic::router(std::string &request)
     json data = json::parse(request);
     if (data["title"] == "GETUSERS")
         response = this->ActiveUsers.dump();
+    if (data["title"] == "CHECKCONNECTIONTOSESSION")
+    {
+    }
+    if (data["title"] == "CREATESESSION")
+    {
+    }
+    if (data["title"] == "DELETEBLOCK")
+    {
+    }
+    if (data["title"] == "GETCURRENTSTATEDESK")
+    {
+    }
 }

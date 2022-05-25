@@ -2,6 +2,11 @@
 #define SERVER_LOGIC_HPP
 
 #include "ServerLogic.hpp"
+
+#include "DatabaseDrawDeskClient.h"
+#include "DatabaseUsersClient.h"
+#include "DatabaseSessionClient.h"
+
 #include "json.hpp"
 
 using json = nlohmann::json;
@@ -25,6 +30,10 @@ class ServerLogic : BaseLogic
 {
 private:
     void prepareData();
+    
+    DatabaseUsersClient DBUsersClient;
+    DatabaseDrawDeskClient DBDrawDeskClient;
+    DatabaseSessionClient DBSessionClient;
 
     json ActiveUsers;
 public:
