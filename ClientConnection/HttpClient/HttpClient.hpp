@@ -18,7 +18,9 @@
 class HttpClient
 {
 private:
-    virtual std::string sendRequest(std::string &) = 0;
+    virtual void sendRequest(std::string &request) = 0;
+    virtual void connectServer() = 0;
+    virtual std::string recvResponse() = 0;
 
 public:
     HttpClient(/* args */){};
@@ -62,19 +64,21 @@ private:
     int port;
     int sd; // socket descriptor
 
-    std::string sendRequest(std::string &request) override;
-    int connectServer();
-    int sendMsg(std::string msg);
-    std::string recvMsg();
+    void sendRequest(std::string &request) override;
+    void connectServer() override;
+    std::string recvResponse() override;
+    
+    std::string sendMsgWithResponse(std::string &request);
+    void sendMsgNoResponse(std::string &request);
 
 public:
-    InterfaceHttpClient(/* args */){};
+    InterfaceHttpClient(std::string _ip, int _port): ip(_ip), port(_port){};
     ~InterfaceHttpClient(){};
 
     // обновление настроек подключение к серверу(локально)
     HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &) override;
 
-    // проверка сессии и верификация пароля, если есть: name сесcии, если нет
+    // проверка сессии и верификация пароля, если есть: name сесcии, если нет emppty
     std::string checkConnectionToSession(const HttpClientData::SessionConnectionData &) override;
 
     // создание новой сессии: возвращаю id, иначе 0

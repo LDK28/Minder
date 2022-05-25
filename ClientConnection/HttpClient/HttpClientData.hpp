@@ -16,9 +16,7 @@ public:
 
     struct Color
     {
-        int r;
-        int g;
-        int b;
+        std::string hex;
     };
 
     struct Block
