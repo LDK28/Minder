@@ -12,6 +12,8 @@ LIB_PATH = "libs/"
 SRC_PATH = "src/"
 RESOURCES_PATH = "resources/"
 TESTS_PATH = "tests/"
+ICON_PATH = "resources/icons/"
+
 
 include($${LIB_PATH}/AuthorizationWindow/AuthorizationWindow.pri)
 include($${LIB_PATH}/LogicController/LogicController.pri)

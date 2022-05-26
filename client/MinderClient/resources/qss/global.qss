@@ -80,15 +80,19 @@ QLabel {
 }
 
 #labelTitle {
-    font-weight: bolder;
-    font-size: 20pt;
+    font-weight: bold;
+    color: rgb(88, 88, 88);
+    font-size: 24pt;
 }
 
 #lineHeader {
     color: red;
 }
 
-#labelSubtitle,
+#labelSubtitle {
+    font-size: 20pt;
+}
+
 #labelSubtitleBlocks,
 #labelSubtitleZoom {
     font-size: 24pt;
@@ -99,6 +103,9 @@ QLabel {
     color: teal;
     font-weight: bold;
     font-size: 20pt;
+    margin: 5px;
+    padding: 2px;
+    text-decoration: underline;
 }
 
 #layoutBlock,
@@ -114,12 +121,14 @@ QLabel {
 }
 
 #labelTitleRoom {
-    font-size: 28pt;
+    font-size: 32pt;
+    font-weight: bold;
     color: rgb(82, 161, 135);
 }
 
 #labelRoomName {
-    font-size: 28pt;
+    font-size: 32pt;
+    font-weight: bold;
     color: orange;
 }
 
@@ -157,15 +166,10 @@ QLabel {
     /* background-color: red; */
 }
 
-
 QListWidget {
     padding: 5px;
     margin: 5px;
 }
-
-/* QListWidget QScrollBar {
-    background: lightblue;
-} */
 
 QListView::item {
     font-size: 18pt;
@@ -178,4 +182,37 @@ QListView::item {
 
 QListView::item:selected {
     background-color: rgb(117, 235, 195);
+}
+
+QScrollBar {
+    background-color: rgb(117, 235, 195);
+}
+
+QScrollBar:horizontal {
+    height: 18px;
+}
+
+QScrollBar:vertical {
+    width: 18px;
+}
+
+QScrollBar::handle {
+    background-color: rgb(107, 219, 181);
+    border: 2px solid rgb(82, 161, 135);
+    border-radius: 5px;
+}
+
+QScrollBar::handle:pressed {
+    background-color: rgb(94, 185, 154);
+    border: 2px solid rgb(67, 130, 109);
+}
+
+QScrollBar::add-line {
+    border: none;
+    background: none;
+}
+
+QScrollBar::sub-line {
+    border: none;
+    background: none;
 }

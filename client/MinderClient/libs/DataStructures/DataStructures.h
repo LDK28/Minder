@@ -98,8 +98,8 @@ public:
     QColor borderColor;
     QColor backgroundColor;
 
-    explicit Block() : id(0), parentId(0), position(QPoint(0, 0)), type(0), text(), textFont(),
-        textColor(Qt::black), borderColor(Qt::red), backgroundColor(Qt::yellow) {}
+    explicit Block() : id(0), parentId(0), position(QPoint(0, 0)), type(0), text(), textFont("Hermes", 12),
+        textColor(82, 161, 135), borderColor(82, 161, 135), backgroundColor(Qt::white) {}
 
     explicit Block(size_t id_, size_t parentId_, const QPoint &pos, const QString &text_,
                    const QFont &font, const QColor &textColor_, const QColor &borderColor_, const QColor &bgColor, int type_ = 0) :

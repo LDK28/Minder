@@ -51,7 +51,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="labelText">
+      <widget class="QLabel" name="labelSubtitle">
        <property name="font">
         <font>
          <pointsize>14</pointsize>
@@ -78,9 +78,16 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
+        <widget class="QPushButton" name="btnTextFont">
+         <property name="text">
+          <string>Text Font</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="btnBorderColor">
          <property name="text">
-          <string>BorderColor</string>
+          <string>Border Color</string>
          </property>
         </widget>
        </item>
@@ -88,13 +95,6 @@
         <widget class="QPushButton" name="btnTextColor">
          <property name="text">
           <string>Text Color</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnTextFont">
-         <property name="text">
-          <string>Text Font</string>
          </property>
         </widget>
        </item>
