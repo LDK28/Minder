@@ -32,7 +32,7 @@ void SessionWindow::initConnections()
 
 SessionWindow::~SessionWindow()
 {
-     qDebug() << "Session dctor";
+    qDebug() << "Session dctor";
 
     delete ui;
 }
@@ -58,8 +58,7 @@ void SessionWindow::showEvent(QShowEvent *event)
 void SessionWindow::setSessionData(const ViewDataStructures::SessionData &data)
 {
     sessionData = data;
-    ui->labelSessionId->setText(QString::number(sessionData.id));
-    ui->labelSessionName->setText(QString::number(sessionData.id));
+    ui->labelRoomName->setText(sessionData.name + "#" + QString::number(sessionData.id));
 }
 
 void SessionWindow::updateUsersList(const ViewDataStructures::UsersInSessionData &data)

@@ -4,5 +4,17 @@
     </qresource>
     <qresource prefix="/img">
         <file>background/back1.jpg</file>
+        <file>img/minderLogo.jpg</file>
+        <file>img/zoom_minus_icon.png</file>
+        <file>img/zoom_home_icon.png</file>
+        <file>img/logo.png</file>
+        <file>img/delete_block_icon.png</file>
+        <file>img/add_block_icon.png</file>
+        <file>img/zoom_plus_icon.png</file>
+        <file>background/mindmap_back_5.png</file>
+        <file>background/mindmap_back_4.png</file>
+        <file>background/mindmap_back_3.png</file>
+        <file>background/mindmap_back_2.png</file>
+        <file>background/mindmap_back_1.png</file>
     </qresource>
 </RCC>

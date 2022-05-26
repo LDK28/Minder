@@ -40,13 +40,24 @@ void BlockImage::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void BlockImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setPen(QPen(block.borderColor, 3));
+    bool selectionFlag = option->state & (QStyle::State_Selected);
 
-    if(!isSelected())
-        painter->setBrush(block.backgroundColor);
+    QStyleOptionGraphicsItem* style = const_cast<QStyleOptionGraphicsItem*>(option);
+    style->state &= ~QStyle::State_Selected;
+
+    if (selectionFlag)
+    {
+        painter->setBrush(block.backgroundColor.darker(120));
+        painter->setPen(QPen(block.borderColor.darker(120), 4));
+        painter->drawRoundedRect(boundingRect(), 5, 5);
+    }
+
     else
-        painter->setBrush(block.backgroundColor.darker());
+    {
+        painter->setPen(QPen(block.borderColor, 4));
+        painter->setBrush(QBrush(block.backgroundColor));
+        painter->drawRoundedRect(boundingRect(), 5, 5);
+    }
 
-    painter->drawRect(boundingRect());
     QGraphicsTextItem::paint(painter, option, widget);
 }

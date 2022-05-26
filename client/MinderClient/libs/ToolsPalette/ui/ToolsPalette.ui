@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>213</width>
-    <height>597</height>
+    <width>445</width>
+    <height>610</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="labelTitle">
      <property name="font">
@@ -45,25 +45,9 @@
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Minimum</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <layout class="QVBoxLayout" name="layoutBlock">
      <item>
-      <widget class="QLabel" name="labelMenu">
+      <widget class="QLabel" name="labelSubtitleBlocks">
        <property name="font">
         <font>
          <pointsize>16</pointsize>
@@ -81,7 +65,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btnAddNewNode">
+      <widget class="QPushButton" name="btnAddNewBlock">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -110,6 +94,16 @@
        </property>
        <property name="text">
         <string>New Block</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../resources/resources.qrc">
+         <normaloff>:/img/img/add_block_icon.png</normaloff>:/img/img/add_block_icon.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -147,6 +141,16 @@
        <property name="text">
         <string>Delete Block</string>
        </property>
+       <property name="icon">
+        <iconset resource="../../../resources/resources.qrc">
+         <normaloff>:/img/img/delete_block_icon.png</normaloff>:/img/img/delete_block_icon.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
        <property name="autoDefault">
         <bool>false</bool>
        </property>
@@ -171,7 +175,17 @@
     </spacer>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="layoutZoom">
+     <item>
+      <widget class="QLabel" name="labelSubtitleZoom">
+       <property name="text">
+        <string>Zoom:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QLabel" name="labelScale">
        <property name="font">
@@ -220,6 +234,12 @@
        </property>
        <property name="text">
         <string>Zoom +</string>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -315,6 +335,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

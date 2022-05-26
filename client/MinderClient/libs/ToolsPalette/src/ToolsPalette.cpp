@@ -17,7 +17,7 @@ ToolsPalette::~ToolsPalette()
 
 void ToolsPalette::initConnections()
 {
-    connect(ui->btnAddNewNode, &QPushButton::clicked, this, &ToolsPalette::on_addNewBlockButtonClicked);
+    connect(ui->btnAddNewBlock, &QPushButton::clicked, this, &ToolsPalette::on_addNewBlockButtonClicked);
     connect(ui->btnDeleteBlock, &QPushButton::clicked, this, &ToolsPalette::on_deleteBlockButtonClicked);
     connect(ui->btnZoomPlus, &QPushButton::clicked, this, &ToolsPalette::on_zoomPlusButtonClicked);
     connect(ui->btnZoomMinus, &QPushButton::clicked, this, &ToolsPalette::on_zoomMinusButtonClicked);

@@ -10,6 +10,8 @@
 #include <QFontMetrics>
 #include <QFont>
 #include <QList>
+#include <QStyleOptionGraphicsItem>
+#include <QStyle>
 
 #include "DataStructures.h"
 
