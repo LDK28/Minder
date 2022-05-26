@@ -13,6 +13,13 @@ struct LoginData
 {
     std::string nickname;
     std::string password;
+
+    LoginData(const std::string &_nickname, const std::string &_password) :
+            nickname(_nickname), password(_password) { }
+
+    bool operator==(const LoginData& other) const {
+        return nickname == other.nickname && password == other.password;
+    }
 };
 
 struct RegisterData
@@ -20,13 +27,19 @@ struct RegisterData
     std::string nickname;
     std::string password;
     std::string repeatPassword;
+
+    RegisterData(const std::string &_nickname, const std::string &_password, const std::string &_repeatPassword) :
+        nickname(_nickname), password(_password), repeatPassword(_repeatPassword) { }
+
+    bool operator==(const RegisterData& other) const {
+        return nickname == other.nickname && password == other.password && repeatPassword == other.repeatPassword;
+    }
 };
 
 struct SessionCreationData {
     std::string name;
     std::string password;
 
-    explicit SessionCreationData() : name(), password() {}
     SessionCreationData(const std::string &name_, const std::string &password_) : name(name_), password(password_) {}
 
     bool operator==(const SessionCreationData& other) const {

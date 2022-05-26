@@ -23,6 +23,8 @@ signals:
 public slots:
     void validationLoginDataSuccess();
     void validationRegisterDataSuccess();
+    void validationLoginDataFailed();
+    void validationRegisterDataFailed();
     void savingSettingsSuccess();
     void savingSettingsFailed();
     void connectionToSessionSuccess(const ViewDataStructures::SessionData &data);

@@ -18,8 +18,8 @@ public:
     virtual void disconnect() = 0;
 
     virtual HttpClientData::UsersInSessionData getUsersInSession(std::size_t) = 0;
-    virtual void addUser(const HttpClientData::User &) = 0;
-    virtual void deleteUser(const HttpClientData::User &) = 0;
+    virtual HttpClientData::returnCode loginUser(HttpClientData::LoginData) = 0;
+    virtual HttpClientData::returnCode registerUser(HttpClientData::RegisterData) = 0;
 };
 
 #endif // HTTPCLIENT_H

@@ -8,13 +8,13 @@ const char *regIP = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
 const char *regNum = "\\d";
 
 void LogicController::connectView() {
-//    connect(screenController.get(), &ScreenController::transmitLoginData, &user, &UserLogic::loginUser);
-//    connect(&user, &UserLogic::loginUserSuccess, screenController.get(), &ScreenController::validationLoginDataSuccess);
-//    connect(&user, &UserLogic::loginUserFailed, screenController.get(), &ScreenController::validationLoginDataFailed);
+    connect(screenController.get(), &ScreenController::transmitLoginData, &user, &UserLogic::loginUser);
+    connect(&user, &UserLogic::loginUserSuccess, screenController.get(), &ScreenController::validationLoginDataSuccess);
+    connect(&user, &UserLogic::loginUserFailed, screenController.get(), &ScreenController::validationLoginDataFailed);
 
-//    connect(screenController.get(), &ScreenController::transmitRegisterData, &user, &UserLogic::registerUser);
-//    connect(&user, &UserLogic::registerUserSuccess, screenController.get(), &ScreenController::validationRegisterDataSuccess);
-//    connect(&user, &UserLogic::registerUserFailed, screenController.get(), &ScreenController::validationRegisterDataFailed);
+    connect(screenController.get(), &ScreenController::transmitRegisterData, &user, &UserLogic::registerUser);
+    connect(&user, &UserLogic::registerUserSuccess, screenController.get(), &ScreenController::validationRegisterDataSuccess);
+    connect(&user, &UserLogic::registerUserFailed, screenController.get(), &ScreenController::validationRegisterDataFailed);
 
     connect(screenController.get(), &ScreenController::transmitSettings, this, &LogicController::changeSettings);
     connect(this, &LogicController::changeSettingsSuccess, screenController.get(), &ScreenController::savingSettingsSuccess);
@@ -44,13 +44,13 @@ void LogicController::connectView() {
 }
 
 void LogicController::disconnectView() {
-//    disconnect(screenController.get(), &ScreenController::transmitLoginData, &user, &UserLogic::loginUser);
-//    disconnect(&user, &UserLogic::loginUserSuccess, screenController.get(), &ScreenController::validationLoginDataSuccess);
-//    disconnect(&user, &UserLogic::loginUserFailed, screenController.get(), &ScreenController::validationLoginDataFailed);
+    disconnect(screenController.get(), &ScreenController::transmitLoginData, &user, &UserLogic::loginUser);
+    disconnect(&user, &UserLogic::loginUserSuccess, screenController.get(), &ScreenController::validationLoginDataSuccess);
+    disconnect(&user, &UserLogic::loginUserFailed, screenController.get(), &ScreenController::validationLoginDataFailed);
 
-//    disconnect(screenController.get(), &ScreenController::transmitRegisterData, &user, &UserLogic::registerUser);
-//    disconnect(&user, &UserLogic::registerUserSuccess, screenController.get(), &ScreenController::validationRegisterDataSuccess);
-//    disconnect(&user, &UserLogic::registerUserFailed, screenController.get(), &ScreenController::validationRegisterDataFailed);
+    disconnect(screenController.get(), &ScreenController::transmitRegisterData, &user, &UserLogic::registerUser);
+    disconnect(&user, &UserLogic::registerUserSuccess, screenController.get(), &ScreenController::validationRegisterDataSuccess);
+    disconnect(&user, &UserLogic::registerUserFailed, screenController.get(), &ScreenController::validationRegisterDataFailed);
 
     disconnect(screenController.get(), &ScreenController::transmitSettings, this, &LogicController::changeSettings);
     disconnect(this, &LogicController::changeSettingsSuccess, screenController.get(), &ScreenController::savingSettingsSuccess);

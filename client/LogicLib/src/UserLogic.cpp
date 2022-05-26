@@ -1,49 +1,62 @@
 #include "UserLogic.h"
 
-//void UserLogic::registrationUser(const ViewDataStructures::User &user) {
-//    HttpClientData::RegisterData convUser = convertUser(user);
+const char *FailedLoginMsg = "Wrong password or login.";
+const char *FailedRegisterMsg = "Registration failed.";
 
-//    network->addUser(convUser);
-//}
+void UserLogic::loginUser(const ViewDataStructures::LoginData &user) {
+    HttpClientData::LoginData convUser = convertLoginUser(user);
 
-//void UserLogic::deleteUserFromSession(const ViewDataStructures::User &user) {
-//    HttpClientData::User convUser = convertUser(user);
+    auto rc = network->loginUser(convUser);
 
-//    network->deleteUser(convUser);
-//}
+    if (rc == HttpClientData::SUCCESS) {
+        emit loginUserSuccess();
+    } else {
+        emit loginUserFailed(FailedLoginMsg);
+    }
+}
 
-//void UserLogic::loginUser(const ViewDataStructures::LoginData &data) {
+void UserLogic::registerUser(const ViewDataStructures::RegisterData &user) {
+    if (user.password != user.repeatPassword) {
+        emit registerUserFailed(FailedRegisterMsg);
+    }
 
-//}
+    HttpClientData::RegisterData convUser = convertRegisterUser(user);
 
-//void UserLogic::registerUser(const ViewDataStructures::RegisterData &user) {
-//    HttpClientData::RegisterData convUser = convertUser(user);
+    auto rc = network->registerUser(convUser);
 
-//    network->addUser(convUser);
-//}
+    if (rc == HttpClientData::SUCCESS) {
+        emit loginUserSuccess();
+    } else {
+        emit loginUserFailed(FailedRegisterMsg);
+    }
+}
 
-//void UserLogic::getUsersListInSession(const size_t sessionId) {
-//    HttpClientData::UsersInSessionData users = network->getUsersInSession(sessionId);
+void UserLogic::getUsersListInSession(const size_t sessionId) {
+    HttpClientData::UsersInSessionData users = network->getUsersInSession(sessionId);
 
-//    ViewDataStructures::UsersInSessionData viewUsers = convertUsers(users);
+    ViewDataStructures::UsersInSessionData viewUsers = convertUsers(users);
 
-//    emit updateUsersListInSession(viewUsers);
-//}
+    emit updateUsersListInSession(viewUsers);
+}
 
-//HttpClientData::User UserLogic::convertLoginUser(const ViewDataStructures::LoginData &user) {
-//    return HttpClientData::LoginData(user.nickname.toStdString(), );
-//}
+HttpClientData::LoginData UserLogic::convertLoginUser(const ViewDataStructures::LoginData &user) {
+    return HttpClientData::LoginData(user.nickname.toStdString(), user.password.toStdString());
+}
 
-//ViewDataStructures::User UserLogic::reverseConvertUser(const HttpClientData::User &user) {
-//    return ViewDataStructures::User(QString::fromStdString(user.nickname));
-//}
+HttpClientData::RegisterData UserLogic::convertRegisterUser(const ViewDataStructures::RegisterData &user) {
+    return HttpClientData::RegisterData(user.nickname.toStdString(), user.password.toStdString(), user.repeatPassword.toStdString());
+}
 
-//ViewDataStructures::UsersInSessionData UserLogic::convertUsers(const HttpClientData::UsersInSessionData &usersInSession) {
-//    ViewDataStructures::UsersInSessionData convUsers;
-//    for (const auto &user: usersInSession.users) {
-//        ViewDataStructures::User viewUser = reverseConvertUser(user);
-//        convUsers.users.append(viewUser);
-//    }
-//    return convUsers;
-//}
+ViewDataStructures::User UserLogic::convertUser(const HttpClientData::User &user) {
+    return ViewDataStructures::User(QString::fromStdString(user.nickname));
+}
+
+ViewDataStructures::UsersInSessionData UserLogic::convertUsers(const HttpClientData::UsersInSessionData &usersInSession) {
+    ViewDataStructures::UsersInSessionData convUsers;
+    for (const auto &user: usersInSession.users) {
+        ViewDataStructures::User viewUser = convertUser(user);
+        convUsers.users.append(viewUser);
+    }
+    return convUsers;
+}
 
