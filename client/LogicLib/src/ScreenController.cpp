@@ -48,3 +48,7 @@ void ScreenController::receiveDeletedBlockId(size_t) {
     return;
 }
 
+void ScreenController::receiveUsersListInSession(const ViewDataStructures::UsersInSessionData &) {
+    return;
+}
+

@@ -1,39 +1,49 @@
 #include "UserLogic.h"
 
-void UserLogic::addUserToSession(const ViewDataStructures::User &user) {
-    HttpClientData::User convUser = convertUser(user);
+//void UserLogic::registrationUser(const ViewDataStructures::User &user) {
+//    HttpClientData::RegisterData convUser = convertUser(user);
 
-    network->addUser(convUser);
-}
+//    network->addUser(convUser);
+//}
 
-void UserLogic::deleteUserFromSession(const ViewDataStructures::User &user) {
-    HttpClientData::User convUser = convertUser(user);
+//void UserLogic::deleteUserFromSession(const ViewDataStructures::User &user) {
+//    HttpClientData::User convUser = convertUser(user);
 
-    network->deleteUser(convUser);
-}
+//    network->deleteUser(convUser);
+//}
 
-void UserLogic::getUsersListInSession(const size_t sessionId) {
-    HttpClientData::UsersInSessionData users = network->getUsersInSession(sessionId);
+//void UserLogic::loginUser(const ViewDataStructures::LoginData &data) {
 
-    ViewDataStructures::UsersInSessionData viewUsers = convertUsers(users);
+//}
 
-    emit updateUsersListInSession(viewUsers);
-}
+//void UserLogic::registerUser(const ViewDataStructures::RegisterData &user) {
+//    HttpClientData::RegisterData convUser = convertUser(user);
 
-HttpClientData::User UserLogic::convertUser(const ViewDataStructures::User &user) {
-    return HttpClientData::User(user.nickname.toStdString());
-}
+//    network->addUser(convUser);
+//}
 
-ViewDataStructures::User UserLogic::reverseConvertUser(const HttpClientData::User &user) {
-    return ViewDataStructures::User(QString::fromStdString(user.nickname));
-}
+//void UserLogic::getUsersListInSession(const size_t sessionId) {
+//    HttpClientData::UsersInSessionData users = network->getUsersInSession(sessionId);
 
-ViewDataStructures::UsersInSessionData UserLogic::convertUsers(const HttpClientData::UsersInSessionData &usersInSession) {
-    ViewDataStructures::UsersInSessionData convUsers;
-    for (auto it = usersInSession.users.cbegin(); it != usersInSession.users.cend(); ++it) {
-        ViewDataStructures::User user = reverseConvertUser(*it);
-        convUsers.users.append(user);
-    }
-    return convUsers;
-}
+//    ViewDataStructures::UsersInSessionData viewUsers = convertUsers(users);
+
+//    emit updateUsersListInSession(viewUsers);
+//}
+
+//HttpClientData::User UserLogic::convertLoginUser(const ViewDataStructures::LoginData &user) {
+//    return HttpClientData::LoginData(user.nickname.toStdString(), );
+//}
+
+//ViewDataStructures::User UserLogic::reverseConvertUser(const HttpClientData::User &user) {
+//    return ViewDataStructures::User(QString::fromStdString(user.nickname));
+//}
+
+//ViewDataStructures::UsersInSessionData UserLogic::convertUsers(const HttpClientData::UsersInSessionData &usersInSession) {
+//    ViewDataStructures::UsersInSessionData convUsers;
+//    for (const auto &user: usersInSession.users) {
+//        ViewDataStructures::User viewUser = reverseConvertUser(user);
+//        convUsers.users.append(viewUser);
+//    }
+//    return convUsers;
+//}
 

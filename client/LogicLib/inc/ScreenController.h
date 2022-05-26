@@ -10,14 +10,14 @@ public:
     ~ScreenController() = default;
 
 signals:
-//    void transmitLoginData(const LoginData &data);
-//    void transmitRegisterData(const RegisterData &data);
+    void transmitLoginData(const ViewDataStructures::LoginData &data);
+    void transmitRegisterData(const ViewDataStructures::RegisterData &data);
     void transmitSettings(const ViewDataStructures::SettingsData &data);
     void transmitCreationNewSession(const ViewDataStructures::SessionCreationData &data);
     void transmitConnectionToSession(const ViewDataStructures::SessionConnectionData &data);
     void sendNewBlock(const ViewDataStructures::Block &newBlock);
     void sessionClosed();
-//    void getUsersInSessionData(const size_t sessionId);
+    void getUsersInSessionData(const size_t sessionId);
     void getMindMapInSessionData(const size_t sessionId);
 
 public slots:
@@ -29,7 +29,7 @@ public slots:
     void connectionToSessionFailed();
     void creationNewSessionSuccess(const ViewDataStructures::SessionData &data);
     void creationNewSessionFailed();
-    //void receiveUsersListInSession(const UsersInSessionData &data);
+    void receiveUsersListInSession(const ViewDataStructures::UsersInSessionData &data);
     void receiveMindMapDataInSession(const ViewDataStructures::MindMapData &data);
     void receiveNewBlockId(const long newBlockId);
     void receiveBlock(const ViewDataStructures::Block& block);

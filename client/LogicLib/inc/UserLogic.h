@@ -13,13 +13,17 @@ public:
     explicit UserLogic(HttpClient *network_) : network(network_) {}
     ~UserLogic() = default;
 public slots:
-    //void deleteUser();
-    //void getUsers(Users &users);
-    //updateUsersListInSession
+    void deleteUserFromSession(const ViewDataStructures::User &user);
+    void addUserToSession(const ViewDataStructures::User &user);
+    void getUsersListInSession(const size_t sessionId);
 signals:
-    void sendUsers();
+    void updateUsersListInSession(const ViewDataStructures::UsersInSessionData &);
 private:
     HttpClient *network = nullptr;
+
+    HttpClientData::User convertUser(const ViewDataStructures::User &user);
+    ViewDataStructures::User reverseConvertUser(const HttpClientData::User &user);
+    ViewDataStructures::UsersInSessionData convertUsers(const HttpClientData::UsersInSessionData &usersInSession);
 };
 
 #endif // USER_H

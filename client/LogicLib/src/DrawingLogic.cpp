@@ -1,13 +1,11 @@
 #include "DrawingLogic.h"
 
 void DrawingLogic::sendNewBlock(const ViewDataStructures::Block &newBlock) {
-    //check position
-
     HttpClientData::Block convBlock = convertBlock(newBlock);
 
     size_t id = network->addBlock(convBlock);
 
-    emit sendNewBlockIdToSession(convBlock.id);
+    emit sendNewBlockIdToSession(id);
 }
 
 void DrawingLogic::sendDeletedBlock(const ViewDataStructures::MindMapData &changedBlocks) {
@@ -55,9 +53,9 @@ HttpClientData::Block DrawingLogic::convertBlock(const ViewDataStructures::Block
 
 ViewDataStructures::MindMapData DrawingLogic::convertMap(const HttpClientData::MindMapData &map) {
     ViewDataStructures::MindMapData convMap;
-    for (auto it = map.blocks.cbegin(); it != map.blocks.cend(); ++it) {
-        ViewDataStructures::Block block = reverseConvertBlock(*it);
-        convMap.blocks.append(block);
+    for (const auto &block: map.blocks) {
+        ViewDataStructures::Block viewBlock = reverseConvertBlock(block);
+        convMap.blocks.append(viewBlock);
     }
 
     return convMap;

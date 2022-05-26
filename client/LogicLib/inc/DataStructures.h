@@ -10,22 +10,6 @@
 #include <QDebug>
 #include <QFont>
 
-#define TYPES_ENUM(ITEM) \
-    ITEM(Node) \
-    ITEM(Comment)
-
-#define MAKE_ENUM(VAR) VAR,
-#define MAKE_STRINGS(VAR) #VAR,
-
-#define DEF_SCALE 100
-
-#define BZOOMPLUS_D 20
-#define BZOOMMINUS_D -20
-
-#define WZOOMPLUS_D 5
-#define WZOOMMINUS_D -5
-
-
 namespace ViewDataStructures
 {
 
@@ -82,27 +66,22 @@ struct SessionData
     explicit SessionData(size_t id_, const QString &name_) : id(id_), name(name_) {}
 };
 
-//struct User
-//{
-//    QString nickname;
-//    User(const QString &nickname) : nickname(nickname) {}
-//};
+struct User
+{
+    QString nickname;
+    User(const QString &nickname) : nickname(nickname) {}
+};
 
-//struct UsersInSessionData
-//{
-//    QList<User> users;
-//};
+struct UsersInSessionData
+{
+    QList<User> users;
+};
 
 class Block
 {
 public:
-    enum Type
-    {
-        TYPES_ENUM(MAKE_ENUM)
-    };
-
-    size_t id;
-    size_t parentId;
+    std::size_t id;
+    std::size_t parentId;
     QPoint position;
     int type;
 

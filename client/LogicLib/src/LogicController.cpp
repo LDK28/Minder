@@ -5,9 +5,17 @@ const char *regIP = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
                     "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
                     "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
 
-const char *regNum = "(\\d*)";
+const char *regNum = "\\d";
 
 void LogicController::connectView() {
+//    connect(screenController.get(), &ScreenController::transmitLoginData, &user, &UserLogic::loginUser);
+//    connect(&user, &UserLogic::loginUserSuccess, screenController.get(), &ScreenController::validationLoginDataSuccess);
+//    connect(&user, &UserLogic::loginUserFailed, screenController.get(), &ScreenController::validationLoginDataFailed);
+
+//    connect(screenController.get(), &ScreenController::transmitRegisterData, &user, &UserLogic::registerUser);
+//    connect(&user, &UserLogic::registerUserSuccess, screenController.get(), &ScreenController::validationRegisterDataSuccess);
+//    connect(&user, &UserLogic::registerUserFailed, screenController.get(), &ScreenController::validationRegisterDataFailed);
+
     connect(screenController.get(), &ScreenController::transmitSettings, this, &LogicController::changeSettings);
     connect(this, &LogicController::changeSettingsSuccess, screenController.get(), &ScreenController::savingSettingsSuccess);
     connect(this, &LogicController::changeSettingsFailed, screenController.get(), &ScreenController::savingSettingsFailed);
@@ -20,8 +28,8 @@ void LogicController::connectView() {
     connect(this, &LogicController::sessionConnectionSuccess, screenController.get(), &ScreenController::connectionToSessionSuccess);
     connect(this, &LogicController::sessionConnectionFailed, screenController.get(), &ScreenController::connectionToSessionFailed);
 
-    connect(screenController.get(), &ScreenController::getUsersInSessionData, this, &LogicController::getUsersListInSession);
-    connect(this, &LogicController::updateUsersListInSession, screenController.get(), &ScreenController::receiveUsersListInSession);
+    connect(screenController.get(), &ScreenController::getUsersInSessionData, &user, &UserLogic::getUsersListInSession);
+    connect(&user, &UserLogic::updateUsersListInSession, screenController.get(), &ScreenController::receiveUsersListInSession);
 
     connect(screenController.get(), &ScreenController::sendNewBlock, &drawing, &DrawingLogic::sendNewBlock);
     connect(&drawing, &DrawingLogic::sendNewBlockIdToSession, screenController.get(), &ScreenController::receiveNewBlockId);
@@ -36,6 +44,14 @@ void LogicController::connectView() {
 }
 
 void LogicController::disconnectView() {
+//    disconnect(screenController.get(), &ScreenController::transmitLoginData, &user, &UserLogic::loginUser);
+//    disconnect(&user, &UserLogic::loginUserSuccess, screenController.get(), &ScreenController::validationLoginDataSuccess);
+//    disconnect(&user, &UserLogic::loginUserFailed, screenController.get(), &ScreenController::validationLoginDataFailed);
+
+//    disconnect(screenController.get(), &ScreenController::transmitRegisterData, &user, &UserLogic::registerUser);
+//    disconnect(&user, &UserLogic::registerUserSuccess, screenController.get(), &ScreenController::validationRegisterDataSuccess);
+//    disconnect(&user, &UserLogic::registerUserFailed, screenController.get(), &ScreenController::validationRegisterDataFailed);
+
     disconnect(screenController.get(), &ScreenController::transmitSettings, this, &LogicController::changeSettings);
     disconnect(this, &LogicController::changeSettingsSuccess, screenController.get(), &ScreenController::savingSettingsSuccess);
     disconnect(this, &LogicController::changeSettingsFailed, screenController.get(), &ScreenController::savingSettingsFailed);
@@ -48,8 +64,8 @@ void LogicController::disconnectView() {
     disconnect(this, &LogicController::sessionConnectionSuccess, screenController.get(), &ScreenController::connectionToSessionSuccess);
     disconnect(this, &LogicController::sessionConnectionFailed, screenController.get(), &ScreenController::connectionToSessionFailed);
 
-//    disconnect(screenController.get(), &ScreenController::getUsersInSessionData, this, &LogicController::getUsersListInSession);
-//    disconnect(this, &LogicController::updateUsersListInSession, screenController.get(), &ScreenController::receiveUsersListInSession);
+    disconnect(screenController.get(), &ScreenController::getUsersInSessionData, &user, &UserLogic::getUsersListInSession);
+    disconnect(&user, &UserLogic::updateUsersListInSession, screenController.get(), &ScreenController::receiveUsersListInSession);
 
     disconnect(screenController.get(), &ScreenController::sendNewBlock, &drawing, &DrawingLogic::sendNewBlock);
     disconnect(&drawing, &DrawingLogic::sendNewBlockIdToSession, screenController.get(), &ScreenController::receiveNewBlockId);
@@ -64,10 +80,10 @@ void LogicController::disconnectView() {
 }
 
 void LogicController::changeSettings(const ViewDataStructures::SettingsData &settings) {
-    QRegExp rxNum(regNum);
-    QRegExp rxIp(regIP);
-    if (!rxNum.exactMatch(settings.serverPort) || !rxIp.exactMatch(settings.serverIP)) {
-        emit sessionConnectionFailed();
+    QRegularExpression rxNum(regNum);
+    QRegularExpression rxIp(regIP);
+    if (!rxNum.match(settings.serverPort).hasMatch() || !rxIp.match(settings.serverIP).hasMatch()) {
+        emit changeSettingsFailed();
         return;
     }
 
@@ -98,8 +114,8 @@ void LogicController::createNewSession(const ViewDataStructures::SessionCreation
 }
 
 void LogicController::connectToSession(const ViewDataStructures::SessionConnectionData &session) {
-    QRegExp rxNum(regNum);
-    if (!rxNum.exactMatch(session.id)) {
+    QRegularExpression rxNum(regNum);
+    if (!rxNum.match(session.id).hasMatch()) {
         emit sessionConnectionFailed();
         return;
     }
@@ -113,18 +129,6 @@ void LogicController::connectToSession(const ViewDataStructures::SessionConnecti
         emit sessionConnectionSuccess(ViewDataStructures::SessionData(session.id.toInt(), QString::fromStdString(sessionName)));
     }
 }
-
-//void LogicController::getUsersListInSession() {
-//    QList<User> ulist;
-//    srand(time(NULL));
-//    for(int i = 0; i < 1 + rand() % (10 - 1); ++i)
-//    {
-//        ulist.append(QString("Test User ") + QString::number(i + 1));
-//    }
-//    UsersInSessionData data = {ulist};
-
-//    emit updateUsersListInSession(data);
-//}
 
 void LogicController::disconnectSession() {
     network->disconnect();
