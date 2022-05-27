@@ -16,8 +16,8 @@ public:
   MOCK_METHOD(HttpClientData::MindMapData, getCurrentStateDesk, (const size_t &));
 
   MOCK_METHOD(HttpClientData::UsersInSessionData, getUsersInSession, (const size_t &));
-  MOCK_METHOD(size_t, loginUser, (const HttpClientData::LoginData &));
-  MOCK_METHOD(size_t, registerUser, (const HttpClientData::RegisterData &));
+  MOCK_METHOD(size_t, loginUser, (const HttpClientData::UserData &));
+  MOCK_METHOD(size_t, registerUser, (const HttpClientData::UserData &));
 };
 
 #endif // MOCKCLIENT_H

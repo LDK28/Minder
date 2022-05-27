@@ -17,7 +17,7 @@ TEST(UserLogic, getUsersListInSession) {
 TEST(UserLogic, loginUser) {
   MockHttpClient network;
 
-  HttpClientData::LoginData user;
+  HttpClientData::UserData user;
   EXPECT_CALL(network, loginUser(user)).Times(1);
 
   ViewDataStructures::LoginData viewUser;
@@ -28,7 +28,7 @@ TEST(UserLogic, loginUser) {
 TEST(UserLogic, registerUserSuccess) {
   MockHttpClient network;
 
-  HttpClientData::RegisterData newUser("Petya", "password", "password");
+  HttpClientData::UserData newUser("Petya", "password");
   EXPECT_CALL(network, registerUser(newUser)).Times(1);
 
   ViewDataStructures::RegisterData viewUser("Petya", "password", "password");
@@ -39,7 +39,7 @@ TEST(UserLogic, registerUserSuccess) {
 TEST(UserLogic, registerUserFailed) {
   MockHttpClient network;
 
-  HttpClientData::RegisterData newUser("Petya", "password", "qwerty");
+  HttpClientData::UserData newUser("Petya", "password");
   EXPECT_CALL(network, registerUser(newUser)).Times(0);
 
   ViewDataStructures::RegisterData viewUser("Petya", "password", "qwerty");

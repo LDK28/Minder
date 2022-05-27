@@ -9,31 +9,17 @@ typedef enum {
     SUCCESS, FAILED
 } returnCode;
 
-struct LoginData
+struct UserData
 {
     std::string nickname;
     std::string password;
 
-    explicit LoginData() = default;
-    LoginData(const std::string &_nickname, const std::string &_password) :
+    explicit UserData() = default;
+    UserData(const std::string &_nickname, const std::string &_password) :
             nickname(_nickname), password(_password) { }
 
-    bool operator==(const LoginData& other) const {
+    bool operator==(const UserData& other) const {
         return nickname == other.nickname && password == other.password;
-    }
-};
-
-struct RegisterData
-{
-    std::string nickname;
-    std::string password;
-    std::string repeatPassword;
-
-    RegisterData(const std::string &_nickname, const std::string &_password, const std::string &_repeatPassword) :
-        nickname(_nickname), password(_password), repeatPassword(_repeatPassword) { }
-
-    bool operator==(const RegisterData& other) const {
-        return nickname == other.nickname && password == other.password && repeatPassword == other.repeatPassword;
     }
 };
 

@@ -29,8 +29,8 @@ private:
 
     size_t userId = 0;
 
-    HttpClientData::LoginData convertLoginUser(const ViewDataStructures::LoginData &user);
-    HttpClientData::RegisterData convertRegisterUser(const ViewDataStructures::RegisterData &user);
+    HttpClientData::UserData convertLoginUser(const ViewDataStructures::LoginData &user);
+    HttpClientData::UserData convertRegisterUser(const ViewDataStructures::RegisterData &user);
     ViewDataStructures::User convertUser(const HttpClientData::User &user);
     ViewDataStructures::UsersInSessionData convertUsers(const HttpClientData::UsersInSessionData &usersInSession);
 };

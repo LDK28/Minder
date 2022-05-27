@@ -19,8 +19,8 @@ public:
     virtual HttpClientData::MindMapData getCurrentStateDesk(const size_t &sessionID) = 0;
 
     virtual HttpClientData::UsersInSessionData getUsersInSession(const size_t &sessionId) = 0;
-    virtual size_t loginUser(const HttpClientData::LoginData &) = 0;
-    virtual size_t registerUser(const HttpClientData::RegisterData &) = 0;
+    virtual size_t loginUser(const HttpClientData::UserData &) = 0;
+    virtual size_t registerUser(const HttpClientData::UserData &) = 0;
 };
 
 #endif // HTTPCLIENT_H

@@ -4,7 +4,7 @@ const char *LOGIN_ERROR_MSG = "Wrong password or login.";
 const char *REGISTER_ERROR_MSG = "Registration failed.";
 
 void UserLogic::loginUser(const ViewDataStructures::LoginData &user) {
-    HttpClientData::LoginData convUser = convertLoginUser(user);
+    HttpClientData::UserData convUser = convertLoginUser(user);
 
     size_t id = network->loginUser(convUser);
 
@@ -22,7 +22,7 @@ void UserLogic::registerUser(const ViewDataStructures::RegisterData &user) {
         return;
     }
 
-    HttpClientData::RegisterData convUser = convertRegisterUser(user);
+    HttpClientData::UserData convUser = convertRegisterUser(user);
 
     size_t id = network->registerUser(convUser);
 
@@ -42,12 +42,12 @@ void UserLogic::getUsersListInSession(const size_t sessionId) {
     emit updateUsersListInSession(viewUsers);
 }
 
-HttpClientData::LoginData UserLogic::convertLoginUser(const ViewDataStructures::LoginData &user) {
-    return HttpClientData::LoginData(user.nickname.toStdString(), user.password.toStdString());
+HttpClientData::UserData UserLogic::convertLoginUser(const ViewDataStructures::LoginData &user) {
+    return HttpClientData::UserData(user.nickname.toStdString(), user.password.toStdString());
 }
 
-HttpClientData::RegisterData UserLogic::convertRegisterUser(const ViewDataStructures::RegisterData &user) {
-    return HttpClientData::RegisterData(user.nickname.toStdString(), user.password.toStdString(), user.repeatPassword.toStdString());
+HttpClientData::UserData UserLogic::convertRegisterUser(const ViewDataStructures::RegisterData &user) {
+    return HttpClientData::UserData(user.nickname.toStdString(), user.password.toStdString());
 }
 
 ViewDataStructures::User UserLogic::convertUser(const HttpClientData::User &user) {
