@@ -28,12 +28,12 @@ public:
 
     //Interface
 signals:
-    void on_closeSessionWindowButtonClicked();
+    void disconnectFromSession(const size_t sessionId);
 
     void getUsersListData(const long sessionId);
 
     void getMindMapData(const long sessionId);
-    void transmitNewBlock(const ViewDataStructures::Block &newBlock);
+    void transmitNewBlock(const size_t sessionId, const ViewDataStructures::Block &newBlock);
     void transmitDeletedBlock(const ViewDataStructures::MindMapData & changedBlocks);
 
 public:
@@ -61,6 +61,8 @@ private slots:
     void closeNewBlockCreationWindow();
 
     // from mind map widget
+    void handlerDisconnect();
+    void handlerNewBlock(const ViewDataStructures::Block &block);
 
 protected:
     void showEvent(QShowEvent *event);

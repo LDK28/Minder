@@ -30,45 +30,46 @@ LogicController::LogicController(QObject *parent)
     connect(&screenController, &ScreenController::sendNewBlock, this, &LogicController::sendNewBlock);
     connect(this, &LogicController::sendNewBlockIdToSession, &screenController, &ScreenController::receiveNewBlockId);
 
-    connect(&screenController, &ScreenController::sessionClosed, this, &LogicController::userDisconnected);
+    connect(&screenController, &ScreenController::sessionClosed, this, &LogicController::disconnectSession);
 
     connect(&screenController, &ScreenController::transmitDeletedBlock, this, &LogicController::sendDeletedBlock);
 
+
 }
 
-void LogicController::validateLoginData(LoginData data)
+void LogicController::validateLoginData(ViewDataStructures::LoginData data)
 {
     qDebug() << "Logic controller: validation login data test(success): " << data.nickname << " " << data.password;
 
     emit validationLoginDataSuccess();
-//    screenController.validationLoginDataFailure("123");
+    //    screenController.validationLoginDataFailure("123");
 }
 
-void LogicController::validateRegisterData(RegisterData data)
+void LogicController::validateRegisterData(ViewDataStructures::RegisterData data)
 {
     qDebug() << "Logic controller: validation register data test(success): " << data.nickname << " " << data.password << " " << data.repeatPassword;
 
     emit validationRegisterDataSuccess();
 }
 
-void LogicController::saveSettings(SettingsData data)
+void LogicController::saveSettings(ViewDataStructures::SettingsData data)
 {
     qDebug() << "Logic controller: saving settings test(success): " << data.serverIP << " " << data.serverPort;
     emit savingSettingsSuccess();
 }
 
-void LogicController::validateSessionCreationData(SessionCreationData data)
+void LogicController::validateSessionCreationData(ViewDataStructures::SessionCreationData data)
 {
     qDebug() << "Logic controller: session creation test(success): " << data.name << " " << data.password << " " << data.repeatPassword;
-    emit sessionCreationSuccess(SessionData());
+    emit sessionCreationSuccess(ViewDataStructures::SessionData());
 }
 
-void LogicController::validateSessionConnectionData(SessionConnectionData data)
+void LogicController::validateSessionConnectionData(ViewDataStructures::SessionConnectionData data)
 {
     qDebug() << "Logic controller: session connection test(success): " << data.id << " " << data.password;
 
     srand(time(NULL));
-    SessionData sdata;
+    ViewDataStructures::SessionData sdata;
     sdata.id = rand() % 1000;
     sdata.name = QString("Room") + QString::number(sdata.id);
     emit sessionConnectionSuccess(sdata);
@@ -76,35 +77,35 @@ void LogicController::validateSessionConnectionData(SessionConnectionData data)
 
 void LogicController::requestUpdateUsersListInSession()
 {
-    QList<User> ulist;
+    QList<ViewDataStructures::User> ulist;
     srand(time(NULL));
     for(int i = 0; i < 1 + rand() % (10 - 1); ++i)
     {
         ulist.append(QString("Test User ") + QString::number(i + 1));
     }
-    UsersInSessionData data = {ulist};
+    ViewDataStructures::UsersInSessionData data = {ulist};
 
     emit updateUsersListInSession(data);
 }
 
 
-void LogicController::sendNewBlock(const Block &newBlock)
+void LogicController::sendNewBlock(const size_t sessionId, const ViewDataStructures::Block &newBlock)
 {
-//    Q_UNUSED(newBlock);
+    //    Q_UNUSED(newBlock);
 
     // test getting new block from this user
 
-    qDebug() << "Logic controller receive new block";
+    qDebug() << "Logic controller receive new block from session id " << sessionId;
 
     emit sendNewBlockIdToSession(++testBlockId);
 
     // test getting new block from another user
     qDebug() << "Another user get block";
-    Block b = newBlock;
+    ViewDataStructures::Block b = newBlock;
     b.id = ++testBlockId;
     b.position = newBlock.position - QPoint(10,10);
-//    screenController.receiveBlock(b);
-//    screenController.receiveDeltedBlockId(b.id);
+    //    screenController.receiveBlock(b);
+    //    screenController.receiveDeltedBlockId(b.id);
 }
 
 void LogicController::requestUpdateMindMapInSession(const size_t sessionId)
@@ -112,11 +113,11 @@ void LogicController::requestUpdateMindMapInSession(const size_t sessionId)
     Q_UNUSED(sessionId);
     qDebug() << "Logic controller: update mindmap data";
 
-    MindMapData data;
+    ViewDataStructures::MindMapData data;
     srand(time(NULL));
     for(int i = 0; i < 1 + rand() % (6 - 1); ++i)
     {
-        Block b;
+        ViewDataStructures::Block b;
         b.parentId = i == 0 ? 0 : testBlockId;
         b.id = ++testBlockId;
         b.position = QPoint(100 * i, 100 * i);
@@ -127,12 +128,12 @@ void LogicController::requestUpdateMindMapInSession(const size_t sessionId)
     emit updateMindMapDataInSession(data);
 }
 
-void LogicController::userDisconnected()
+void LogicController::disconnectSession(const size_t sessionId)
 {
-    qDebug() << "Logic controlled: user disconnected";
+    qDebug() << "Logic controlled: user disconnected" << sessionId;
 }
 
-void LogicController::sendDeletedBlock(const MindMapData &changedBlocks)
+void LogicController::sendDeletedBlock(const ViewDataStructures::MindMapData &changedBlocks)
 {
     qDebug() << "Logic controller: send deleted block";
     qDebug() << "Deleted block: ";

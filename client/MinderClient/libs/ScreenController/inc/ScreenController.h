@@ -46,9 +46,9 @@ signals: // to logic controller
     void transmitConnectionToSession(const ViewDataStructures::SessionConnectionData &data);
 
     // from session window
-    void sendNewBlock(const ViewDataStructures::Block &newBlock);
-    void transmitDeletedBlock(const ViewDataStructures::MindMapData & changedBlocks);
-    void sessionClosed();
+    void sendNewBlock(const size_t sessionId, const ViewDataStructures::Block &newBlock);
+    void transmitDeletedBlock(const ViewDataStructures::MindMapData & changedBlocks); // TODO
+    void sessionClosed(const size_t sessionId);
 
     // from screen controller
     void getUsersInSessionData(const size_t sessionId);
@@ -77,7 +77,6 @@ public slots: // from logic contloller
     void receiveDeltedBlockId(const size_t id);
     // end Interface
 
-
 private slots:
     // from auth window
     void openRegisterWindow();
@@ -100,7 +99,7 @@ private slots:
     void closeSessionConnectionWindow();
 
     // from session window
-    void closeSessionWindow();
+    void closeSessionWindow(const size_t sessionId);
 
 private:
     void initConnections();

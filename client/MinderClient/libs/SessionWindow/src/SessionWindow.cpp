@@ -14,7 +14,7 @@ SessionWindow::SessionWindow(const ViewDataStructures::SessionData &data, QWidge
 
 void SessionWindow::initConnections()
 {
-    connect(ui->btnQuit, &QPushButton::clicked, this, &SessionWindow::on_closeSessionWindowButtonClicked);
+    connect(ui->btnQuit, &QPushButton::clicked, this, &SessionWindow::handlerDisconnect);
 
     connect(ui->widgetToolsPalette, &ToolsPalette::on_addNewBlockButtonClicked, this, &SessionWindow::addNewBlockButtonClicked);
     connect(ui->widgetToolsPalette, &ToolsPalette::on_deleteBlockButtonClicked, ui->widgetMindMap, &MindMap::deleteSelectedBlock);
@@ -25,7 +25,7 @@ void SessionWindow::initConnections()
     connect(&newBlockWindow, &NewBlockCreationWindow::transmitNewBlock, this, &SessionWindow::getNewBlock);
     connect(&newBlockWindow, &NewBlockCreationWindow::on_closeNewBlockCreationWindowButtonClicked, this, &SessionWindow::closeNewBlockCreationWindow);
 
-    connect(ui->widgetMindMap, &MindMap::transmitNewBlock, this, &SessionWindow::transmitNewBlock);
+    connect(ui->widgetMindMap, &MindMap::transmitNewBlock, this, &SessionWindow::handlerNewBlock);
     connect(ui->widgetMindMap, &MindMap::transmitDeletedBlock, this, &SessionWindow::transmitDeletedBlock);
     connect(ui->widgetMindMap, &MindMap::scaleChanged, ui->widgetToolsPalette, &ToolsPalette::scaleChanged);
 }
@@ -43,7 +43,7 @@ void SessionWindow::closeEvent(QCloseEvent *event)
 
     Q_UNUSED(event);
     newBlockWindow.hide();
-    emit on_closeSessionWindowButtonClicked();
+    emit disconnectFromSession(sessionData.id);
 }
 
 void SessionWindow::showEvent(QShowEvent *event)
@@ -144,4 +144,14 @@ void SessionWindow::deleteBlock(const size_t id)
     qDebug() << "Session Window: another user deleted block";
 
     ui->widgetMindMap->blockWasDeleted(id);
+}
+
+void SessionWindow::handlerNewBlock(const ViewDataStructures::Block &newBlock)
+{
+    emit transmitNewBlock(sessionData.id, newBlock);
+}
+
+void SessionWindow::handlerDisconnect()
+{
+    emit disconnectFromSession(sessionData.id);
 }

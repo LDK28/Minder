@@ -50,7 +50,7 @@ void ScreenController::initConnections()
 
 void ScreenController::initSessionConnections()
 {
-    connect(sessionWindow, &SessionWindow::on_closeSessionWindowButtonClicked, this, &ScreenController::closeSessionWindow);
+    connect(sessionWindow, &SessionWindow::disconnectFromSession, this, &ScreenController::closeSessionWindow);
     connect(sessionWindow, &SessionWindow::transmitNewBlock, this, &ScreenController::sendNewBlock);
     connect(sessionWindow, &SessionWindow::transmitDeletedBlock, this, &ScreenController::transmitDeletedBlock);
     connect(sessionWindow, &SessionWindow::getUsersListData, this, &ScreenController::getUsersInSessionData);
@@ -60,7 +60,7 @@ void ScreenController::initSessionConnections()
 
 void ScreenController::deinitSessionConnections()
 {
-    disconnect(sessionWindow, &SessionWindow::on_closeSessionWindowButtonClicked, this, &ScreenController::closeSessionWindow);
+    disconnect(sessionWindow, &SessionWindow::disconnectFromSession, this, &ScreenController::closeSessionWindow);
     disconnect(sessionWindow, &SessionWindow::transmitNewBlock, this, &ScreenController::sendNewBlock);
     disconnect(sessionWindow, &SessionWindow::transmitDeletedBlock, this, &ScreenController::transmitDeletedBlock);
     disconnect(sessionWindow, &SessionWindow::getUsersListData, this, &ScreenController::getUsersInSessionData);
@@ -239,13 +239,14 @@ void ScreenController::connectionToSessionFailed(const QString &errMsg)
 
 /////////////////////////////////////////// session window///////////////////////////////////////////
 
-void ScreenController::closeSessionWindow()
+void ScreenController::closeSessionWindow(const size_t sessionId)
 {
     qDebug() << "Screen controller: accepted close event from SessionWindow";
 
     deinitSessionConnections();
     delete sessionWindow;
     sessionWindow = nullptr;
+    emit sessionClosed(sessionId);
 
     sessionConnectionWindow.show();
 }

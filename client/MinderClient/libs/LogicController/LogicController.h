@@ -9,8 +9,6 @@
 #include "ViewDataStructures.h"
 #include "ScreenController.h"
 
-using namespace ViewDataStructures;
-
 class LogicController: public QObject
 {
     Q_OBJECT
@@ -24,10 +22,10 @@ private slots:
     void validateSessionCreationData(const ViewDataStructures::SessionCreationData data);
     void validateSessionConnectionData(const ViewDataStructures::SessionConnectionData data);
     void requestUpdateUsersListInSession();
-    void sendNewBlock(const ViewDataStructures::Block &newBlock);
+    void sendNewBlock(const size_t sessionId, const ViewDataStructures::Block &newBlock);
     void sendDeletedBlock(const ViewDataStructures::MindMapData &changedBlocks);
     void requestUpdateMindMapInSession(const size_t sessionId);
-    void userDisconnected();
+    void disconnectSession(const size_t sessionId);
 
 signals:
     void validationLoginDataSuccess();
