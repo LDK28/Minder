@@ -99,8 +99,10 @@ HttpClientData::returnCode InterfaceHttpClient::updateSettings(const HttpClientD
 // проверка сессии и верификация пароля, если есть: name сесcии, если нет
 std::string InterfaceHttpClient::checkConnectionToSession(const HttpClientData::SessionConnectionData &scData)
 {
-    json data = JsonParser::SessionConnectionDataToJson(scData);
+    json data;
     data["title"] = "CHECKCONNECTIONTOSESSION";
+    data["session"] = JsonParser::SessionConnectionDataToJson(scData);
+
     std::string msg = data.dump();
 
     this->sendRequest(msg);
@@ -126,8 +128,9 @@ size_t InterfaceHttpClient::createSession(const HttpClientData::SessionCreationD
 // get user names *from server
 std::string InterfaceHttpClient::getUsers(const HttpClientData::SessionConnectionData &scData)
 {
-    json data = JsonParser::SessionConnectionDataToJson(scData);
+    json data;
     data["title"] = "GETUSERS";
+    data["session"] = JsonParser::SessionConnectionDataToJson(scData);
     std::string request = data.dump();
 
     std::string response = this->sendMsgWithResponse(request);
@@ -158,11 +161,12 @@ void InterfaceHttpClient::changeBlock(const HttpClientData::Block &block, const 
 };
 
 // удалить блок по id
-void InterfaceHttpClient::deleteBlock(const size_t blockId, const HttpClientData::SessionConnectionData &scData)
+void InterfaceHttpClient::deleteBlock(const size_t &blockId, const HttpClientData::SessionConnectionData &scData)
 {
-    json data = JsonParser::SessionConnectionDataToJson(scData);
+    json data;
     data["title"] = "DELETEBLOCK";
     data["blockId"] = blockId;
+    data["session"] = JsonParser::SessionConnectionDataToJson(scData);
     std::string request = data.dump();
 
     this->sendMsgNoResponse(request);
@@ -178,14 +182,17 @@ HttpClientData::MindMapData InterfaceHttpClient::getCurrentStateDesk(const HttpC
     std::string response = sendMsgWithResponse(request);
     json dataJson = json::parse(response);
     HttpClientData::MindMapData mmData;
+    // TODO
     // mmData.blocks = dataJson.get<std::vector<HttpClientData::Block>>();
     return mmData;
 };
 
 // удалить активного пользователя из сессии
-void InterfaceHttpClient::disconnect(const size_t userId, const HttpClientData::SessionConnectionData &scData){
-    json data = JsonParser::SessionConnectionDataToJson(scData);
-    data["title"] = "ADDBLOCK";
+void InterfaceHttpClient::disconnect(const size_t &userId, const HttpClientData::SessionConnectionData &scData){
+    json data;
+    data["title"] = "DISCONNECTUSER";
+    data["session"] = JsonParser::SessionConnectionDataToJson(scData);
+    data["id"] = userId;
     std::string request = data.dump();
 
     this->sendMsgNoResponse(request);

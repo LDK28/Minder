@@ -11,7 +11,7 @@
 
 #include "HttpClient.hpp"
 #include "JsonParser.hpp"
-#include "HttpClientData.hpp"
+#include "ClientData.h"
 
 #define BUFFER_SIZE 512
 
@@ -45,13 +45,13 @@ public:
     virtual void changeBlock(const HttpClientData::Block &, const HttpClientData::SessionConnectionData &) = 0;
 
     // удалить блок по id
-    virtual void deleteBlock(const size_t id, const HttpClientData::SessionConnectionData &) = 0;
+    virtual void deleteBlock(const size_t &, const HttpClientData::SessionConnectionData &) = 0;
 
     // получить все блоки по id сессии
     virtual HttpClientData::MindMapData getCurrentStateDesk(const HttpClientData::SessionConnectionData &) = 0;
 
     // удалить активного пользователя из сессии
-    virtual void disconnect(const size_t userId, const HttpClientData::SessionConnectionData &) = 0;
+    virtual void disconnect(const size_t &, const HttpClientData::SessionConnectionData &) = 0;
 
     virtual void updateDesk() = 0;
     virtual void updateUsers() = 0;
@@ -94,13 +94,13 @@ public:
     void changeBlock(const HttpClientData::Block &, const HttpClientData::SessionConnectionData &) override;
 
     // удалить блок по id
-    void deleteBlock(const size_t BlockId, const HttpClientData::SessionConnectionData &) override;
+    void deleteBlock(const size_t &, const HttpClientData::SessionConnectionData &) override;
 
     // получить все блоки по id сессии
-    HttpClientData::MindMapData getCurrentStateDesk(const HttpClientData::SessionConnectionData &con) override;
+    HttpClientData::MindMapData getCurrentStateDesk(const HttpClientData::SessionConnectionData &) override;
 
     // удалить активного пользователя из сессии
-    void disconnect(const size_t userId, const HttpClientData::SessionConnectionData &) override;
+    void disconnect(const size_t &, const HttpClientData::SessionConnectionData &) override;
 
     void updateDesk() override;
     void updateUsers() override;
