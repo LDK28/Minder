@@ -2,7 +2,7 @@
 #include <QTest>
 
 #include "SessionUsersList.h"
-#include "DataStructures.h"
+#include "ViewDataStructures.h"
 
 namespace Ui {
 class SessionUsersList;

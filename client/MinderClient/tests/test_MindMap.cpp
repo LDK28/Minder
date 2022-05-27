@@ -4,7 +4,7 @@
 #include <QGraphicsView>
 
 #include "MindMap.h"
-#include "DataStructures.h"
+#include "ViewDataStructures.h"
 
 
 class test_MindMap : public QObject

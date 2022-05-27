@@ -2,7 +2,7 @@
 #include <QTest>
 
 #include "ScreenController.h"
-#include "DataStructures.h"
+#include "ViewDataStructures.h"
 
 class test_ScreenController : public QObject
 {
