@@ -23,6 +23,7 @@ TEST(check_connection_to_session, simpleTest) {
     DatabaseSessionClient cl = TestEnvironment::getSessionClient();
 
     json resp = cl.checkConnectionToSession(1, "123");
+    std::cout << resp.dump(2);
     ASSERT_TRUE(resp[STATUS_FIELD] == SUCCESS_STATUS);
 }
 

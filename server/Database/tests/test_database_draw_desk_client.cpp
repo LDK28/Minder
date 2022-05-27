@@ -30,6 +30,7 @@ TEST(get_desk_info, simpletest) {
     DatabaseDrawDeskClient cl = TestEnvironment::getDesksClient();
     int id = 1;
     json desk = cl.getDeskInfo(id);
+    // std::cout << desk.dump(2) << std::endl;
     ASSERT_EQ(desk["status"], "ok");
     ASSERT_EQ(deskSessionIds[0], desk["desks"][0]["session_id"].get<int>());
 }
@@ -59,6 +60,7 @@ TEST(update_desk, lessFieldsTest) {
     DatabaseDrawDeskClient cl = TestEnvironment::getDesksClient();
     json desk = {{"id", 1}, {"session_id", 3}};
     json resp = cl.updateDesk(desk);
+    // std::cout << resp.dump(2) << std::endl;
     ASSERT_EQ(resp["status"], "ok");
 }
 
@@ -99,6 +101,7 @@ TEST(updateblock, simpleTest) {
 
     int deskId = 1;
     json resp = cl.updateBlock(block);
+    // std::cout << resp.dump(2) << std::endl;
     ASSERT_EQ(resp[STATUS_FIELD], SUCCESS_STATUS);
     json blocksResp = cl.getBlocksInfoFromDesk(block["desk_id"].get<int>());
     ASSERT_TRUE(findBlockInArr(block, blocksResp["blocks"]));
@@ -108,6 +111,7 @@ TEST(delete_block, simpleTest) {
     DatabaseDrawDeskClient cl = TestEnvironment::getDesksClient();
     int blockId = 3;
     json resp = cl.deleteBlock(blockId);
+    // std::cout << resp.dump(2) << std::endl;
     ASSERT_EQ(resp[STATUS_FIELD], SUCCESS_STATUS);
 }
 
