@@ -5,6 +5,7 @@
 #include <QDir>
 
 #include "LogicController.h"
+#include "HttpClient.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -24,7 +25,8 @@ int main(int argc, char *argv[])
         qDebug() << "Error: " << qssFile.errorString();
     }
 
-    LogicController lc;
+    HttpClient *httpClient = new HttpClient(std::string("localhost"), 7777);
+    LogicController lc(httpClient);
 
     return a.exec();
 }

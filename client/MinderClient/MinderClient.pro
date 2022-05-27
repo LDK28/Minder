@@ -16,7 +16,6 @@ ICON_PATH = "resources/icons/"
 
 
 include($${LIB_PATH}/AuthorizationWindow/AuthorizationWindow.pri)
-include($${LIB_PATH}/LogicController/LogicController.pri)
 include($${LIB_PATH}/MindMap/MindMap.pri)
 include($${LIB_PATH}/RegisterWindow/RegisterWindow.pri)
 include($${LIB_PATH}/ScreenController/ScreenController.pri)
@@ -27,6 +26,10 @@ include($${LIB_PATH}/SessionWindow/SessionWindow.pri)
 include($${LIB_PATH}/SettingsWindow/SettingsWindow.pri)
 include($${LIB_PATH}/ToolsPalette/ToolsPalette.pri)
 include($${LIB_PATH}/DataStructures/DataStructures.pri)
+
+# include($${LIB_PATH}/LogicController/LogicController.pri)
+include($${LIB_PATH}/LogicLib/LogicLib.pri)
+include($${LIB_PATH}/HttpClient/HttpClient.pri)
 
 SOURCES += \
     $${SRC_PATH}/main.cpp
