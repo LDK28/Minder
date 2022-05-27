@@ -157,11 +157,11 @@ void InterfaceHttpClient::changeBlock(const HttpClientData::Block &block, const 
 };
 
 // удалить блок по id
-void InterfaceHttpClient::deleteBlock(const size_t id, const HttpClientData::SessionConnectionData &scData)
+void InterfaceHttpClient::deleteBlock(const size_t blockId, const HttpClientData::SessionConnectionData &scData)
 {
     json data = JsonParser::SessionConnectionDataToJson(scData);
     data["title"] = "DELETEBLOCK";
-    data["id"] = id;
+    data["blockId"] = blockId;
     std::string request = data.dump();
 
     this->sendMsgNoResponse(request);
