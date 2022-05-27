@@ -13,7 +13,7 @@
 #include <QStyleOptionGraphicsItem>
 #include <QStyle>
 
-#include "DataStructures.h"
+#include "ViewDataStructures.h"
 
 class Arrow;
 

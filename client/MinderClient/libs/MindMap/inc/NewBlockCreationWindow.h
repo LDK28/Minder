@@ -6,7 +6,7 @@
 #include <QFontDialog>
 #include <QCloseEvent>
 
-#include "DataStructures.h"
+#include "ViewDataStructures.h"
 
 namespace Ui {
 class NewBlockCreationWindow;

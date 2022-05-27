@@ -10,7 +10,7 @@
 #include <QWheelEvent>
 #include <QMessageBox>
 
-#include "DataStructures.h"
+#include "ViewDataStructures.h"
 #include "NewBlockCreationWindow.h"
 #include "BlockImage.h"
 #include "Arrow.h"

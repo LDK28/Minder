@@ -1,5 +1,5 @@
-#ifndef DATASTRUCTURES_H
-#define DATASTRUCTURES_H
+#ifndef VIEWDATASTRUCTURES_H
+#define VIEWDATASTRUCTURES_H
 
 #include <QObject>
 #include <QString>
@@ -120,4 +120,4 @@ struct MindMapData
 };
 }
 
-#endif // DATASTRUCTURES_H
+#endif // VIEWDATASTRUCTURES_H

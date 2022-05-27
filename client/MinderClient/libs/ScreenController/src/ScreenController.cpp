@@ -100,7 +100,7 @@ void ScreenController::validationLoginDataSuccess()
     sessionConnectionWindow.show();
 }
 
-void ScreenController::validationLoginDataFailure(const QString &errMsg)
+void ScreenController::validationLoginDataFailed(const QString &errMsg)
 {
     qDebug() << "Screen controller: login fail";
 
@@ -132,7 +132,7 @@ void ScreenController::validationRegisterDataSuccess()
     authWindow.show();
 }
 
-void ScreenController::validationRegisterDataFailure(const QString &errMsg)
+void ScreenController::validationRegisterDataFailed(const QString &errMsg)
 {
     qDebug() << "Screen controller: register fail";
 
@@ -158,7 +158,7 @@ void ScreenController::savingSettingsSuccess()
     authWindow.show();
 }
 
-void ScreenController::savingSettingsFailure(const QString &errMsg)
+void ScreenController::savingSettingsFailed(const QString &errMsg)
 {
     qDebug() << "Screen controller: saving settings fail";
 
@@ -194,7 +194,7 @@ void ScreenController::creationNewSessionSuccess(const ViewDataStructures::Sessi
     sessionWindow->show();
 }
 
-void ScreenController::creationNewSessionFailure(const QString &errMsg)
+void ScreenController::creationNewSessionFailed(const QString &errMsg)
 {
     qDebug() << "Screen controller: creation session fail";
 
@@ -230,7 +230,7 @@ void ScreenController::connectionToSessionSuccess(const ViewDataStructures::Sess
     sessionWindow->show();
 }
 
-void ScreenController::connectionToSessionFailure(const QString &errMsg)
+void ScreenController::connectionToSessionFailed(const QString &errMsg)
 {
     qDebug() << "Screen controller: connection to session fail";
 

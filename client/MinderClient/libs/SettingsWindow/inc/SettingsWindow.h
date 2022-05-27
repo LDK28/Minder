@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QCloseEvent>
 
-#include "DataStructures.h"
+#include "ViewDataStructures.h"
 
 namespace Ui {
 class SettingsWindow;

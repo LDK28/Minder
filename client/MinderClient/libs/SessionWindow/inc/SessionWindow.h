@@ -7,7 +7,7 @@
 #include <QFontDialog>
 #include <QMessageBox>
 
-#include "DataStructures.h"
+#include "ViewDataStructures.h"
 
 #include "SessionUsersList.h"
 #include "ToolsPalette.h"

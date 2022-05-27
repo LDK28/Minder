@@ -6,7 +6,7 @@
 #include <QString>
 #include <QList>
 
-#include "DataStructures.h"
+#include "ViewDataStructures.h"
 #include "ScreenController.h"
 
 using namespace ViewDataStructures;

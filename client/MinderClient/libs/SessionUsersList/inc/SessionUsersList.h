@@ -3,7 +3,7 @@
 
 #include <QFrame>
 
-#include "DataStructures.h"
+#include "ViewDataStructures.h"
 
 namespace Ui {
 class SessionUsersList;

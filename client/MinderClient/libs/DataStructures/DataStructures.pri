@@ -1,5 +1,6 @@
 INCLUDEPATH += $$PWD
-HEADERS += $$PWD/DataStructures.h
+HEADERS += \
+    $$PWD/ViewDataStructures.h
 SOURCES +=
 FORMS +=
 RESOURCES +=
