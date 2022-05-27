@@ -16,22 +16,11 @@ std::string ServerLogic::router(std::string &request)
     }
     if (data["title"] == "CREATESESSION")
     {
-        DBSessionClient.createSession(data["session"]);
-    }
-    if (data["title"] == "CHANGEBLOCK")
-    {
-        json check;
-        check = DBSessionClient.checkConnectionToSession(data["connection"]["id"], data["connection"]["password"]);
-        if (check["status"] == "ok")
-            DBDrawDeskClient.updateBlock(data["block"]);
     }
     if (data["title"] == "DELETEBLOCK")
     {
-        DBDrawDeskClient.deleteBlock(data["blockId"]);
     }
     if (data["title"] == "GETCURRENTSTATEDESK")
     {
-
     }
-    return response;
 }
