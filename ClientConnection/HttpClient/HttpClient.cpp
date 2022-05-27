@@ -1,7 +1,7 @@
 #include "HttpClient.hpp"
 
 // private ------------------------------------------------
-void InterfaceHttpClient::connectServer()
+void HttpClient::connectServer()
 {
     this->sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (this->sd <= 0)
@@ -20,7 +20,7 @@ void InterfaceHttpClient::connectServer()
         throw std::runtime_error(std::string(strerror(errno)));
 }
 
-void InterfaceHttpClient::sendRequest(std::string &request)
+void HttpClient::sendRequest(std::string &request)
 {
     size_t left = request.size();
     ssize_t sent = 0;
@@ -34,7 +34,7 @@ void InterfaceHttpClient::sendRequest(std::string &request)
     }
 }
 
-std::string InterfaceHttpClient::recvResponse()
+std::string HttpClient::recvResponse()
 {
     int result;
     char buf[BUFFER_SIZE];
@@ -54,7 +54,7 @@ std::string InterfaceHttpClient::recvResponse()
     return response;
 }
 
-std::string InterfaceHttpClient::sendMsgWithResponse(std::string &request)
+std::string HttpClient::sendMsgWithResponse(std::string &request)
 {
     this->connectServer();
 
@@ -70,7 +70,7 @@ std::string InterfaceHttpClient::sendMsgWithResponse(std::string &request)
     return result;
 }
 
-void InterfaceHttpClient::sendMsgNoResponse(std::string &request)
+void HttpClient::sendMsgNoResponse(std::string &request)
 {
     this->connectServer();
 
@@ -85,7 +85,7 @@ void InterfaceHttpClient::sendMsgNoResponse(std::string &request)
 // public -------------------------------------------------
 
 // обновление настроек подключение к серверу(локально)
-HttpClientData::returnCode InterfaceHttpClient::updateSettings(const HttpClientData::SettingsData &settings)
+HttpClientData::returnCode HttpClient::updateSettings(const HttpClientData::SettingsData &settings)
 {
     if (settings.ip.empty() || settings.port == 0)
         return HttpClientData::returnCode::FAILED;
@@ -96,7 +96,7 @@ HttpClientData::returnCode InterfaceHttpClient::updateSettings(const HttpClientD
 };
 
 // проверка сессии и верификация пароля, если есть: name сесcии, если нет
-std::string InterfaceHttpClient::checkConnectionToSession(const HttpClientData::SessionConnectionData &scData, const size_t &userId)
+std::string HttpClient::checkConnectionToSession(const HttpClientData::SessionConnectionData &scData, const size_t &userId)
 {
     json data;
     data["title"] = "CHECKCONNECTIONTOSESSION";
@@ -112,7 +112,7 @@ std::string InterfaceHttpClient::checkConnectionToSession(const HttpClientData::
 };
 
 // создание новой сессии: возвращаю id, иначе 0 (scData, userid)
-size_t InterfaceHttpClient::createSession(const HttpClientData::SessionCreationData &scData, const size_t &userId)
+size_t HttpClient::createSession(const HttpClientData::SessionCreationData &scData, const size_t &userId)
 {
     json data;
     data["title"] = "CREATESESSION";
@@ -127,7 +127,7 @@ size_t InterfaceHttpClient::createSession(const HttpClientData::SessionCreationD
 };
 
 // добавление блока в сессию //(... block, size_t deskId )
-size_t InterfaceHttpClient::addBlock(const HttpClientData::Block &block, const size_t &deskId)
+size_t HttpClient::addBlock(const HttpClientData::Block &block, const size_t &deskId)
 {
     json data;
     data["deskId"] = deskId;
@@ -141,7 +141,7 @@ size_t InterfaceHttpClient::addBlock(const HttpClientData::Block &block, const s
     return blockId;
 }
 // подменить блок
-void InterfaceHttpClient::changeBlock(const HttpClientData::Block &block)
+void HttpClient::changeBlock(const HttpClientData::Block &block)
 {
     json data;
     data["block"] = JsonParser::BlockToJson(block);
@@ -152,7 +152,7 @@ void InterfaceHttpClient::changeBlock(const HttpClientData::Block &block)
 };
 
 // удалить блок по id
-void InterfaceHttpClient::deleteBlock(const size_t &blockId)
+void HttpClient::deleteBlock(const size_t &blockId)
 {
     json data;
     data["title"] = "DELETEBLOCK";
@@ -165,7 +165,7 @@ void InterfaceHttpClient::deleteBlock(const size_t &blockId)
 // TODO
 
 // получить все блоки по id сессии (size_t deskId)
-HttpClientData::MindMapData InterfaceHttpClient::getCurrentStateDesk(const size_t &sessionId)
+HttpClientData::MindMapData HttpClient::getCurrentStateDesk(const size_t &sessionId)
 {
     json data;
     data["title"] = "GETCURRENTSTATEDESK";
@@ -181,7 +181,7 @@ HttpClientData::MindMapData InterfaceHttpClient::getCurrentStateDesk(const size_
 };
 
 // TODO
-HttpClientData::UsersInSessionData InterfaceHttpClient::getUsersInSession(const size_t &sessionId)
+HttpClientData::UsersInSessionData HttpClient::getUsersInSession(const size_t &sessionId)
 {
     json data;
     data["title"] = "GETUSERS";
@@ -195,7 +195,7 @@ HttpClientData::UsersInSessionData InterfaceHttpClient::getUsersInSession(const 
     return users;
 }
 
-size_t InterfaceHttpClient::loginUser(const HttpClientData::UserData &userData)
+size_t HttpClient::loginUser(const HttpClientData::UserData &userData)
 {
     json data;
     data["title"] = "LOGINUSER";
@@ -208,7 +208,7 @@ size_t InterfaceHttpClient::loginUser(const HttpClientData::UserData &userData)
     return userId;
 }
 
-size_t InterfaceHttpClient::registerUser(const HttpClientData::UserData &userData)
+size_t HttpClient::registerUser(const HttpClientData::UserData &userData)
 {
     json data;
     data["title"] = "REGISTERUSER";
@@ -223,7 +223,7 @@ size_t InterfaceHttpClient::registerUser(const HttpClientData::UserData &userDat
 
 
 // удалить активного пользователя из сессии, но пользователь должен остаться
-void InterfaceHttpClient::disconnectSession(const size_t &userId, const size_t &sessionId)
+void HttpClient::disconnectSession(const size_t &userId, const size_t &sessionId)
 {
     json data;
     data["title"] = "DISCONNECTSESSION";

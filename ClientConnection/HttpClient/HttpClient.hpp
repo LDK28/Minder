@@ -15,7 +15,7 @@
 
 #define BUFFER_SIZE 512
 
-class HttpClient
+class InterfaceHttpClient
 {
 private:
     virtual void sendRequest(std::string &request) = 0;
@@ -23,8 +23,8 @@ private:
     virtual std::string recvResponse() = 0;
 
 public:
-    HttpClient(/* args */){};
-    ~HttpClient(){};
+    InterfaceHttpClient(/* args */){};
+    ~InterfaceHttpClient(){};
 
     // обновление настроек подключение к серверу(локально)
     virtual HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &) = 0;
@@ -59,7 +59,7 @@ public:
     // virtual void updateUsers() = 0;
 };
 
-class InterfaceHttpClient : HttpClient
+class HttpClient : InterfaceHttpClient
 {
 private:
     std::string ip;
@@ -74,8 +74,8 @@ private:
     void sendMsgNoResponse(std::string &request);
 
 public:
-    InterfaceHttpClient(std::string _ip, int _port) : ip(_ip), port(_port){};
-    ~InterfaceHttpClient(){};
+    HttpClient(std::string _ip, int _port) : ip(_ip), port(_port){};
+    ~HttpClient(){};
 
     // обновление настроек подключение к серверу(локально)
     HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &) override;
