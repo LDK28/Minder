@@ -13,13 +13,12 @@ public:
     explicit DrawingLogic(HttpClient *network_) : network(network_) {}
     ~DrawingLogic() = default;
 public slots:
-    void sendNewBlock(const ViewDataStructures::Block &newBlock);
+    void sendNewBlock(const ViewDataStructures::Block &newBlock, const size_t);
     void getMindMapInSession(const size_t sessionId);
     void sendDeletedBlock(const ViewDataStructures::MindMapData &changedBlocks);
+
     void sendReceivedNewBlock(const HttpClientData::Block &receivedBlock);
     void sendReceivedDeletedBlock(size_t id);
-//    void changeBlock();
-//    void changeSize();
 signals:
     void sendNewBlockIdToSession(const long newBlockId);
     void updateMindMapDataInSession(const ViewDataStructures::MindMapData &data);

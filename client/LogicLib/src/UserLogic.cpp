@@ -1,33 +1,36 @@
 #include "UserLogic.h"
 
-const char *FailedLoginMsg = "Wrong password or login.";
-const char *FailedRegisterMsg = "Registration failed.";
+const char *LOGIN_ERROR_MSG = "Wrong password or login.";
+const char *REGISTER_ERROR_MSG = "Registration failed.";
 
 void UserLogic::loginUser(const ViewDataStructures::LoginData &user) {
     HttpClientData::LoginData convUser = convertLoginUser(user);
 
-    auto rc = network->loginUser(convUser);
+    size_t id = network->loginUser(convUser);
 
-    if (rc == HttpClientData::SUCCESS) {
+    if (id > 0) {
+        userId = id;
         emit loginUserSuccess();
     } else {
-        emit loginUserFailed(FailedLoginMsg);
+        emit loginUserFailed(LOGIN_ERROR_MSG);
     }
 }
 
 void UserLogic::registerUser(const ViewDataStructures::RegisterData &user) {
     if (user.password != user.repeatPassword) {
-        emit registerUserFailed(FailedRegisterMsg);
+        emit registerUserFailed(REGISTER_ERROR_MSG);
+        return;
     }
 
     HttpClientData::RegisterData convUser = convertRegisterUser(user);
 
-    auto rc = network->registerUser(convUser);
+    size_t id = network->registerUser(convUser);
 
-    if (rc == HttpClientData::SUCCESS) {
-        emit loginUserSuccess();
+    if (id > 0) {
+        userId = id;
+        emit registerUserSuccess();
     } else {
-        emit loginUserFailed(FailedRegisterMsg);
+        emit registerUserFailed(REGISTER_ERROR_MSG);
     }
 }
 

@@ -15,22 +15,22 @@ signals:
     void transmitSettings(const ViewDataStructures::SettingsData &data);
     void transmitCreationNewSession(const ViewDataStructures::SessionCreationData &data);
     void transmitConnectionToSession(const ViewDataStructures::SessionConnectionData &data);
-    void sendNewBlock(const ViewDataStructures::Block &newBlock);
-    void sessionClosed();
+    void sendNewBlock(const ViewDataStructures::Block &newBlock, const size_t);
+    void sessionClosed(const size_t);
     void getUsersInSessionData(const size_t sessionId);
     void getMindMapInSessionData(const size_t sessionId);
 
 public slots:
     void validationLoginDataSuccess();
     void validationRegisterDataSuccess();
-    void validationLoginDataFailed();
-    void validationRegisterDataFailed();
+    void validationLoginDataFailed(const QString &);
+    void validationRegisterDataFailed(const QString &);
     void savingSettingsSuccess();
-    void savingSettingsFailed();
+    void savingSettingsFailed(const QString &);
     void connectionToSessionSuccess(const ViewDataStructures::SessionData &data);
-    void connectionToSessionFailed();
+    void connectionToSessionFailed(const QString &);
     void creationNewSessionSuccess(const ViewDataStructures::SessionData &data);
-    void creationNewSessionFailed();
+    void creationNewSessionFailed(const QString &);
     void receiveUsersListInSession(const ViewDataStructures::UsersInSessionData &data);
     void receiveMindMapDataInSession(const ViewDataStructures::MindMapData &data);
     void receiveNewBlockId(const long newBlockId);

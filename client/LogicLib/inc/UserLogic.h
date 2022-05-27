@@ -12,9 +12,9 @@ public:
     explicit UserLogic() = default;
     explicit UserLogic(HttpClient *network_) : network(network_) {}
     ~UserLogic() = default;
+
+    size_t getUser() { return userId; }
 public slots:
-    void deleteUserFromSession(const ViewDataStructures::User &user);
-    void addUserToSession(const ViewDataStructures::User &user);
     void getUsersListInSession(const size_t sessionId);
     void loginUser(const ViewDataStructures::LoginData &user);
     void registerUser(const ViewDataStructures::RegisterData &user);
@@ -26,6 +26,8 @@ signals:
     void registerUserFailed(const QString &);
 private:
     HttpClient *network = nullptr;
+
+    size_t userId = 0;
 
     HttpClientData::LoginData convertLoginUser(const ViewDataStructures::LoginData &user);
     HttpClientData::RegisterData convertRegisterUser(const ViewDataStructures::RegisterData &user);

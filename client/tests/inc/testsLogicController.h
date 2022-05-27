@@ -7,7 +7,7 @@
 TEST(LogicController, changeSettingsSuccess) {
   MockHttpClient network;
 
-  HttpClientData::SettingsData settings("120.210.120.210", "8000");
+  HttpClientData::SettingsData settings("120.210.120.210", 8000);
   EXPECT_CALL(network, updateSettings(settings)).Times(1);
 
   LogicController controller(&network);
@@ -41,7 +41,7 @@ TEST(LogicController, createNewSessionSuccess) {
   MockHttpClient network;
 
   HttpClientData::SessionCreationData session("Room_1", "pq7st26");
-  EXPECT_CALL(network, createSession(session)).Times(1);
+  EXPECT_CALL(network, createSession(session, 0)).Times(1);
 
   LogicController controller(&network);
 
@@ -53,7 +53,7 @@ TEST(LogicController, createNewSessionFailed) {
   MockHttpClient network;
 
   HttpClientData::SessionCreationData session;
-  EXPECT_CALL(network, createSession(session)).Times(0);
+  EXPECT_CALL(network, createSession(session, 0)).Times(0);
 
   LogicController controller(&network);
 
@@ -65,7 +65,7 @@ TEST(LogicController, connectToSessionSuccess) {
   MockHttpClient network;
 
   HttpClientData::SessionConnectionData session(67152, "pq7st26");
-  EXPECT_CALL(network, checkConnectionToSession(session)).Times(1);
+  EXPECT_CALL(network, checkConnectionToSession(session, 0)).Times(1);
 
   LogicController controller(&network);
   ViewDataStructures::SessionConnectionData connectionData("67152", "pq7st26");
@@ -76,7 +76,7 @@ TEST(LogicController, connectToSessionFailed) {
   MockHttpClient network;
 
   HttpClientData::SessionConnectionData session;
-  EXPECT_CALL(network, checkConnectionToSession(session)).Times(0);
+  EXPECT_CALL(network, checkConnectionToSession(session, 0)).Times(0);
 
   LogicController controller(&network);
   ViewDataStructures::SessionConnectionData connectionData("aaaaa", "pq7st26");
@@ -86,10 +86,11 @@ TEST(LogicController, connectToSessionFailed) {
 TEST(LogicController, disconnectSession) {
   MockHttpClient network;
 
-  EXPECT_CALL(network, disconnect()).Times(1);
+  size_t sessionId = 1;
+  EXPECT_CALL(network, disconnect(0, sessionId)).Times(1);
 
   LogicController controller(&network);
-  controller.disconnectSession();
+  controller.disconnectSession(sessionId);
 }
 
 #endif // TESTSLOGICCONTROLLER_H

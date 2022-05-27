@@ -14,38 +14,36 @@ class LOGICLIB_EXPORT LogicController: public QObject {
 Q_OBJECT
 public:
     explicit LogicController() : network(nullptr), user(network), drawing(network),
-        screenController(nullptr) {}
+        screenController(nullptr) { connectView(); }
     explicit LogicController(HttpClient *network_, ScreenController *screenController_ = nullptr) :
         network(network_), user(network_), drawing(network_),
         screenController(screenController_) {}
     ~LogicController() = default;
-    void connectView();
-    void disconnectView();
 
 public slots:
     void changeSettings(const ViewDataStructures::SettingsData &data);
     void createNewSession(const ViewDataStructures::SessionCreationData &data);
     void connectToSession(const ViewDataStructures::SessionConnectionData &data);
-//    void getUsersListInSession();
-    void disconnectSession();
+    void disconnectSession(const size_t sessionId);
     void receiveNewBlock(const HttpClientData::Block &block);
     void receiveDeletedBlock(size_t id);
 
 signals:
     void changeSettingsSuccess();
-    void changeSettingsFailed();
+    void changeSettingsFailed(const QString &);
     void sessionCreationSuccess(const ViewDataStructures::SessionData &data);
-    void sessionCreationFailed();
+    void sessionCreationFailed(const QString &);
     void sessionConnectionSuccess(const ViewDataStructures::SessionData &data);
-    void sessionConnectionFailed();
-    //void updateUsersListInSession(const UsersInSessionData &data);
+    void sessionConnectionFailed(const QString &);
 
 private:
     HttpClient *network;
     UserLogic user;
     DrawingLogic drawing;
     std::shared_ptr <ScreenController> screenController;
-    //size_t userID;
+
+    void connectView();
+    void disconnectView();
 
     HttpClientData::SettingsData convertSettings(const ViewDataStructures::SettingsData &settings);
     HttpClientData::SessionCreationData convertNewSession(const ViewDataStructures::SessionCreationData &session);

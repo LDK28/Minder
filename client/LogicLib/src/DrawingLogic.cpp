@@ -1,9 +1,9 @@
 #include "DrawingLogic.h"
 
-void DrawingLogic::sendNewBlock(const ViewDataStructures::Block &newBlock) {
+void DrawingLogic::sendNewBlock(const ViewDataStructures::Block &newBlock, const size_t sessionId) {
     HttpClientData::Block convBlock = convertBlock(newBlock);
 
-    size_t id = network->addBlock(convBlock);
+    size_t id = network->addBlock(convBlock, sessionId);
 
     emit sendNewBlockIdToSession(id);
 }
@@ -35,17 +35,13 @@ void DrawingLogic::sendReceivedDeletedBlock(size_t id) {
 }
 
 HttpClientData::Block DrawingLogic::convertBlock(const ViewDataStructures::Block &newBlock) {
-    QFont newFont = newBlock.textFont;
-    HttpClientData::Font font(newFont.family().toStdString(), newFont.pointSize(), newFont.weight(), newFont.italic());
+    HttpClientData::Font font(newBlock.textFont.toString().toStdString());
 
-    HttpClientData::Color fontColor;
-    newBlock.textColor.getRgb(&fontColor.r, &fontColor.g, &fontColor.b);
+    HttpClientData::Color fontColor(newBlock.textColor.name().toStdString());
 
-    HttpClientData::Color borderColor;
-    newBlock.borderColor.getRgb(&borderColor.r, &borderColor.g, &borderColor.b);
+    HttpClientData::Color borderColor(newBlock.borderColor.name().toStdString());
 
-    HttpClientData::Color bgColor;
-    newBlock.backgroundColor.getRgb(&bgColor.r, &bgColor.g, &bgColor.b);
+    HttpClientData::Color bgColor(newBlock.backgroundColor.name().toStdString());
 
     return HttpClientData::Block(newBlock.id, newBlock.parentId, newBlock.position.x(), newBlock.position.y(),
                      newBlock.text.toStdString(), font, fontColor, borderColor, bgColor);
@@ -62,14 +58,14 @@ ViewDataStructures::MindMapData DrawingLogic::convertMap(const HttpClientData::M
 }
 
 ViewDataStructures::Block DrawingLogic::reverseConvertBlock(const HttpClientData::Block &block) {
-    QFont font(QString::fromStdString(block.font.family), block.font.pointSize,
-               block.font.weight, block.font.italic);
+    QFont font;
+    font.fromString(QString::fromStdString(block.font.name));
 
-    QColor textColor = QColor(block.fontColor.r, block.fontColor.g, block.fontColor.b);
+    QColor textColor = QColor(QString::fromStdString(block.fontColor.name));
 
-    QColor borderColor = QColor(block.fontColor.r, block.fontColor.g, block.fontColor.b);
+    QColor borderColor = QColor(QString::fromStdString(block.borderColor.name));
 
-    QColor backgroundColor = QColor(block.fontColor.r, block.fontColor.g, block.fontColor.b);
+    QColor backgroundColor = QColor(QString::fromStdString(block.bgColor.name));
 
     return ViewDataStructures::Block(block.id, block.parentId, QPoint(block.posX, block.posY),
                  QString::fromStdString(block.text), font, textColor, borderColor, backgroundColor);

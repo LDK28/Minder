@@ -8,11 +8,19 @@ void ScreenController::validationRegisterDataSuccess() {
     return;
 }
 
+void ScreenController::validationLoginDataFailed(const QString &) {
+    return;
+}
+
+void ScreenController::validationRegisterDataFailed(const QString &) {
+    return;
+}
+
 void ScreenController::savingSettingsSuccess() {
     return;
 }
 
-void ScreenController::savingSettingsFailed() {
+void ScreenController::savingSettingsFailed(const QString &) {
     return;
 }
 
@@ -20,7 +28,7 @@ void ScreenController::connectionToSessionSuccess(const ViewDataStructures::Sess
     return;
 }
 
-void ScreenController::connectionToSessionFailed() {
+void ScreenController::connectionToSessionFailed(const QString &) {
     return;
 }
 
@@ -28,7 +36,7 @@ void ScreenController::creationNewSessionSuccess(const ViewDataStructures::Sessi
     return;
 }
 
-void ScreenController::creationNewSessionFailed() {
+void ScreenController::creationNewSessionFailed(const QString &) {
     return;
 }
 

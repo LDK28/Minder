@@ -17,6 +17,10 @@ struct LoginData
 {
     QString nickname;
     QString password;
+
+    explicit LoginData() = default;
+    LoginData(const QString &_nickname, const QString &_password) :
+        nickname(_nickname), password(_password) {}
 };
 
 struct RegisterData
@@ -24,6 +28,10 @@ struct RegisterData
     QString nickname;
     QString password;
     QString repeatPassword;
+
+    explicit RegisterData() = default;
+    RegisterData(const QString &_nickname, const QString &_password, const QString &_repeatPassword) :
+        nickname(_nickname), password(_password), repeatPassword(_repeatPassword) {}
 };
 
 struct SettingsData
@@ -32,7 +40,7 @@ struct SettingsData
     QString serverPort;
 
     explicit SettingsData() = default;
-    explicit SettingsData(const QString &serverIP_, const QString &serverPort_) :
+    SettingsData(const QString &serverIP_, const QString &serverPort_) :
         serverIP(serverIP_), serverPort(serverPort_) {}
 };
 
@@ -80,8 +88,8 @@ struct UsersInSessionData
 class Block
 {
 public:
-    std::size_t id;
-    std::size_t parentId;
+    size_t id;
+    size_t parentId;
     QPoint position;
     int type;
 

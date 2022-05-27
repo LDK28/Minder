@@ -14,6 +14,7 @@ struct LoginData
     std::string nickname;
     std::string password;
 
+    explicit LoginData() = default;
     LoginData(const std::string &_nickname, const std::string &_password) :
             nickname(_nickname), password(_password) { }
 
@@ -40,6 +41,7 @@ struct SessionCreationData {
     std::string name;
     std::string password;
 
+    explicit SessionCreationData() = default;
     SessionCreationData(const std::string &name_, const std::string &password_) : name(name_), password(password_) {}
 
     bool operator==(const SessionCreationData& other) const {
@@ -61,10 +63,10 @@ struct SessionConnectionData {
 
 struct SettingsData {
     std::string ip;
-    std::string port;
+    int port;
 
     explicit SettingsData() = default;
-    SettingsData(const std::string &ip_, const std::string &port_) : ip(ip_), port(port_) {}
+    SettingsData(const std::string &ip_, int port_) : ip(ip_), port(port_) {}
 
     bool operator==(const SettingsData& other) const {
         return ip == other.ip && port == other.port;
@@ -92,31 +94,24 @@ struct UsersInSessionData {
 };
 
 struct Font {
-    std::string family;
-    int pointSize;
-    int weight;
-    bool italic;
+    std::string name;
 
-    explicit Font() : pointSize(-1), weight(50), italic(false) {}
-    Font(const std::string &family_, int pointSize_, int weight_, bool italic_) :
-        family(family_), pointSize(pointSize_), weight(weight_), italic(italic_) {}
+    explicit Font() = default;
+    explicit Font(const std::string &name_) : name(name_) {}
 
     bool operator==(const Font& other) const {
-        return family == other.family && pointSize == other.pointSize
-                && weight == other.weight && italic == other.italic;
+        return name == other.name;
     }
 };
 
 struct Color {
-    int r;
-    int g;
-    int b;
+    std::string name;
 
-    explicit Color() : r(0), g(0), b(0) {}
-    Color(int r_, int g_, int b_) : r(r_), g(g_), b(b_) {}
+    explicit Color() : name("#000000") { }
+    explicit Color(const std::string &name_) : name(name_) {}
 
     bool operator==(const Color& other) const {
-        return r == other.r && g == other.g && b == other.b;
+        return name == other.name;
     }
 };
 
@@ -132,7 +127,7 @@ struct Block {
     Color borderColor;
     Color bgColor;
 
-    explicit Block() : id(0), parentId(0), posX(0), posY(0), borderColor(255, 0, 0), bgColor(255, 255, 0) {}
+    explicit Block() : id(0), parentId(0), posX(0), posY(0), borderColor("#FF0000"), bgColor("#FFFF00") {}
 
     Block(size_t id_, size_t parentId_, int posX_, int posY_, const std::string &text_,
         const Font &font_, const Color &fontColor_, const Color &borderColor_, const Color &bgColor_) :

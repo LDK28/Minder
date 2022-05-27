@@ -4,15 +4,47 @@
 #include "mockClient.h"
 #include "UserLogic.h"
 
-//TEST(User, getUsers) {
-//  MockHttpClient network;
+TEST(UserLogic, getUsersListInSession) {
+  MockHttpClient network;
 
-//  UsersList users = {};
-//  EXPECT_CALL(network, getUsers(users)).Times(1);
+  std::size_t sessionId = 1;
+  EXPECT_CALL(network, getUsersInSession(sessionId)).Times(1);
 
-//  User user(&network);
-//  Users recUsers = {};
-//  user.getUsers(recUsers);
-//}
+  UserLogic user(&network);
+  user.getUsersListInSession(sessionId);
+}
+
+TEST(UserLogic, loginUser) {
+  MockHttpClient network;
+
+  HttpClientData::LoginData user;
+  EXPECT_CALL(network, loginUser(user)).Times(1);
+
+  ViewDataStructures::LoginData viewUser;
+  UserLogic userLogic(&network);
+  userLogic.loginUser(viewUser);
+}
+
+TEST(UserLogic, registerUserSuccess) {
+  MockHttpClient network;
+
+  HttpClientData::RegisterData newUser("Petya", "password", "password");
+  EXPECT_CALL(network, registerUser(newUser)).Times(1);
+
+  ViewDataStructures::RegisterData viewUser("Petya", "password", "password");
+  UserLogic user(&network);
+  user.registerUser(viewUser);
+}
+
+TEST(UserLogic, registerUserFailed) {
+  MockHttpClient network;
+
+  HttpClientData::RegisterData newUser("Petya", "password", "qwerty");
+  EXPECT_CALL(network, registerUser(newUser)).Times(0);
+
+  ViewDataStructures::RegisterData viewUser("Petya", "password", "qwerty");
+  UserLogic user(&network);
+  user.registerUser(viewUser);
+}
 
 #endif // TESTSUSER_H

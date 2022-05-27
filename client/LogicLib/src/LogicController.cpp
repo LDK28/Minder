@@ -1,11 +1,15 @@
 #include "LogicController.h"
 
-const char *regIP = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
+const char *REG_IP = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
                     "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
                     "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
                     "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
 
-const char *regNum = "\\d";
+const char *REG_NUM = "\\d";
+
+const char *SETTINGS_ERROR_MSG = "Settings change failed.";
+const char *NEW_SESSION_ERROR_MSG = "Session creation failed.";
+const char *EXIST_SESSION_ERROR_MSG = "Session connection failed.";
 
 void LogicController::connectView() {
     connect(screenController.get(), &ScreenController::transmitLoginData, &user, &UserLogic::loginUser);
@@ -80,10 +84,10 @@ void LogicController::disconnectView() {
 }
 
 void LogicController::changeSettings(const ViewDataStructures::SettingsData &settings) {
-    QRegularExpression rxNum(regNum);
-    QRegularExpression rxIp(regIP);
+    QRegularExpression rxNum(REG_NUM);
+    QRegularExpression rxIp(REG_IP);
     if (!rxNum.match(settings.serverPort).hasMatch() || !rxIp.match(settings.serverIP).hasMatch()) {
-        emit changeSettingsFailed();
+        emit changeSettingsFailed(SETTINGS_ERROR_MSG);
         return;
     }
 
@@ -93,45 +97,45 @@ void LogicController::changeSettings(const ViewDataStructures::SettingsData &set
     if (rc == HttpClientData::SUCCESS) {
         emit changeSettingsSuccess();
     } else {
-        emit changeSettingsFailed();
+        emit changeSettingsFailed(SETTINGS_ERROR_MSG);
     }
 }
 
 void LogicController::createNewSession(const ViewDataStructures::SessionCreationData &session) {
     if (session.password != session.repeatPassword) {
-        emit sessionCreationFailed();
+        emit sessionCreationFailed(NEW_SESSION_ERROR_MSG);
         return;
     }
 
     HttpClientData::SessionCreationData convSession = convertNewSession(session);
-    size_t sessionId = network->createSession(convSession);
+    size_t sessionId = network->createSession(convSession, user.getUser());
 
     if (sessionId == 0) {
-        emit sessionCreationFailed();
+        emit sessionCreationFailed(NEW_SESSION_ERROR_MSG);
     } else {
         emit sessionCreationSuccess(ViewDataStructures::SessionData(sessionId, session.name));
     }
 }
 
 void LogicController::connectToSession(const ViewDataStructures::SessionConnectionData &session) {
-    QRegularExpression rxNum(regNum);
+    QRegularExpression rxNum(REG_NUM);
     if (!rxNum.match(session.id).hasMatch()) {
-        emit sessionConnectionFailed();
+        emit sessionConnectionFailed(EXIST_SESSION_ERROR_MSG);
         return;
     }
 
     HttpClientData::SessionConnectionData convSession = convertExistSession(session);
-    std::string sessionName = network->checkConnectionToSession(convSession);
+    std::string sessionName = network->checkConnectionToSession(convSession, user.getUser());
 
     if (sessionName.empty()) {
-        emit sessionConnectionFailed();
+        emit sessionConnectionFailed(EXIST_SESSION_ERROR_MSG);
     } else {
         emit sessionConnectionSuccess(ViewDataStructures::SessionData(session.id.toInt(), QString::fromStdString(sessionName)));
     }
 }
 
-void LogicController::disconnectSession() {
-    network->disconnect();
+void LogicController::disconnectSession(const size_t sessionId) {
+    network->disconnect(user.getUser(), sessionId);
 }
 
 void LogicController::receiveNewBlock(const HttpClientData::Block &block) {
@@ -143,7 +147,7 @@ void LogicController::receiveDeletedBlock(size_t id) {
 }
 
 HttpClientData::SettingsData LogicController::convertSettings(const ViewDataStructures::SettingsData &settings) {
-    return HttpClientData::SettingsData(settings.serverIP.toStdString(), settings.serverPort.toStdString());
+    return HttpClientData::SettingsData(settings.serverIP.toStdString(), settings.serverPort.toInt());
 }
 
 HttpClientData::SessionCreationData LogicController::convertNewSession(const ViewDataStructures::SessionCreationData &session) {
