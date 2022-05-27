@@ -4,169 +4,134 @@
 #include <string>
 #include <vector>
 
-namespace HttpClientData
+namespace HttpClientData {
+typedef enum {
+    SUCCESS, FAILED
+} returnCode;
+
+struct UserData
 {
-    typedef enum
-    {
-        SUCCESS,
-        FAILED
-    } returnCode;
+    std::string nickname;
+    std::string password;
 
-    struct LoginData
-    {
-        std::string nickname;
-        std::string password;
+    explicit UserData() = default;
+    UserData(const std::string &_nickname, const std::string &_password) :
+            nickname(_nickname), password(_password) { }
 
-        LoginData(const std::string &_nickname, const std::string &_password) : nickname(_nickname), password(_password) {}
+    bool operator==(const UserData& other) const {
+        return nickname == other.nickname && password == other.password;
+    }
+};
 
-        bool operator==(const LoginData &other) const
-        {
-            return nickname == other.nickname && password == other.password;
-        }
-    };
+struct SessionCreationData {
+    std::string name;
+    std::string password;
 
-    struct RegisterData
-    {
-        std::string nickname;
-        std::string password;
-        std::string repeatPassword;
+    explicit SessionCreationData() = default;
+    SessionCreationData(const std::string &name_, const std::string &password_) : name(name_), password(password_) {}
 
-        RegisterData(const std::string &_nickname, const std::string &_password, const std::string &_repeatPassword) : nickname(_nickname), password(_password), repeatPassword(_repeatPassword) {}
+    bool operator==(const SessionCreationData& other) const {
+        return name == other.name && password == other.password;
+    }
+};
 
-        bool operator==(const RegisterData &other) const
-        {
-            return nickname == other.nickname && password == other.password && repeatPassword == other.repeatPassword;
-        }
-    };
+struct SessionConnectionData {
+    size_t id;
+    std::string password;
 
-    struct SessionCreationData
-    {
-        std::string name;
-        std::string password;
+    explicit SessionConnectionData() : id(0) {}
+    SessionConnectionData(size_t id_, const std::string &password_) : id(id_), password(password_) {}
 
-        SessionCreationData(const std::string &name_, const std::string &password_) : name(name_), password(password_) {}
+    bool operator==(const SessionConnectionData& other) const {
+        return id == other.id && password == other.password;
+    }
+};
 
-        bool operator==(const SessionCreationData &other) const
-        {
-            return name == other.name && password == other.password;
-        }
-    };
+struct SettingsData {
+    std::string ip;
+    int port;
 
-    struct SessionConnectionData
-    {
-        size_t id;
-        std::string password;
+    explicit SettingsData() = default;
+    SettingsData(const std::string &ip_, int port_) : ip(ip_), port(port_) {}
 
-        explicit SessionConnectionData() : id(0) {}
-        SessionConnectionData(size_t id_, const std::string &password_) : id(id_), password(password_) {}
+    bool operator==(const SettingsData& other) const {
+        return ip == other.ip && port == other.port;
+    }
+};
 
-        bool operator==(const SessionConnectionData &other) const
-        {
-            return id == other.id && password == other.password;
-        }
-    };
+struct User
+{
+    std::string nickname;
 
-    struct SettingsData
-    {
-        std::string ip;
-        int port;
+    explicit User() = default;
+    explicit User(const std::string &_nickname) : nickname(_nickname) {}
 
-        explicit SettingsData() = default;
-        SettingsData(const std::string &ip_, const int &port_) : ip(ip_), port(port_) {}
+    bool operator==(const User& other) const {
+        return nickname == other.nickname;
+    }
+};
 
-        bool operator==(const SettingsData &other) const
-        {
-            return ip == other.ip && port == other.port;
-        }
-    };
+struct UsersInSessionData {
+    std::vector<User> users;
 
-    struct User
-    {
-        std::string nickname;
+    bool operator==(const UsersInSessionData& other) const {
+        return users == other.users;
+    }
+};
 
-        explicit User() = default;
-        explicit User(const std::string &_nickname) : nickname(_nickname) {}
+struct Font {
+    std::string name;
 
-        bool operator==(const User &other) const
-        {
-            return nickname == other.nickname;
-        }
-    };
+    explicit Font() = default;
+    explicit Font(const std::string &name_) : name(name_) {}
 
-    struct UsersInSessionData
-    {
-        std::vector<User> users;
+    bool operator==(const Font& other) const {
+        return name == other.name;
+    }
+};
 
-        bool operator==(const UsersInSessionData &other) const
-        {
-            return users == other.users;
-        }
-    };
+struct Color {
+    std::string name;
 
-    struct Font
-    {
-        std::string family;
-        int pointSize;
-        int weight;
-        bool italic;
+    explicit Color() : name("#000000") { }
+    explicit Color(const std::string &name_) : name(name_) {}
 
-        explicit Font() : pointSize(-1), weight(50), italic(false) {}
-        Font(const std::string &family_, int pointSize_, int weight_, bool italic_) : family(family_), pointSize(pointSize_), weight(weight_), italic(italic_) {}
+    bool operator==(const Color& other) const {
+        return name == other.name;
+    }
+};
 
-        bool operator==(const Font &other) const
-        {
-            return family == other.family && pointSize == other.pointSize && weight == other.weight && italic == other.italic;
-        }
-    };
+struct Block {
+    size_t id;
+    size_t parentId;
+    int posX;
+    int posY;
 
-    struct Color
-    {
-        int r;
-        int g;
-        int b;
+    std::string text;
+    Font font;
+    Color fontColor;
+    Color borderColor;
+    Color bgColor;
 
-        explicit Color() : r(0), g(0), b(0) {}
-        Color(int r_, int g_, int b_) : r(r_), g(g_), b(b_) {}
+    explicit Block() : id(0), parentId(0), posX(0), posY(0), borderColor("#FF0000"), bgColor("#FFFF00") {}
 
-        bool operator==(const Color &other) const
-        {
-            return r == other.r && g == other.g && b == other.b;
-        }
-    };
+    Block(size_t id_, size_t parentId_, int posX_, int posY_, const std::string &text_,
+        const Font &font_, const Color &fontColor_, const Color &borderColor_, const Color &bgColor_) :
+        id(id_), parentId(parentId_), posX(posX_), posY(posY_), text(text_), font(font_),
+        fontColor(fontColor_), borderColor(borderColor_), bgColor(bgColor_) {}
 
-    struct Block
-    {
-        size_t id;
-        size_t parentId;
-        int posX;
-        int posY;
+    bool operator==(const Block& other) const {
+        return id == other.id && parentId == other.parentId && posX == other.posX &&
+        posY == other.posY && text == other.text && font == other.font &&
+        fontColor == other.fontColor && borderColor == other.borderColor && bgColor == other.bgColor;
+    }
+};
 
-        std::string text;
-        Font font;
-        Color fontColor;
-        Color borderColor;
-        Color bgColor;
+struct MindMapData {
+    std::vector<Block> blocks;
 
-        explicit Block() : id(0), parentId(0), posX(0), posY(0), borderColor(255, 0, 0), bgColor(255, 255, 0) {}
-
-        Block(size_t id_, size_t parentId_, int posX_, int posY_, const std::string &text_,
-              const Font &font_, const Color &fontColor_, const Color &borderColor_, const Color &bgColor_) : id(id_), parentId(parentId_), posX(posX_), posY(posY_), text(text_), font(font_),
-                                                                                                              fontColor(fontColor_), borderColor(borderColor_), bgColor(bgColor_) {}
-
-        bool operator==(const Block &other) const
-        {
-            return id == other.id && parentId == other.parentId && posX == other.posX &&
-                   posY == other.posY && text == other.text && font == other.font &&
-                   fontColor == other.fontColor && borderColor == other.borderColor && bgColor == other.bgColor;
-        }
-    };
-
-    struct MindMapData
-    {
-        std::vector<Block> blocks;
-
-        explicit MindMapData() = default;
-    };
+    explicit MindMapData() = default;
+};
 
 }
 

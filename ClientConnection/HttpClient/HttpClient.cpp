@@ -80,7 +80,6 @@ void InterfaceHttpClient::sendMsgNoResponse(std::string &request)
 
     if (close(this->sd) == -1)
         throw std::runtime_error(std::string(strerror(errno)));
-
 }
 
 // public -------------------------------------------------
@@ -97,11 +96,12 @@ HttpClientData::returnCode InterfaceHttpClient::updateSettings(const HttpClientD
 };
 
 // проверка сессии и верификация пароля, если есть: name сесcии, если нет
-std::string InterfaceHttpClient::checkConnectionToSession(const HttpClientData::SessionConnectionData &scData)
+std::string InterfaceHttpClient::checkConnectionToSession(const HttpClientData::SessionConnectionData &scData, const size_t &userId)
 {
     json data;
     data["title"] = "CHECKCONNECTIONTOSESSION";
     data["session"] = JsonParser::SessionConnectionDataToJson(scData);
+    data["userId"] = userId;
 
     std::string msg = data.dump();
 
@@ -111,12 +111,13 @@ std::string InterfaceHttpClient::checkConnectionToSession(const HttpClientData::
     return response;
 };
 
-// создание новой сессии: возвращаю id, иначе 0
-size_t InterfaceHttpClient::createSession(const HttpClientData::SessionCreationData &scData)
+// создание новой сессии: возвращаю id, иначе 0 (scData, userid)
+size_t InterfaceHttpClient::createSession(const HttpClientData::SessionCreationData &scData, const size_t &userId)
 {
     json data;
     data["title"] = "CREATESESSION";
     data["session"] = JsonParser::SessionCreationDataToJson(scData);
+    data["userId"] = userId;
     std::string request = data.dump();
 
     std::string response = this->sendMsgWithResponse(request);
@@ -125,34 +126,24 @@ size_t InterfaceHttpClient::createSession(const HttpClientData::SessionCreationD
     return id;
 };
 
-// get user names *from server
-std::string InterfaceHttpClient::getUsers(const HttpClientData::SessionConnectionData &scData)
+// добавление блока в сессию //(... block, size_t deskId )
+size_t InterfaceHttpClient::addBlock(const HttpClientData::Block &block, const size_t &deskId)
 {
     json data;
-    data["title"] = "GETUSERS";
-    data["session"] = JsonParser::SessionConnectionDataToJson(scData);
-    std::string request = data.dump();
-
-    std::string response = this->sendMsgWithResponse(request);
-
-    return response;
-}
-
-// добавление блока в сессию
-void InterfaceHttpClient::addBlock(const HttpClientData::Block &block, const HttpClientData::SessionConnectionData &scData)
-{
-    json data;
-    data["connection"] = JsonParser::SessionConnectionDataToJson(scData);
+    data["deskId"] = deskId;
     data["block"] = JsonParser::BlockToJson(block);
     data["title"] = "ADDBLOCK";
     std::string request = data.dump();
 
-    this->sendMsgNoResponse(request);
+    std::string response = this->sendMsgWithResponse(request);
+
+    size_t blockId = std::stoi(response, nullptr, 10);
+    return blockId;
 }
 // подменить блок
-void InterfaceHttpClient::changeBlock(const HttpClientData::Block &block, const HttpClientData::SessionConnectionData &scData){
+void InterfaceHttpClient::changeBlock(const HttpClientData::Block &block)
+{
     json data;
-    data["connection"] = JsonParser::SessionConnectionDataToJson(scData);
     data["block"] = JsonParser::BlockToJson(block);
     data["title"] = "CHANGEBLOCK";
     std::string request = data.dump();
@@ -161,22 +152,24 @@ void InterfaceHttpClient::changeBlock(const HttpClientData::Block &block, const 
 };
 
 // удалить блок по id
-void InterfaceHttpClient::deleteBlock(const size_t &blockId, const HttpClientData::SessionConnectionData &scData)
+void InterfaceHttpClient::deleteBlock(const size_t &blockId)
 {
     json data;
     data["title"] = "DELETEBLOCK";
     data["blockId"] = blockId;
-    data["session"] = JsonParser::SessionConnectionDataToJson(scData);
     std::string request = data.dump();
 
     this->sendMsgNoResponse(request);
 };
 
-// получить все блоки по id сессии
-HttpClientData::MindMapData InterfaceHttpClient::getCurrentStateDesk(const HttpClientData::SessionConnectionData &scData)
+// TODO
+
+// получить все блоки по id сессии (size_t deskId)
+HttpClientData::MindMapData InterfaceHttpClient::getCurrentStateDesk(const size_t &sessionId)
 {
-    json data = JsonParser::SessionConnectionDataToJson(scData);
+    json data;
     data["title"] = "GETCURRENTSTATEDESK";
+    data["sessionId"] = sessionId;
     std::string request = data.dump();
 
     std::string response = sendMsgWithResponse(request);
@@ -187,12 +180,55 @@ HttpClientData::MindMapData InterfaceHttpClient::getCurrentStateDesk(const HttpC
     return mmData;
 };
 
-// удалить активного пользователя из сессии
-void InterfaceHttpClient::disconnect(const size_t &userId, const HttpClientData::SessionConnectionData &scData){
+// TODO
+HttpClientData::UsersInSessionData InterfaceHttpClient::getUsersInSession(const size_t &sessionId)
+{
     json data;
-    data["title"] = "DISCONNECTUSER";
-    data["session"] = JsonParser::SessionConnectionDataToJson(scData);
-    data["id"] = userId;
+    data["title"] = "GETUSERS";
+    data["sessionId"] = sessionId;
+    std::string request = data.dump();
+
+    std::string response = this->sendMsgWithResponse(request);
+    HttpClientData::UsersInSessionData users;
+    // TODO dump
+
+    return users;
+}
+
+size_t InterfaceHttpClient::loginUser(const HttpClientData::UserData &userData)
+{
+    json data;
+    data["title"] = "LOGINUSER";
+    data["user"] = JsonParser::UserDataToJson(userData);
+    std::string request = data.dump();
+
+    std::string response = this->sendMsgWithResponse(request);
+
+    size_t userId = std::stoi(response, nullptr, 10);
+    return userId;
+}
+
+size_t InterfaceHttpClient::registerUser(const HttpClientData::UserData &userData)
+{
+    json data;
+    data["title"] = "REGISTERUSER";
+    data["user"] = JsonParser::UserDataToJson(userData);
+    std::string request = data.dump();
+
+    std::string response = this->sendMsgWithResponse(request);
+
+    size_t userId = std::stoi(response, nullptr, 10);
+    return userId;
+}
+
+
+// удалить активного пользователя из сессии, но пользователь должен остаться
+void InterfaceHttpClient::disconnectSession(const size_t &userId, const size_t &sessionId)
+{
+    json data;
+    data["title"] = "DISCONNECTSESSION";
+    data["sessionId"] = sessionId;
+    data["userId"] = userId;
     std::string request = data.dump();
 
     this->sendMsgNoResponse(request);

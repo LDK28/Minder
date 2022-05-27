@@ -21,12 +21,22 @@ json JsonParser::BlockToJson(const HttpClientData::Block &block){
     result["posX"] = block.posX;
     result["posY"] = block.posY;
     result["text"] = block.text;
-
-    // TODO
-    result["color_background"] = "#69a832";
-    result["color_border"] = "#69a832";
-    result["font"] = "Arial";
-    result["color_text"] = "#69a832";
+    result["color_background"] = block.bgColor.name;
+    result["color_border"] = block.borderColor.name;
+    result["font"] = block.font.name;
+    result["color_text"] = block.fontColor.name;
     
+    return result;
+}
+
+std::string nickname;
+        std::string password;
+
+json JsonParser::UserDataToJson(const HttpClientData::UserData &userData){
+    json result;
+
+    result["nickname"] = userData.nickname;
+    result["password"] = userData.password;
+
     return result;
 }
