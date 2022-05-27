@@ -5,9 +5,6 @@ file(GLOB SOURCES *.cpp)
 file(GLOB INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
-target_include_directories(${PROJECT_NAME} PUBLIC 
-                                    ../${JSON_INC} 
-                                    ../${DATABASE_CLIENT_INC}
-                                    ${POSTGRE_DATABASE_CLIENT_INC})
+target_include_directories(${PROJECT_NAME} PUBLIC ../${JSON_INC} ../${DATABASE_CLIENT_INC})
 set(DATABASE_USERS_CLIENT_LIB ${PROJECT_NAME} PARENT_SCOPE)
 set(DATABASE_USERS_CLIENT_INC ${INCLUDE_DIRS} PARENT_SCOPE)
