@@ -5,5 +5,4 @@ set(SERVER_INC .)
 set(JSON_INC ../nlohmann)
 
 add_subdirectory(NetworkController)
-add_subdirectory(NetworkSession)
 add_subdirectory(ServerLogic)

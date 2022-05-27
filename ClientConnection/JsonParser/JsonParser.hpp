@@ -3,23 +3,17 @@
 
 #include "JsonParser.hpp"
 #include "json.hpp"
+#include "ClientData.h"
 
 using json = nlohmann::json;
 
-struct FeatureName
+namespace JsonParser
 {
-};
+    json SessionConnectionDataToJson(const HttpClientData::SessionConnectionData &scData);
+    json SessionCreationDataToJson(const HttpClientData::SessionCreationData &scData);
+    json BlockToJson(const HttpClientData::Block &block);
+    json UserDataToJson(const HttpClientData::UserData &userData);
 
-class JsonParser
-{
-private:
-    /* data */
-public:
-    JsonParser(/* args */){};
-    ~JsonParser(){};
-
-    struct FeatureName jsonToStruct(json data);
-    json structToJson(struct FeatureName data);
 };
 
 #endif
