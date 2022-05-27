@@ -48,3 +48,82 @@ name = httpClient.checkConnectionToSession(scData); // name => "Your session nam
 
 ```
 
+#### createSession
+
+Создание сессии: id сесcии
+
+```c++
+// Прототип
+size_t createSession(const HttpClientData::SessionCreationData &scData);
+
+// Вызов
+size_t id;
+HttpClientData::SessionCreationData scData = {"name", "Qwerty"}; // {name, password}
+id = httpClient.createSession(scData); // id => 182
+
+```
+
+#### getUsers*
+
+Получение активных пользователей сессии
+
+```c++
+// Прототип
+std::string getUsers(const HttpClientData::SessionConnectionData &scData);
+
+// Вызов
+std::string names;
+HttpClientData::SessionConnectionData scData = {182, "Qwerty"}; // {id, password}
+id = httpClient.scData(scData); // names => {"name1", "name2"}
+
+```
+
+#### getUsers
+
+Добавление блока в сессию
+
+```c++
+// Прототип
+void addBlock(const HttpClientData::Block &block, const HttpClientData::SessionConnectionData &scData);
+
+```
+
+​    // удалить блок по id
+
+​    void deleteBlock(const size_t BlockId, const HttpClientData::SessionConnectionData &) override;
+
+
+
+​    // получить все блоки по id сессии
+
+#### changeBlock
+
+```c++
+// Прототип
+void changeBlock(const HttpClientData::Block &block, const HttpClientData::SessionConnectionData &scData);
+
+```
+
+#### 
+
+#### deleteBlock
+
+Удаление блока из сессии по id
+
+```c++
+// Прототип
+void deleteBlock(const size_t &blockId, const HttpClientData::SessionConnectionData &scData);
+
+```
+
+#### getCurrentStateDesk
+
+Получить все блоки по id сессии
+
+```c++
+// Прототип
+HttpClientData::MindMapData getCurrentStateDesk(const HttpClientData::SessionConnectionData &scData);
+
+```
+
+#### 
