@@ -94,7 +94,7 @@ public:
     void changeBlock(const HttpClientData::Block &, const HttpClientData::SessionConnectionData &) override;
 
     // удалить блок по id
-    void deleteBlock(const size_t id, const HttpClientData::SessionConnectionData &) override;
+    void deleteBlock(const size_t BlockId, const HttpClientData::SessionConnectionData &) override;
 
     // получить все блоки по id сессии
     HttpClientData::MindMapData getCurrentStateDesk(const HttpClientData::SessionConnectionData &con) override;

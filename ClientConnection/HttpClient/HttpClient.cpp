@@ -112,8 +112,9 @@ std::string InterfaceHttpClient::checkConnectionToSession(const HttpClientData::
 // создание новой сессии: возвращаю id, иначе 0
 size_t InterfaceHttpClient::createSession(const HttpClientData::SessionCreationData &scData)
 {
-    json data = JsonParser::SessionCreationDataToJson(scData);
+    json data;
     data["title"] = "CREATESESSION";
+    data["session"] = JsonParser::SessionCreationDataToJson(scData);
     std::string request = data.dump();
 
     std::string response = this->sendMsgWithResponse(request);
