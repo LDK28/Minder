@@ -21,9 +21,12 @@ json JsonParser::BlockToJson(const HttpClientData::Block &block){
     result["posX"] = block.posX;
     result["posY"] = block.posY;
     result["text"] = block.text;
-    result["bgColor"] = block.bgColor;
-    result["borderColor"] = block.borderColor;
-    result["font"] = block.font;
-    result["fontColor"] = block.fontColor;
+
+    // TODO
+    result["color_background"] = "#69a832";
+    result["color_border"] = "#69a832";
+    result["font"] = "Arial";
+    result["color_text"] = "#69a832";
+    
     return result;
 }
