@@ -6,9 +6,8 @@ SessionConnectionWindow::SessionConnectionWindow(QWidget *parent) :
     ui(new Ui::SessionConnectionWindow)
 {
     ui->setupUi(this);
-    ui->labelErrorMsg->hide();
-    connect(ui->btnCreateNewSession, &QPushButton::clicked, this, &SessionConnectionWindow::on_openNewSessionCreationWindowButtonClicked);
-    connect(ui->btnConnectToSession, &QPushButton::clicked, this, &SessionConnectionWindow::on_connectToSessionButtonClicked);
+    initConnections();
+    hideErrorMsg();
 }
 
 SessionConnectionWindow::~SessionConnectionWindow()
@@ -16,10 +15,19 @@ SessionConnectionWindow::~SessionConnectionWindow()
     delete ui;
 }
 
+void SessionConnectionWindow::initConnections()
+{
+    connect(ui->btnCreateNewSession, &QPushButton::clicked, this, &SessionConnectionWindow::on_openNewSessionCreationWindowButtonClicked);
+    connect(ui->btnConnectToSession, &QPushButton::clicked, this, &SessionConnectionWindow::on_connectToSessionButtonClicked);
+}
+
 void SessionConnectionWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event);
     qDebug() << "Session Connection window close event";
+
+    hideErrorMsg();
+
     emit on_closeSessionConnectionWindowButtonClicked();
 }
 
@@ -28,6 +36,9 @@ void SessionConnectionWindow::on_connectToSessionButtonClicked()
     qDebug() << "Session connection pack data";
     ViewDataStructures::SessionConnectionData data(ui->lineSessiond->text(), ui->lineSessionPassword->text());
     qDebug() << "  " << data.id << " " << data.password;
+
+    hideErrorMsg();
+
     emit on_connectToSession(data);
 }
 

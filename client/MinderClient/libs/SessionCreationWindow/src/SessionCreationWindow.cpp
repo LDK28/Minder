@@ -6,9 +6,8 @@ SessionCreationWindow::SessionCreationWindow(QWidget *parent) :
     ui(new Ui::SessionCreationWindow)
 {
     ui->setupUi(this);
-    ui->labelErrorMsg->hide();
-    connect(ui->btnCreateNewSession, &QPushButton::clicked, this, &SessionCreationWindow::on_createNewSessionButtonClicked);
-    connect(ui->btnConnectToExistingSession, &QPushButton::clicked, this, &SessionCreationWindow::on_openSessionConnectionWindowButtonClicked);
+    initConnections();
+    hideErrorMsg();
 }
 
 SessionCreationWindow::~SessionCreationWindow()
@@ -16,10 +15,18 @@ SessionCreationWindow::~SessionCreationWindow()
     delete ui;
 }
 
+void SessionCreationWindow::initConnections()
+{
+    connect(ui->btnCreateNewSession, &QPushButton::clicked, this, &SessionCreationWindow::on_createNewSessionButtonClicked);
+    connect(ui->btnConnectToExistingSession, &QPushButton::clicked, this, &SessionCreationWindow::on_openSessionConnectionWindowButtonClicked);
+}
+
 void SessionCreationWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event);
     qDebug() << "Session Creation window close event";
+
+    hideErrorMsg();
 
     emit on_closeSessionCreationWindowButtonClicked();
 }
@@ -30,6 +37,8 @@ void SessionCreationWindow::on_createNewSessionButtonClicked()
 
     ViewDataStructures::SessionCreationData data(ui->lineSessionName->text(), ui->lineNewSessionPassword->text(), ui->lineNewSessionRepeatPassword->text());
     qDebug() << "  " << data.name << " " << data.password << " " << data.repeatPassword;
+
+    hideErrorMsg();
 
     emit on_createNewSession(data);
 }

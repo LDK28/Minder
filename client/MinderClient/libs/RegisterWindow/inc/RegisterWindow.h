@@ -30,6 +30,7 @@ public:
 
 private:
     void closeEvent(QCloseEvent *event);
+    void initConnections();
 
 private slots:
     void on_registerButtonClicked();

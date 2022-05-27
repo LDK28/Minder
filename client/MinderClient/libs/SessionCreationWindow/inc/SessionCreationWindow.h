@@ -28,8 +28,9 @@ public:
     void showErrorMsg(const QString &errMsg);
     void hideErrorMsg();
 
-protected:
+private:
     void closeEvent(QCloseEvent *event);
+    void initConnections();
 
 private slots:
     void on_createNewSessionButtonClicked();

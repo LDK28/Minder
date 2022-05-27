@@ -6,8 +6,8 @@ AuthorizationWindow::AuthorizationWindow(QWidget *parent) :
     ui(new Ui::AuthorizationWindow)
 {
     ui->setupUi(this);
-    ui->labelErrorMsg->hide();
     initConnections();
+    hideErrorMsg();
 }
 
 AuthorizationWindow::~AuthorizationWindow()
@@ -17,7 +17,6 @@ AuthorizationWindow::~AuthorizationWindow()
 
 void AuthorizationWindow::initConnections()
 {
-
     connect(ui->btnRegister, &QPushButton::clicked, this, &AuthorizationWindow::on_openRegisterWindowButtonClicked);
     connect(ui->btnSettings, &QPushButton::clicked, this, &AuthorizationWindow::on_openSettingsWindowButtonClicked);
     connect(ui->btnLogin, &QPushButton::clicked, this, &AuthorizationWindow::on_loginButtonClicked);
@@ -27,6 +26,9 @@ void AuthorizationWindow::closeEvent(QCloseEvent *event)
 {
     Q_UNUSED(event);
     qDebug() << "Auth window close event";
+
+    hideErrorMsg();
+
     emit on_closeAuthorizationWindowButtonClicked();
 }
 
@@ -35,6 +37,9 @@ void AuthorizationWindow::on_loginButtonClicked()
     qDebug() << "Authorization pack data";
     ViewDataStructures::LoginData data = {ui->lineNickname->text(), ui->linePassword->text()};
     qDebug() << "  " << data.nickname << " " << data.password;
+
+    hideErrorMsg();
+
     emit on_login(data);
 }
 
