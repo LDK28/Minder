@@ -63,7 +63,8 @@ void NetworkController::startServer()
 
         std::string request = this->recvMsg(clientSD);
         std::string response = serverLogic.router(request);
-        this->sendMsg(response, clientSD);
+        if (response.empty == false)
+            this->sendMsg(response, clientSD);
     }
 
     shutdown(this->sd, SHUT_RDWR);
