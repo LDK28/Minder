@@ -1,0 +1,11 @@
+/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles/rebuild_cache.dir
+/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles/edit_cache.dir
+/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles/MinderServer.dir
+/home/ldk/Рабочий стол/Minder/server/build/Server/CMakeFiles/rebuild_cache.dir
+/home/ldk/Рабочий стол/Minder/server/build/Server/CMakeFiles/edit_cache.dir
+/home/ldk/Рабочий стол/Minder/server/build/Server/NetworkController/CMakeFiles/rebuild_cache.dir
+/home/ldk/Рабочий стол/Minder/server/build/Server/NetworkController/CMakeFiles/edit_cache.dir
+/home/ldk/Рабочий стол/Minder/server/build/Server/NetworkController/CMakeFiles/NetworkController.dir
+/home/ldk/Рабочий стол/Minder/server/build/Server/ServerLogic/CMakeFiles/rebuild_cache.dir
+/home/ldk/Рабочий стол/Minder/server/build/Server/ServerLogic/CMakeFiles/edit_cache.dir
+/home/ldk/Рабочий стол/Minder/server/build/Server/ServerLogic/CMakeFiles/ServerLogic.dir

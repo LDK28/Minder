@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/MinderServer.dir/main.cpp.o  -o MinderServer  -Wl,-rpath,"/home/ldk/Рабочий стол/Minder/server/build/Server/NetworkController:/home/ldk/Рабочий стол/Minder/server/build/Server/ServerLogic" Server/NetworkController/libNetworkController.so Server/ServerLogic/libServerLogic.so 

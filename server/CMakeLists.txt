@@ -4,6 +4,8 @@ project(MinderServer)
 set(JSON_INC ../nlohmann)
 
 add_subdirectory(Server)
-add_subdirectory(Database)
+
+include_directories(./Server/NetworkController)
+link_libraries(NetworkController)
 
 add_executable(${PROJECT_NAME} main.cpp)
