@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -shared -Wl,-soname,libHttpClient.so -o libHttpClient.so CMakeFiles/HttpClient.dir/HttpClient.cpp.o  -Wl,-rpath,"/home/ldk/Рабочий стол/Minder/ClientConnection/build/JsonParser" ../JsonParser/libJsonParser.so 

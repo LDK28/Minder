@@ -13,7 +13,7 @@ namespace JsonParser
     json SessionCreationDataToJson(const HttpClientData::SessionCreationData &scData);
     json BlockToJson(const HttpClientData::Block &block);
     json UserDataToJson(const HttpClientData::UserData &userData);
-
+    HttpClientData::Block JsonToBlock(const json &block);
 };
 
 #endif

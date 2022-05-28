@@ -175,8 +175,9 @@ HttpClientData::MindMapData HttpClient::getCurrentStateDesk(const size_t &sessio
     std::string response = sendMsgWithResponse(request);
     json dataJson = json::parse(response);
     HttpClientData::MindMapData mmData;
-    // TODO
-    // mmData.blocks = dataJson.get<std::vector<HttpClientData::Block>>();
+
+    for (auto &elem : dataJson["blocks"])
+        mmData.blocks.push_back(JsonParser::JsonToBlock(elem));
     return mmData;
 };
 
@@ -189,8 +190,11 @@ HttpClientData::UsersInSessionData HttpClient::getUsersInSession(const size_t &s
     std::string request = data.dump();
 
     std::string response = this->sendMsgWithResponse(request);
+    json dataJson = json::parse(response);
     HttpClientData::UsersInSessionData users;
-    // TODO dump
+    
+    for (auto &elem : dataJson["users"])
+        users.users.push_back(elem["username"]);
 
     return users;
 }
