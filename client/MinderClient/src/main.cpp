@@ -5,7 +5,7 @@
 #include <QDir>
 
 #include "LogicController.h"
-#include "HttpClient.hpp"
+#include "HttpThread.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +26,8 @@ int main(int argc, char *argv[])
     }
 
     HttpClient *httpClient = new HttpClient(std::string("localhost"), 7777);
+    HttpThread newThread(httpClient);
+    newThread.run();
     LogicController lc(httpClient);
 
     return a.exec();

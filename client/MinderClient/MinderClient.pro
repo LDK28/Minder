@@ -26,6 +26,7 @@ include($${LIB_PATH}/SessionWindow/SessionWindow.pri)
 include($${LIB_PATH}/SettingsWindow/SettingsWindow.pri)
 include($${LIB_PATH}/ToolsPalette/ToolsPalette.pri)
 include($${LIB_PATH}/DataStructures/DataStructures.pri)
+include($${LIB_PATH}/HttpThread/HttpThread.pri)
 
 # include($${LIB_PATH}/LogicController/LogicController.pri)
 include($${LIB_PATH}/LogicLib/LogicLib.pri)
