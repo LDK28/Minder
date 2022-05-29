@@ -47,7 +47,7 @@ public:
         DBUsersClient = new DatabaseUsersClient(pg);
         DBSessionClient = new DatabaseSessionClient(pg);
         DBDrawDeskClient = new DatabaseDrawDeskClient(pg);
-        }
+    }
     ~ServerLogic()
     {
         delete DBDrawDeskClient;
