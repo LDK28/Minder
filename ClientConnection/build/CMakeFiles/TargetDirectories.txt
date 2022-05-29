@@ -1,8 +1,0 @@
-/home/ldk/Рабочий стол/Minder/ClientConnection/build/CMakeFiles/rebuild_cache.dir
-/home/ldk/Рабочий стол/Minder/ClientConnection/build/CMakeFiles/edit_cache.dir
-/home/ldk/Рабочий стол/Minder/ClientConnection/build/JsonParser/CMakeFiles/rebuild_cache.dir
-/home/ldk/Рабочий стол/Minder/ClientConnection/build/JsonParser/CMakeFiles/edit_cache.dir
-/home/ldk/Рабочий стол/Minder/ClientConnection/build/JsonParser/CMakeFiles/JsonParser.dir
-/home/ldk/Рабочий стол/Minder/ClientConnection/build/HttpClient/CMakeFiles/rebuild_cache.dir
-/home/ldk/Рабочий стол/Minder/ClientConnection/build/HttpClient/CMakeFiles/edit_cache.dir
-/home/ldk/Рабочий стол/Minder/ClientConnection/build/HttpClient/CMakeFiles/HttpClient.dir
