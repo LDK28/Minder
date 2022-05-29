@@ -7,6 +7,10 @@
 #include "LogicController.h"
 #include "HttpClient.hpp"
 
+
+#include <QThread>
+
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -27,6 +31,17 @@ int main(int argc, char *argv[])
 
     HttpClient *httpClient = new HttpClient(std::string("localhost"), 7777);
     LogicController lc(httpClient);
+    QThread logicThread;
+    lc.moveToThread(&logicThread);
+    logicThread.start();
 
-    return a.exec();
+
+    a.exec();
+
+
+    logicThread.quit();
+    logicThread.wait();
+
+
+    return EXIT_SUCCESS;
 }

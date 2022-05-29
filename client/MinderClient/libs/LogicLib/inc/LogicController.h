@@ -5,6 +5,8 @@
 
 #include <QtWidgets>
 
+#include <QTimer>
+
 #include "ViewDataStructures.h"
 #include "DrawingLogic.h"
 #include "UserLogic.h"
@@ -14,7 +16,16 @@ class LOGICLIB_EXPORT LogicController: public QObject {
     Q_OBJECT
 public:
     explicit LogicController() : network(new HttpClient("", 0)), user(network), drawing(network)
-    { connectView(); }
+    {
+        timer = new QTimer();
+        connect(timer, &QTimer::timeout, this, &LogicController::pingServer);
+        timer->setInterval(1000);
+        timer->start();
+
+
+        connectView();
+
+    }
     explicit LogicController(HttpClient *network_) :
         network(network_), user(network_), drawing(network_)
     {connectView();}
@@ -27,6 +38,8 @@ public slots:
     void disconnectSession(const size_t sessionId);
     void receiveNewBlock(const HttpClientData::Block &block);
     void receiveDeletedBlock(size_t id);
+
+    bool pingServer();
 
 signals:
     void changeSettingsSuccess();
@@ -44,6 +57,8 @@ private:
 
     void connectView();
     void disconnectView();
+
+    QTimer *timer;
 
     HttpClientData::SettingsData convertSettings(const ViewDataStructures::SettingsData &settings);
     HttpClientData::SessionCreationData convertNewSession(const ViewDataStructures::SessionCreationData &session);

@@ -75,6 +75,26 @@ public slots: // from logic contloller
     void receiveNewBlockId(const long newBlockId);
     void receiveBlock(const ViewDataStructures::Block& block);
     void receiveDeltedBlockId(const size_t id);
+
+
+    void lockView()
+    {
+        authWindow.blockSignals(true);
+        regWindow.blockSignals(true);
+        settingsWindow.blockSignals(true);
+        sessionConnectionWindow.blockSignals(true);
+        sessionCreationWindow.blockSignals(true);
+        if(sessionWindow) sessionWindow->blockSignals(true);
+    }
+    void unlockView()
+    {
+        authWindow.blockSignals(false);
+        regWindow.blockSignals(false);
+        settingsWindow.blockSignals(false);
+        sessionConnectionWindow.blockSignals(false);
+        sessionCreationWindow.blockSignals(false);
+        if(sessionWindow) sessionWindow->blockSignals(false);
+    }
     // end Interface
 
 private slots:

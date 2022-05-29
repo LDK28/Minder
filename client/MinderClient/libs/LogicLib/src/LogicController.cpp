@@ -158,3 +158,8 @@ HttpClientData::SessionConnectionData LogicController::convertExistSession(const
     return HttpClientData::SessionConnectionData(session.id.toInt(), session.password.toStdString());
 }
 
+bool LogicController::pingServer()
+{
+    // TODO
+    return 0;
+}

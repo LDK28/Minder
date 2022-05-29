@@ -5,9 +5,16 @@ const char *REGISTER_ERROR_MSG = "Registration failed.";
 
 void UserLogic::loginUser(const ViewDataStructures::LoginData &user) {
 
+    // stop timer
+
+    // lock view
+
     HttpClientData::UserData convUser = convertLoginUser(user);
 
     size_t id = network->loginUser(convUser);
+    // start timer
+
+    // unlock view
 
     if (id > 0) {
         userId = id;
