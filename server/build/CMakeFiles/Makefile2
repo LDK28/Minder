@@ -54,39 +54,141 @@ CMAKE_BINARY_DIR = "/home/ldk/Рабочий стол/Minder/server/build"
 
 # The main recursive "all" target.
 all: CMakeFiles/MinderServer.dir/all
+all: Database/all
 all: Server/all
 
 .PHONY : all
 
 # The main recursive "preinstall" target.
+preinstall: Database/preinstall
 preinstall: Server/preinstall
 
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/MinderServer.dir/clean
+clean: Database/clean
 clean: Server/clean
 
 .PHONY : clean
 
 #=============================================================================
+# Directory level rules for directory Database
+
+# Recursive "all" directory target.
+Database/all: Database/PostgreDatabaseClient/all
+Database/all: Database/DatabaseUsersClient/all
+Database/all: Database/DatabaseSessionClient/all
+Database/all: Database/DatabaseDrawDeskClient/all
+
+.PHONY : Database/all
+
+# Recursive "preinstall" directory target.
+Database/preinstall: Database/PostgreDatabaseClient/preinstall
+Database/preinstall: Database/DatabaseUsersClient/preinstall
+Database/preinstall: Database/DatabaseSessionClient/preinstall
+Database/preinstall: Database/DatabaseDrawDeskClient/preinstall
+
+.PHONY : Database/preinstall
+
+# Recursive "clean" directory target.
+Database/clean: Database/PostgreDatabaseClient/clean
+Database/clean: Database/DatabaseUsersClient/clean
+Database/clean: Database/DatabaseSessionClient/clean
+Database/clean: Database/DatabaseDrawDeskClient/clean
+
+.PHONY : Database/clean
+
+#=============================================================================
+# Directory level rules for directory Database/DatabaseDrawDeskClient
+
+# Recursive "all" directory target.
+Database/DatabaseDrawDeskClient/all: Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/all
+
+.PHONY : Database/DatabaseDrawDeskClient/all
+
+# Recursive "preinstall" directory target.
+Database/DatabaseDrawDeskClient/preinstall:
+
+.PHONY : Database/DatabaseDrawDeskClient/preinstall
+
+# Recursive "clean" directory target.
+Database/DatabaseDrawDeskClient/clean: Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/clean
+
+.PHONY : Database/DatabaseDrawDeskClient/clean
+
+#=============================================================================
+# Directory level rules for directory Database/DatabaseSessionClient
+
+# Recursive "all" directory target.
+Database/DatabaseSessionClient/all: Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/all
+
+.PHONY : Database/DatabaseSessionClient/all
+
+# Recursive "preinstall" directory target.
+Database/DatabaseSessionClient/preinstall:
+
+.PHONY : Database/DatabaseSessionClient/preinstall
+
+# Recursive "clean" directory target.
+Database/DatabaseSessionClient/clean: Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/clean
+
+.PHONY : Database/DatabaseSessionClient/clean
+
+#=============================================================================
+# Directory level rules for directory Database/DatabaseUsersClient
+
+# Recursive "all" directory target.
+Database/DatabaseUsersClient/all: Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/all
+
+.PHONY : Database/DatabaseUsersClient/all
+
+# Recursive "preinstall" directory target.
+Database/DatabaseUsersClient/preinstall:
+
+.PHONY : Database/DatabaseUsersClient/preinstall
+
+# Recursive "clean" directory target.
+Database/DatabaseUsersClient/clean: Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/clean
+
+.PHONY : Database/DatabaseUsersClient/clean
+
+#=============================================================================
+# Directory level rules for directory Database/PostgreDatabaseClient
+
+# Recursive "all" directory target.
+Database/PostgreDatabaseClient/all: Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/all
+
+.PHONY : Database/PostgreDatabaseClient/all
+
+# Recursive "preinstall" directory target.
+Database/PostgreDatabaseClient/preinstall:
+
+.PHONY : Database/PostgreDatabaseClient/preinstall
+
+# Recursive "clean" directory target.
+Database/PostgreDatabaseClient/clean: Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/clean
+
+.PHONY : Database/PostgreDatabaseClient/clean
+
+#=============================================================================
 # Directory level rules for directory Server
 
 # Recursive "all" directory target.
-Server/all: Server/NetworkController/all
 Server/all: Server/ServerLogic/all
+Server/all: Server/NetworkController/all
 
 .PHONY : Server/all
 
 # Recursive "preinstall" directory target.
-Server/preinstall: Server/NetworkController/preinstall
 Server/preinstall: Server/ServerLogic/preinstall
+Server/preinstall: Server/NetworkController/preinstall
 
 .PHONY : Server/preinstall
 
 # Recursive "clean" directory target.
-Server/clean: Server/NetworkController/clean
 Server/clean: Server/ServerLogic/clean
+Server/clean: Server/NetworkController/clean
 
 .PHONY : Server/clean
 
@@ -130,16 +232,20 @@ Server/ServerLogic/clean: Server/ServerLogic/CMakeFiles/ServerLogic.dir/clean
 # Target rules for target CMakeFiles/MinderServer.dir
 
 # All Build rule for target.
-CMakeFiles/MinderServer.dir/all: Server/NetworkController/CMakeFiles/NetworkController.dir/all
+CMakeFiles/MinderServer.dir/all: Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/all
+CMakeFiles/MinderServer.dir/all: Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/all
+CMakeFiles/MinderServer.dir/all: Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/all
+CMakeFiles/MinderServer.dir/all: Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/all
 CMakeFiles/MinderServer.dir/all: Server/ServerLogic/CMakeFiles/ServerLogic.dir/all
+CMakeFiles/MinderServer.dir/all: Server/NetworkController/CMakeFiles/NetworkController.dir/all
 	$(MAKE) -f CMakeFiles/MinderServer.dir/build.make CMakeFiles/MinderServer.dir/depend
 	$(MAKE) -f CMakeFiles/MinderServer.dir/build.make CMakeFiles/MinderServer.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=1,2 "Built target MinderServer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=7,8 "Built target MinderServer"
 .PHONY : CMakeFiles/MinderServer.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/MinderServer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 6
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 14
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/MinderServer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 0
 .PHONY : CMakeFiles/MinderServer.dir/rule
@@ -155,31 +261,112 @@ CMakeFiles/MinderServer.dir/clean:
 .PHONY : CMakeFiles/MinderServer.dir/clean
 
 #=============================================================================
-# Target rules for target Server/NetworkController/CMakeFiles/NetworkController.dir
+# Target rules for target Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir
 
 # All Build rule for target.
-Server/NetworkController/CMakeFiles/NetworkController.dir/all: Server/ServerLogic/CMakeFiles/ServerLogic.dir/all
-	$(MAKE) -f Server/NetworkController/CMakeFiles/NetworkController.dir/build.make Server/NetworkController/CMakeFiles/NetworkController.dir/depend
-	$(MAKE) -f Server/NetworkController/CMakeFiles/NetworkController.dir/build.make Server/NetworkController/CMakeFiles/NetworkController.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=3,4 "Built target NetworkController"
-.PHONY : Server/NetworkController/CMakeFiles/NetworkController.dir/all
+Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/all:
+	$(MAKE) -f Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/build.make Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/depend
+	$(MAKE) -f Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/build.make Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=11,12 "Built target PostgreDatabaseClient"
+.PHONY : Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/all
 
 # Build rule for subdir invocation for target.
-Server/NetworkController/CMakeFiles/NetworkController.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 4
-	$(MAKE) -f CMakeFiles/Makefile2 Server/NetworkController/CMakeFiles/NetworkController.dir/all
+Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 2
+	$(MAKE) -f CMakeFiles/Makefile2 Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 0
-.PHONY : Server/NetworkController/CMakeFiles/NetworkController.dir/rule
+.PHONY : Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/rule
 
 # Convenience name for target.
-NetworkController: Server/NetworkController/CMakeFiles/NetworkController.dir/rule
+PostgreDatabaseClient: Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/rule
 
-.PHONY : NetworkController
+.PHONY : PostgreDatabaseClient
 
 # clean rule for target.
-Server/NetworkController/CMakeFiles/NetworkController.dir/clean:
-	$(MAKE) -f Server/NetworkController/CMakeFiles/NetworkController.dir/build.make Server/NetworkController/CMakeFiles/NetworkController.dir/clean
-.PHONY : Server/NetworkController/CMakeFiles/NetworkController.dir/clean
+Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/clean:
+	$(MAKE) -f Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/build.make Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/clean
+.PHONY : Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/clean
+
+#=============================================================================
+# Target rules for target Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir
+
+# All Build rule for target.
+Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/all:
+	$(MAKE) -f Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/build.make Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/depend
+	$(MAKE) -f Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/build.make Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=5,6 "Built target DatabaseUsersClient"
+.PHONY : Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/all
+
+# Build rule for subdir invocation for target.
+Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 2
+	$(MAKE) -f CMakeFiles/Makefile2 Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 0
+.PHONY : Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/rule
+
+# Convenience name for target.
+DatabaseUsersClient: Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/rule
+
+.PHONY : DatabaseUsersClient
+
+# clean rule for target.
+Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/clean:
+	$(MAKE) -f Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/build.make Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/clean
+.PHONY : Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/clean
+
+#=============================================================================
+# Target rules for target Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir
+
+# All Build rule for target.
+Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/all:
+	$(MAKE) -f Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/build.make Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/depend
+	$(MAKE) -f Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/build.make Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=3,4 "Built target DatabaseSessionClient"
+.PHONY : Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/all
+
+# Build rule for subdir invocation for target.
+Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 2
+	$(MAKE) -f CMakeFiles/Makefile2 Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 0
+.PHONY : Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/rule
+
+# Convenience name for target.
+DatabaseSessionClient: Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/rule
+
+.PHONY : DatabaseSessionClient
+
+# clean rule for target.
+Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/clean:
+	$(MAKE) -f Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/build.make Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/clean
+.PHONY : Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/clean
+
+#=============================================================================
+# Target rules for target Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir
+
+# All Build rule for target.
+Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/all:
+	$(MAKE) -f Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/build.make Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/depend
+	$(MAKE) -f Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/build.make Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=1,2 "Built target DatabaseDrawDeskClient"
+.PHONY : Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/all
+
+# Build rule for subdir invocation for target.
+Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 2
+	$(MAKE) -f CMakeFiles/Makefile2 Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 0
+.PHONY : Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/rule
+
+# Convenience name for target.
+DatabaseDrawDeskClient: Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/rule
+
+.PHONY : DatabaseDrawDeskClient
+
+# clean rule for target.
+Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/clean:
+	$(MAKE) -f Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/build.make Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/clean
+.PHONY : Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/clean
 
 #=============================================================================
 # Target rules for target Server/ServerLogic/CMakeFiles/ServerLogic.dir
@@ -188,7 +375,7 @@ Server/NetworkController/CMakeFiles/NetworkController.dir/clean:
 Server/ServerLogic/CMakeFiles/ServerLogic.dir/all:
 	$(MAKE) -f Server/ServerLogic/CMakeFiles/ServerLogic.dir/build.make Server/ServerLogic/CMakeFiles/ServerLogic.dir/depend
 	$(MAKE) -f Server/ServerLogic/CMakeFiles/ServerLogic.dir/build.make Server/ServerLogic/CMakeFiles/ServerLogic.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=5,6 "Built target ServerLogic"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=13,14 "Built target ServerLogic"
 .PHONY : Server/ServerLogic/CMakeFiles/ServerLogic.dir/all
 
 # Build rule for subdir invocation for target.
@@ -207,6 +394,33 @@ ServerLogic: Server/ServerLogic/CMakeFiles/ServerLogic.dir/rule
 Server/ServerLogic/CMakeFiles/ServerLogic.dir/clean:
 	$(MAKE) -f Server/ServerLogic/CMakeFiles/ServerLogic.dir/build.make Server/ServerLogic/CMakeFiles/ServerLogic.dir/clean
 .PHONY : Server/ServerLogic/CMakeFiles/ServerLogic.dir/clean
+
+#=============================================================================
+# Target rules for target Server/NetworkController/CMakeFiles/NetworkController.dir
+
+# All Build rule for target.
+Server/NetworkController/CMakeFiles/NetworkController.dir/all:
+	$(MAKE) -f Server/NetworkController/CMakeFiles/NetworkController.dir/build.make Server/NetworkController/CMakeFiles/NetworkController.dir/depend
+	$(MAKE) -f Server/NetworkController/CMakeFiles/NetworkController.dir/build.make Server/NetworkController/CMakeFiles/NetworkController.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=9,10 "Built target NetworkController"
+.PHONY : Server/NetworkController/CMakeFiles/NetworkController.dir/all
+
+# Build rule for subdir invocation for target.
+Server/NetworkController/CMakeFiles/NetworkController.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 2
+	$(MAKE) -f CMakeFiles/Makefile2 Server/NetworkController/CMakeFiles/NetworkController.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" 0
+.PHONY : Server/NetworkController/CMakeFiles/NetworkController.dir/rule
+
+# Convenience name for target.
+NetworkController: Server/NetworkController/CMakeFiles/NetworkController.dir/rule
+
+.PHONY : NetworkController
+
+# clean rule for target.
+Server/NetworkController/CMakeFiles/NetworkController.dir/clean:
+	$(MAKE) -f Server/NetworkController/CMakeFiles/NetworkController.dir/build.make Server/NetworkController/CMakeFiles/NetworkController.dir/clean
+.PHONY : Server/NetworkController/CMakeFiles/NetworkController.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

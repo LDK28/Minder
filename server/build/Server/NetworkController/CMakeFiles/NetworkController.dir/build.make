@@ -79,7 +79,6 @@ NetworkController_EXTERNAL_OBJECTS =
 
 Server/NetworkController/libNetworkController.so: Server/NetworkController/CMakeFiles/NetworkController.dir/NetworkController.cpp.o
 Server/NetworkController/libNetworkController.so: Server/NetworkController/CMakeFiles/NetworkController.dir/build.make
-Server/NetworkController/libNetworkController.so: Server/ServerLogic/libServerLogic.so
 Server/NetworkController/libNetworkController.so: Server/NetworkController/CMakeFiles/NetworkController.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libNetworkController.so"
 	cd "/home/ldk/Рабочий стол/Minder/server/build/Server/NetworkController" && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/NetworkController.dir/link.txt --verbose=$(VERBOSE)

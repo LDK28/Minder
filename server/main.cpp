@@ -4,7 +4,7 @@
 int main()
 {
     NetworkController networkController;
-    networkController.startServer();
+    // networkController.startServer();
 
     return 0;
 }

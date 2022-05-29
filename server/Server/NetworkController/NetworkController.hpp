@@ -27,8 +27,6 @@ private:
     void sendMsg(std::string msg, int sd);
     std::string recvMsg(int sd);
 public:
-    NetworkController(/* args */){};
-    ~NetworkController(){};
     
     void startServer();
 };

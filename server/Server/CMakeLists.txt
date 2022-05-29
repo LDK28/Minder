@@ -4,5 +4,13 @@ project(Server)
 set(SERVER_INC .)
 set(JSON_INC ../nlohmann)
 
-add_subdirectory(NetworkController)
 add_subdirectory(ServerLogic)
+add_subdirectory(NetworkController)
+
+set(NETWORK_CONTROLLER_INC ${NETWORK_CONTROLLER_INC} PARENT_SCOPE)
+set(NETWORK_CONTROLLER_LIB ${NETWORK_CONTROLLER_LIB} PARENT_SCOPE)
+
+set(SERVER_LOGIC_INC ${SERVER_LOGIC_INC} PARENT_SCOPE)
+set(SERVER_LOGIC_LIB ${SERVER_LOGIC_LIB} PARENT_SCOPE)
+
+

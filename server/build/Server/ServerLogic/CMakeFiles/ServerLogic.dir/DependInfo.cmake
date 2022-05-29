@@ -17,11 +17,11 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../Server/ServerLogic/../../nlohmann"
   "../Server/ServerLogic/../."
-  "../Server/ServerLogic/../../Database/DatabaseDrawDeskClient"
-  "../Server/ServerLogic/../../Database/DatabaseSessionClient"
-  "../Server/ServerLogic/../../Database/DatabaseUsersClient"
-  "../Server/ServerLogic/../../Database"
-  "../Server/ServerLogic/../../Database/PostgreDatabaseClient"
+  "../Database/DatabaseUsersClient"
+  "../Database/DatabaseSessionClient"
+  "../Database/DatabaseDrawDeskClient"
+  "../Database/PostgreDatabaseClient"
+  "../Database"
   )
 
 # Targets to which this target links.

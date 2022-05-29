@@ -15,16 +15,18 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "../Server/NetworkController/../ServerLogic"
   "../Server/NetworkController/../../nlohmann"
   "../Server/NetworkController/../."
-  "../Server/ServerLogic/../../nlohmann"
-  "../Server/ServerLogic/../."
+  "../Server/ServerLogic"
+  "../Database/DatabaseUsersClient"
+  "../Database/DatabaseSessionClient"
+  "../Database/DatabaseDrawDeskClient"
+  "../Database/PostgreDatabaseClient"
+  "../Database"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/ldk/Рабочий стол/Minder/server/build/Server/ServerLogic/CMakeFiles/ServerLogic.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

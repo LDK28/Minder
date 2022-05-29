@@ -8,6 +8,11 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "../CMakeLists.txt"
+  "../Database/CMakeLists.txt"
+  "../Database/DatabaseDrawDeskClient/CMakeLists.txt"
+  "../Database/DatabaseSessionClient/CMakeLists.txt"
+  "../Database/DatabaseUsersClient/CMakeLists.txt"
+  "../Database/PostgreDatabaseClient/CMakeLists.txt"
   "../Server/CMakeLists.txt"
   "../Server/NetworkController/CMakeLists.txt"
   "../Server/ServerLogic/CMakeLists.txt"
@@ -115,14 +120,23 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/3.16.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Database/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Database/PostgreDatabaseClient/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Database/DatabaseUsersClient/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Database/DatabaseSessionClient/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Database/DatabaseDrawDeskClient/CMakeFiles/CMakeDirectoryInformation.cmake"
   "Server/CMakeFiles/CMakeDirectoryInformation.cmake"
-  "Server/NetworkController/CMakeFiles/CMakeDirectoryInformation.cmake"
   "Server/ServerLogic/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Server/NetworkController/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/MinderServer.dir/DependInfo.cmake"
-  "Server/NetworkController/CMakeFiles/NetworkController.dir/DependInfo.cmake"
+  "Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/DependInfo.cmake"
+  "Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/DependInfo.cmake"
+  "Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/DependInfo.cmake"
+  "Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/DependInfo.cmake"
   "Server/ServerLogic/CMakeFiles/ServerLogic.dir/DependInfo.cmake"
+  "Server/NetworkController/CMakeFiles/NetworkController.dir/DependInfo.cmake"
   )

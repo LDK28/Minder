@@ -63,7 +63,7 @@ void NetworkController::startServer()
 
         std::string request = this->recvMsg(clientSD);
         std::string response = serverLogic.router(request);
-        if (response.empty == false)
+        if (response.empty() == false)
             this->sendMsg(response, clientSD);
     }
 

@@ -1,0 +1,14 @@
+/home/ldk/Рабочий стол/Minder/server/Database/build/CMakeFiles/rebuild_cache.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/CMakeFiles/edit_cache.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/PostgreDatabaseClient/CMakeFiles/rebuild_cache.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/PostgreDatabaseClient/CMakeFiles/edit_cache.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/DatabaseUsersClient/CMakeFiles/rebuild_cache.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/DatabaseUsersClient/CMakeFiles/edit_cache.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/DatabaseSessionClient/CMakeFiles/edit_cache.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/DatabaseSessionClient/CMakeFiles/rebuild_cache.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/DatabaseDrawDeskClient/CMakeFiles/rebuild_cache.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/DatabaseDrawDeskClient/CMakeFiles/edit_cache.dir
+/home/ldk/Рабочий стол/Minder/server/Database/build/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir

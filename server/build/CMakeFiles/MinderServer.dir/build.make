@@ -79,8 +79,14 @@ MinderServer_EXTERNAL_OBJECTS =
 
 MinderServer: CMakeFiles/MinderServer.dir/main.cpp.o
 MinderServer: CMakeFiles/MinderServer.dir/build.make
-MinderServer: Server/NetworkController/libNetworkController.so
 MinderServer: Server/ServerLogic/libServerLogic.so
+MinderServer: Server/NetworkController/libNetworkController.so
+MinderServer: Database/DatabaseUsersClient/libDatabaseUsersClient.so
+MinderServer: Database/DatabaseSessionClient/libDatabaseSessionClient.so
+MinderServer: Database/DatabaseDrawDeskClient/libDatabaseDrawDeskClient.so
+MinderServer: Database/PostgreDatabaseClient/libPostgreDatabaseClient.so
+MinderServer: /usr/lib/x86_64-linux-gnu/libpqxx.so
+MinderServer: /usr/lib/x86_64-linux-gnu/libpq.so
 MinderServer: CMakeFiles/MinderServer.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/ldk/Рабочий стол/Minder/server/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable MinderServer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/MinderServer.dir/link.txt --verbose=$(VERBOSE)

@@ -9,7 +9,15 @@
 
 #include "json.hpp"
 
+#include <set>
+
 using json = nlohmann::json;
+
+struct LastUpdate
+{
+    size_t sessionId;
+    size_t userId;
+};
 
 class BaseLogic
 {
@@ -21,16 +29,32 @@ public:
 class ServerLogic : BaseLogic
 {
 private:
-    void prepareData();
+    DatabaseUsersClient *DBUsersClient;
+    DatabaseDrawDeskClient *DBDrawDeskClient;
+    DatabaseSessionClient *DBSessionClient;
 
-    DatabaseUsersClient DBUsersClient;
-    DatabaseDrawDeskClient DBDrawDeskClient;
-    DatabaseSessionClient DBSessionClient;
+    std::set<LastUpdate> lastUpdate;
 
 public:
-    ServerLogic();
-    ~ServerLogic(){};
+    ServerLogic()
+    {
+        std::shared_ptr<PostgreSQLConnectParams> conParams =
+            std::make_shared<PostgreSQLConnectParams>("p1xel", "db_minder", "12345");
 
+        std::shared_ptr<PostgreDatabaseClient> pg =
+            std::make_shared<PostgreDatabaseClient>(conParams); // затем экземпляр postgre клиента
+
+        DBUsersClient = new DatabaseUsersClient(pg);
+        DBSessionClient = new DatabaseSessionClient(pg);
+        DBDrawDeskClient = new DatabaseDrawDeskClient(pg);
+        
+    }
+    ~ServerLogic()
+    {
+        delete DBDrawDeskClient;
+        delete DBSessionClient;
+        delete DBUsersClient;
+    }
     std::string router(std::string &request) override;
 };
 

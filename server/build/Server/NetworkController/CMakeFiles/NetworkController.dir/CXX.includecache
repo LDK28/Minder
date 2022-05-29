@@ -6,6 +6,44 @@
 
 #IncludeRegexTransform: 
 
+../Database/DatabaseClient.h
+string
+-
+json.hpp
+../Database/json.hpp
+
+../Database/DatabaseDrawDeskClient/DatabaseDrawDeskClient.h
+DatabaseClient.h
+../Database/DatabaseDrawDeskClient/DatabaseClient.h
+
+../Database/DatabaseSessionClient/DatabaseSessionClient.h
+memory
+-
+vector
+-
+DatabaseClient.h
+../Database/DatabaseSessionClient/DatabaseClient.h
+
+../Database/DatabaseUsersClient/DatabaseUsersClient.h
+map
+-
+string
+-
+DatabaseClient.h
+../Database/DatabaseUsersClient/DatabaseClient.h
+PostgreDatabaseClient.h
+../Database/DatabaseUsersClient/PostgreDatabaseClient.h
+
+../Database/PostgreDatabaseClient/PostgreDatabaseClient.h
+memory
+-
+pqxx/pqxx
+-
+string
+-
+DatabaseClient.h
+../Database/PostgreDatabaseClient/DatabaseClient.h
+
 ../Server/ServerLogic/ServerLogic.hpp
 ServerLogic.hpp
 ../Server/ServerLogic/ServerLogic.hpp
@@ -17,6 +55,8 @@ DatabaseSessionClient.h
 ../Server/ServerLogic/DatabaseSessionClient.h
 json.hpp
 ../Server/ServerLogic/json.hpp
+set
+-
 
 ../nlohmann/json.hpp
 algorithm

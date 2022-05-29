@@ -6,5 +6,5 @@ CXX_FLAGS = -fPIC
 
 CXX_DEFINES = -DServerLogic_EXPORTS
 
-CXX_INCLUDES = -I"/home/ldk/Рабочий стол/Minder/server/Server/ServerLogic/../../nlohmann" -I"/home/ldk/Рабочий стол/Minder/server/Server/ServerLogic/../." -I"/home/ldk/Рабочий стол/Minder/server/Server/ServerLogic/../../Database/DatabaseDrawDeskClient" -I"/home/ldk/Рабочий стол/Minder/server/Server/ServerLogic/../../Database/DatabaseSessionClient" -I"/home/ldk/Рабочий стол/Minder/server/Server/ServerLogic/../../Database/DatabaseUsersClient" -I"/home/ldk/Рабочий стол/Minder/server/Server/ServerLogic/../../Database" -I"/home/ldk/Рабочий стол/Minder/server/Server/ServerLogic/../../Database/PostgreDatabaseClient" 
+CXX_INCLUDES = -I"/home/ldk/Рабочий стол/Minder/server/Server/ServerLogic/../../nlohmann" -I"/home/ldk/Рабочий стол/Minder/server/Server/ServerLogic/../." -I"/home/ldk/Рабочий стол/Minder/server/Database/DatabaseUsersClient" -I"/home/ldk/Рабочий стол/Minder/server/Database/DatabaseSessionClient" -I"/home/ldk/Рабочий стол/Minder/server/Database/DatabaseDrawDeskClient" -I"/home/ldk/Рабочий стол/Minder/server/Database/PostgreDatabaseClient" -I"/home/ldk/Рабочий стол/Minder/server/Database" 
 

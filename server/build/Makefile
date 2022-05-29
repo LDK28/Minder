@@ -124,17 +124,56 @@ MinderServer/fast:
 .PHONY : MinderServer/fast
 
 #=============================================================================
-# Target rules for targets named NetworkController
+# Target rules for targets named PostgreDatabaseClient
 
 # Build rule for target.
-NetworkController: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 NetworkController
-.PHONY : NetworkController
+PostgreDatabaseClient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 PostgreDatabaseClient
+.PHONY : PostgreDatabaseClient
 
 # fast build rule for target.
-NetworkController/fast:
-	$(MAKE) -f Server/NetworkController/CMakeFiles/NetworkController.dir/build.make Server/NetworkController/CMakeFiles/NetworkController.dir/build
-.PHONY : NetworkController/fast
+PostgreDatabaseClient/fast:
+	$(MAKE) -f Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/build.make Database/PostgreDatabaseClient/CMakeFiles/PostgreDatabaseClient.dir/build
+.PHONY : PostgreDatabaseClient/fast
+
+#=============================================================================
+# Target rules for targets named DatabaseUsersClient
+
+# Build rule for target.
+DatabaseUsersClient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 DatabaseUsersClient
+.PHONY : DatabaseUsersClient
+
+# fast build rule for target.
+DatabaseUsersClient/fast:
+	$(MAKE) -f Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/build.make Database/DatabaseUsersClient/CMakeFiles/DatabaseUsersClient.dir/build
+.PHONY : DatabaseUsersClient/fast
+
+#=============================================================================
+# Target rules for targets named DatabaseSessionClient
+
+# Build rule for target.
+DatabaseSessionClient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 DatabaseSessionClient
+.PHONY : DatabaseSessionClient
+
+# fast build rule for target.
+DatabaseSessionClient/fast:
+	$(MAKE) -f Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/build.make Database/DatabaseSessionClient/CMakeFiles/DatabaseSessionClient.dir/build
+.PHONY : DatabaseSessionClient/fast
+
+#=============================================================================
+# Target rules for targets named DatabaseDrawDeskClient
+
+# Build rule for target.
+DatabaseDrawDeskClient: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 DatabaseDrawDeskClient
+.PHONY : DatabaseDrawDeskClient
+
+# fast build rule for target.
+DatabaseDrawDeskClient/fast:
+	$(MAKE) -f Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/build.make Database/DatabaseDrawDeskClient/CMakeFiles/DatabaseDrawDeskClient.dir/build
+.PHONY : DatabaseDrawDeskClient/fast
 
 #=============================================================================
 # Target rules for targets named ServerLogic
@@ -148,6 +187,19 @@ ServerLogic: cmake_check_build_system
 ServerLogic/fast:
 	$(MAKE) -f Server/ServerLogic/CMakeFiles/ServerLogic.dir/build.make Server/ServerLogic/CMakeFiles/ServerLogic.dir/build
 .PHONY : ServerLogic/fast
+
+#=============================================================================
+# Target rules for targets named NetworkController
+
+# Build rule for target.
+NetworkController: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NetworkController
+.PHONY : NetworkController
+
+# fast build rule for target.
+NetworkController/fast:
+	$(MAKE) -f Server/NetworkController/CMakeFiles/NetworkController.dir/build.make Server/NetworkController/CMakeFiles/NetworkController.dir/build
+.PHONY : NetworkController/fast
 
 main.o: main.cpp.o
 
@@ -185,8 +237,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... MinderServer"
-	@echo "... NetworkController"
+	@echo "... PostgreDatabaseClient"
+	@echo "... DatabaseUsersClient"
+	@echo "... DatabaseSessionClient"
+	@echo "... DatabaseDrawDeskClient"
 	@echo "... ServerLogic"
+	@echo "... NetworkController"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
