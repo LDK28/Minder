@@ -238,6 +238,8 @@ void HttpClient::disconnectSession(const size_t &userId, const size_t &sessionId
     this->sendMsgNoResponse(request);
 };
 
+// true если есть изменения
+// false если нет 
 bool HttpClient::ping(const size_t &userId, const size_t &sessionId)
 {
     json data;
