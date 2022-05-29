@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC  -lpqxx -lpq  -shared -Wl,-soname,libPostgreDatabaseClient.so -o libPostgreDatabaseClient.so CMakeFiles/PostgreDatabaseClient.dir/PostgreDatabaseClient.cpp.o  -lpqxx -lpq 

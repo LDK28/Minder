@@ -6,8 +6,6 @@ set(JSON_INC ../nlohmann)
 add_subdirectory(Database)
 add_subdirectory(Server)
 
-# target_include_directories(${PROJECT_NAME} PUBLIC ${NETWORK_CONTROLLER_INC})
-# link_libraries(NetworkController)
 include_directories(./nlohmann
                     ${NETWORK_CONTROLLER_INC}
                     ${SERVER_LOGIC_INC}

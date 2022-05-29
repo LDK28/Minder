@@ -39,32 +39,31 @@ void NetworkController::startServer()
     int opt = 1;
     this->sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (setsockopt(this->sd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
-        throw std::runtime_error(std::string(strerror(errno)));
+        throw std::runtime_error("setsockopt: " + std::string(strerror(errno)));
 
     struct sockaddr_in serv_addr;
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = htonl(INADDR_ANY); // Will be changed on real address
-    serv_addr.sin_port = htons(80);
+    serv_addr.sin_port = htons(1025);
     if (bind(this->sd, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
         throw std::runtime_error("bind: " + std::string(strerror(errno)));
 
     while (true)
     {
-        listen(this->sd, 10);
+    listen(this->sd, 100);
 
-        struct sockaddr_in client;
-        socklen_t cli_len = sizeof(client);
+    struct sockaddr_in client;
+    socklen_t cli_len = sizeof(client);
 
-        int clientSD = accept(this->sd, (struct sockaddr *)&client, &cli_len);
+    int clientSD = accept(this->sd, (struct sockaddr *)&client, &cli_len);
 
-        std::cout << "+client: " << clientSD
-                  << ", from: " << inet_ntoa(client.sin_addr)
-                  << std::endl;
+    std::cout << "+client: " << clientSD
+              << ", from: " << inet_ntoa(client.sin_addr) << std::endl;
 
-        std::string request = this->recvMsg(clientSD);
-        std::string response = serverLogic.router(request);
-        if (response.empty() == false)
-            this->sendMsg(response, clientSD);
+    std::string request = this->recvMsg(clientSD);
+    std::string response = serverLogic.router(request);
+    if (response.empty() == false)
+        this->sendMsg(response, clientSD);
     }
 
     shutdown(this->sd, SHUT_RDWR);

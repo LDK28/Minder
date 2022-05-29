@@ -4,7 +4,6 @@ std::string ServerLogic::router(std::string &request)
 {
     std::string response = "";
     json data = json::parse(request);
-
     if (data["title"] == "CHECKCONNECTIONTOSESSION")
     {
         int id = data["session"]["id"];

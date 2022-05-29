@@ -39,7 +39,7 @@ public:
     ServerLogic()
     {
         std::shared_ptr<PostgreSQLConnectParams> conParams =
-            std::make_shared<PostgreSQLConnectParams>("p1xel", "db_minder", "12345");
+            std::make_shared<PostgreSQLConnectParams>("ldk", "db_minder");
 
         std::shared_ptr<PostgreDatabaseClient> pg =
             std::make_shared<PostgreDatabaseClient>(conParams); // затем экземпляр postgre клиента
@@ -47,8 +47,7 @@ public:
         DBUsersClient = new DatabaseUsersClient(pg);
         DBSessionClient = new DatabaseSessionClient(pg);
         DBDrawDeskClient = new DatabaseDrawDeskClient(pg);
-        
-    }
+        }
     ~ServerLogic()
     {
         delete DBDrawDeskClient;
