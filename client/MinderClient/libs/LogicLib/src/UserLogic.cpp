@@ -4,18 +4,15 @@ const char *LOGIN_ERROR_MSG = "Wrong password or login.";
 const char *REGISTER_ERROR_MSG = "Registration failed.";
 
 void UserLogic::loginUser(const ViewDataStructures::LoginData &user) {
-
-    // stop timer
-
-    // lock view
+    emit block();
 
     HttpClientData::UserData convUser = convertLoginUser(user);
 
+    timer->stop();
     size_t id = network->loginUser(convUser);
-    // start timer
+    timer->start();
 
-    // unlock view
-
+    emit unblock();
     if (id > 0) {
         userId = id;
         emit loginUserSuccess();
@@ -25,6 +22,7 @@ void UserLogic::loginUser(const ViewDataStructures::LoginData &user) {
 }
 
 void UserLogic::registerUser(const ViewDataStructures::RegisterData &user) {
+    emit block();
     if (user.password != user.repeatPassword) {
         emit registerUserFailed(REGISTER_ERROR_MSG);
         return;
@@ -32,8 +30,11 @@ void UserLogic::registerUser(const ViewDataStructures::RegisterData &user) {
 
     HttpClientData::UserData convUser = convertRegisterUser(user);
 
+    timer->stop();
     size_t id = network->registerUser(convUser);
+    timer->start();
 
+    emit unblock();
     if (id > 0) {
         userId = id;
         emit registerUserSuccess();
@@ -43,10 +44,14 @@ void UserLogic::registerUser(const ViewDataStructures::RegisterData &user) {
 }
 
 void UserLogic::getUsersListInSession(const size_t sessionId) {
+    emit block();
+    timer->stop();
     HttpClientData::UsersInSessionData users = network->getUsersInSession(sessionId);
+    timer->start();
 
     ViewDataStructures::UsersInSessionData viewUsers = convertUsers(users);
 
+    emit unblock();
     emit updateUsersListInSession(viewUsers);
 }
 

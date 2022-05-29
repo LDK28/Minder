@@ -15,20 +15,8 @@
 class LOGICLIB_EXPORT LogicController: public QObject {
     Q_OBJECT
 public:
-    explicit LogicController() : network(new HttpClient("", 0)), user(network), drawing(network)
-    {
-        timer = new QTimer();
-        connect(timer, &QTimer::timeout, this, &LogicController::pingServer);
-        timer->setInterval(1000);
-        timer->start();
-
-
-        connectView();
-
-    }
-    explicit LogicController(HttpClient *network_) :
-        network(network_), user(network_), drawing(network_)
-    {connectView();}
+    explicit LogicController();
+    explicit LogicController(HttpClient *network_);
     ~LogicController() = default;
 
 public slots:
@@ -36,10 +24,9 @@ public slots:
     void createNewSession(const ViewDataStructures::SessionCreationData &data);
     void connectToSession(const ViewDataStructures::SessionConnectionData &data);
     void disconnectSession(const size_t sessionId);
-    void receiveNewBlock(const HttpClientData::Block &block);
-    void receiveDeletedBlock(size_t id);
 
-    bool pingServer();
+private slots:
+    void pingServer();
 
 signals:
     void changeSettingsSuccess();
@@ -48,17 +35,19 @@ signals:
     void sessionCreationFailed(const QString &);
     void sessionConnectionSuccess(const ViewDataStructures::SessionData &data);
     void sessionConnectionFailed(const QString &);
+    void block();
+    void unblock();
 
 private:
     HttpClient *network;
+    QTimer *timer;
     UserLogic user;
     DrawingLogic drawing;
     ScreenController screenController;
 
     void connectView();
-    void disconnectView();
 
-    QTimer *timer;
+    size_t sessionId;
 
     HttpClientData::SettingsData convertSettings(const ViewDataStructures::SettingsData &settings);
     HttpClientData::SessionCreationData convertNewSession(const ViewDataStructures::SessionCreationData &session);

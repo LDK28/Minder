@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-//#include "HttpClient.hpp"
+#include "HttpClient.hpp"
 #include "JsonParser.hpp"
 #include "HttpDataStructures.h"
 
@@ -107,7 +107,6 @@ public:
     size_t loginUser(const HttpClientData::UserData &) override;
     size_t registerUser(const HttpClientData::UserData &) override;
 
-    // void updateDesk() override;
-    // void updateUsers() override;
+    bool ping(const size_t &, const size_t &);
 };
 #endif
