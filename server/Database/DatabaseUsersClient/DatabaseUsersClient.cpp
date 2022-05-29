@@ -132,13 +132,28 @@ json DatabaseUsersClient::addUsersInSession(const std::vector<int> &userId,
     return resp;
 }
 
+json DatabaseUsersClient::deleteUserFromSession(const int &userId) const {
+    json resp = {{STATUS_FIELD, SUCCESS_STATUS}};
+    json request = {{"id", userId}, {"session_id", nullptr}};
+    resp = updateUser(request);
+
+    if (resp[STATUS_FIELD] != SUCCESS_STATUS) {
+        return resp;
+    }
+
+    return resp;
+}
+
 json DatabaseUsersClient::updateUser(const json &sessData) const {
     json request = {{"table_name", userTable},
                     {"SET", {}},
                     {"condition", "id=" + sessData["id"].dump()}};
-    for (json::const_iterator it = sessData.begin(); it != sessData.end(); ++it) {
+    for (json::const_iterator it = sessData.begin(); it != sessData.end();
+         ++it) {
         std::string curSetValue = it.key() + "=";
-        if (it->is_string()) {
+        if (it->is_null()) {
+            curSetValue += "null";
+        } else if (it->is_string()) {
             curSetValue += "\'" + it->get<std::string>() + "\'";
         } else {
             curSetValue += it->dump();

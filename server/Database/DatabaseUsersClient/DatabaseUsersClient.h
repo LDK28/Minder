@@ -18,6 +18,7 @@ class DatabaseUsersClient {
     bool validateUser(const std::string &name,
                       const std::string &password) const;
     json addUsersInSession(const std::vector<int> &userId, int sessionId) const;
+    json deleteUserFromSession(const int &userId) const;
     json getAllUsersInfo() const;
     json updateUser(const json &) const;
     json getUserInfo(int id) const;

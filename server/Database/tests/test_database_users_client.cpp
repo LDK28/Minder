@@ -96,6 +96,19 @@ TEST(add_users_in_session, testOneUser) {
     ASSERT_EQ(usrs["status"], "ok");
 }
 
+TEST(delete_user_from_session, simplTest)
+{
+    DatabaseUsersClient cl = TestEnvironment::getUsersClient();
+
+    std::vector<int> usersIds = {1, 2, 3};
+    int userId = 3;
+    json resp = cl.deleteUserFromSession(userId);
+    ASSERT_EQ(resp["status"], "ok");
+
+    json usr = cl.getUserInfo(userId);
+    std::cout << usr.dump(4);
+    ASSERT_EQ(usr["users"][0]["session_id"], "");
+}
 TEST(update_user, simpleTest) {
     DatabaseUsersClient cl = TestEnvironment::getUsersClient();
 
