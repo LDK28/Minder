@@ -8,9 +8,7 @@ void UserLogic::loginUser(const ViewDataStructures::LoginData &user) {
 
     HttpClientData::UserData convUser = convertLoginUser(user);
 
-    timer->stop();
     size_t id = network->loginUser(convUser);
-    timer->start();
 
     emit unblock();
     if (id > 0) {
@@ -30,9 +28,7 @@ void UserLogic::registerUser(const ViewDataStructures::RegisterData &user) {
 
     HttpClientData::UserData convUser = convertRegisterUser(user);
 
-    timer->stop();
     size_t id = network->registerUser(convUser);
-    timer->start();
 
     emit unblock();
     if (id > 0) {

@@ -1,9 +1,9 @@
 #include "LogicController.h"
 
 const char *REG_IP = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
-                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
-                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
-                    "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
+                     "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
+                     "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\."
+                     "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
 
 const char *REG_NUM = "\\d";
 
@@ -12,7 +12,7 @@ const char *NEW_SESSION_ERROR_MSG = "Session creation failed.";
 const char *EXIST_SESSION_ERROR_MSG = "Session connection failed.";
 
 LogicController::LogicController() : network(new HttpClient("", 0)), timer(new QTimer()),
-        user(network, timer), drawing(network, timer) {
+    user(network, timer), drawing(network, timer) {
     connect(timer, &QTimer::timeout, this, &LogicController::pingServer);
     timer->setInterval(2000);
     timer->start();
@@ -23,10 +23,9 @@ LogicController::LogicController() : network(new HttpClient("", 0)), timer(new Q
 }
 
 LogicController::LogicController(HttpClient *network_) : network(network_), timer(new QTimer()),
-        user(network, timer), drawing(network, timer) {
+    user(network, timer), drawing(network, timer) {
     connect(timer, &QTimer::timeout, this, &LogicController::pingServer);
     timer->setInterval(2000);
-    timer->start();
 
     sessionId = 0;
 
@@ -86,9 +85,7 @@ void LogicController::changeSettings(const ViewDataStructures::SettingsData &set
 
     HttpClientData::SettingsData convSettings = convertSettings(settings);
 
-    timer->stop();
     HttpClientData::returnCode rc = network->updateSettings(convSettings);
-    timer->start();
 
     emit unblock();
     if (rc == HttpClientData::SUCCESS) {
@@ -115,6 +112,7 @@ void LogicController::createNewSession(const ViewDataStructures::SessionCreation
     if (sessionId == 0) {
         emit sessionCreationFailed(NEW_SESSION_ERROR_MSG);
     } else {
+        timer->start();
         emit sessionCreationSuccess(ViewDataStructures::SessionData(sessionId, session.name));
     }
 }
@@ -129,15 +127,14 @@ void LogicController::connectToSession(const ViewDataStructures::SessionConnecti
 
     HttpClientData::SessionConnectionData convSession = convertExistSession(session);
 
-    timer->stop();
     std::string sessionName = network->checkConnectionToSession(convSession, user.getUser());
-    timer->start();
 
     emit unblock();
     if (sessionName.empty()) {
         emit sessionConnectionFailed(EXIST_SESSION_ERROR_MSG);
     } else {
         emit sessionConnectionSuccess(ViewDataStructures::SessionData(session.id.toInt(), QString::fromStdString(sessionName)));
+        timer->start();
     }
 }
 
@@ -145,7 +142,6 @@ void LogicController::disconnectSession(const size_t sessionId) {
     emit block();
     timer->stop();
     network->disconnectSession(user.getUser(), sessionId);
-    timer->start();
     emit unblock();
 }
 

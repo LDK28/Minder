@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 
+#include "HttpDataStructures.h"
 #include "ViewDataStructures.h"
 #include "HttpClient.hpp"
 

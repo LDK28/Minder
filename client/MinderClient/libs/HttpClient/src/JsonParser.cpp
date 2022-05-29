@@ -55,6 +55,6 @@ HttpClientData::Block JsonParser::JsonToBlock(const json &block)
     result.borderColor.name = block["color_border"];
     result.font.name = block["font"];
     result.fontColor.name = block["color_text"];
-
+    
     return result;
 }

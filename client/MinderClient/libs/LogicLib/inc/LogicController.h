@@ -7,6 +7,7 @@
 
 #include <QTimer>
 
+#include "HttpDataStructures.h"
 #include "ViewDataStructures.h"
 #include "DrawingLogic.h"
 #include "UserLogic.h"

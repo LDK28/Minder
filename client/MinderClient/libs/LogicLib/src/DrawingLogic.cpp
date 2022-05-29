@@ -13,13 +13,11 @@ void DrawingLogic::sendNewBlock(const size_t sessionId, const ViewDataStructures
 }
 
 void DrawingLogic::sendDeletedBlock(const ViewDataStructures::MindMapData &changedBlocks) {
+    timer->stop();
     for(int i = 1; i < changedBlocks.blocks.count(); ++i) {
         HttpClientData::Block convBlock = convertBlock(changedBlocks.blocks.at(i));
-        timer->stop();
         network->changeBlock(convBlock);
-        timer->start();
     }
-    timer->stop();
     network->deleteBlock(changedBlocks.blocks.at(0).id);
     timer->start();
 }

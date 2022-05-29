@@ -9,7 +9,6 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#include "HttpClient.hpp"
 #include "JsonParser.hpp"
 #include "HttpDataStructures.h"
 
