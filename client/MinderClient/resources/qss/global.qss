@@ -1,0 +1,218 @@
+* {
+    font-size: 16pt;
+    font-family: 'Hermes', 'Normal';
+}
+
+QLineEdit {
+    background-color: none;
+    color: rgb(72, 72, 72);
+    border: 1px solid rgb(82, 161, 135);
+    border-radius: 8px;
+    margin: 5px;
+    padding: 5px;
+}
+
+QPushButton {
+    background-color: rgb(107, 219, 181);
+    color: white;
+    border: 1px solid rgb(82, 161, 135);
+    border-radius: 8px;
+    padding: 5px;
+    margin: 5px;
+}
+
+QPushButton:hover {
+    background-color: rgb(117, 235, 195);
+}
+
+QLabel {
+    margin: 5px;
+    color: rgb(72, 72, 72);
+    qproperty-alignment: "AlignCenter";
+}
+
+#AuthorizationWindow,
+#RegisterWindow,
+#SettingsWindow,
+#SessionConnectionWindow,
+#SessionCreationWindow,
+#NewBlockCreationWindow,
+#SessionWindow {
+    max-width: 600px;
+    max-height: 750px;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #F0F0F0, stop: 1 lightgray);
+    border-radius: 5px;
+    border: 3px solid tomato;
+}
+
+#labelMinderLogo {
+    qproperty-pixmap: url(:/img/img/logo.png);
+    qproperty-scaledContents: 1;
+    max-width: 100px;
+    max-height: 100px;
+    /* border: 2px solid red; */
+    border-radius: 10px;
+}
+
+#labelMinder {
+    color: rgb(97, 195, 162);
+    qproperty-alignment: "AlignLeft";
+    font-size: 32pt;
+    font-family: 'Bookman', 'URW Bookman L', 'serif';
+    font-weight: bold;
+    font-style: italic;
+}
+
+#labelErrorMsg {
+    color: red;
+    border: 2px solid red;
+    border-radius: 5px;
+    font-size: 14pt;
+    font-style: italic;
+    padding: 2px;
+    margin: 5px;
+}
+
+#labelActionHelp {
+    color: rgb(115, 158, 144);
+    text-decoration: underline;
+    font-size: 12pt;
+}
+
+#labelTitle {
+    font-weight: bold;
+    color: rgb(88, 88, 88);
+    font-size: 24pt;
+}
+
+#lineHeader {
+    color: red;
+}
+
+#labelSubtitle {
+    font-size: 20pt;
+}
+
+#labelSubtitleBlocks,
+#labelSubtitleZoom {
+    font-size: 24pt;
+    color: cadetblue;
+}
+
+#labelScale {
+    color: teal;
+    font-weight: bold;
+    font-size: 20pt;
+    margin: 5px;
+    padding: 2px;
+    text-decoration: underline;
+}
+
+#layoutBlock,
+#layoutZoom {
+    color: red;
+    border: 2px solid rgb(115, 158, 144);
+    border-radius: 8px;
+}
+
+
+#btnSettings {
+    font-size: 12pt;
+}
+
+#labelTitleRoom {
+    font-size: 32pt;
+    font-weight: bold;
+    color: rgb(82, 161, 135);
+}
+
+#labelRoomName {
+    font-size: 32pt;
+    font-weight: bold;
+    color: orange;
+}
+
+#SessionWindow {
+    min-width: 1600;
+    min-height: 900;
+    max-width: 16777215;
+    max-height: 16777215;
+}
+
+#btnZoomPlus {
+    qproperty-icon: none;
+    qproperty-text: '';
+    image: url(":/img/img/zoom_plus_icon.png");
+    height: 48px;
+}
+
+#btnZoomMinus {
+    qproperty-icon: none;
+    qproperty-text: '';
+    image: url(":/img/img/zoom_minus_icon.png");
+    height: 48px;
+}
+
+#btnZoomHome {
+    qproperty-icon: none;
+    qproperty-text: '';
+    image: url(":/img/img/zoom_home_icon.png");
+    height: 48px;
+}
+
+#graphicsViewMindMap {
+    border-image: url(":/img/background/mindmap_back_5.png");
+    background-repeat: repeat;
+    /* background-color: red; */
+}
+
+QListWidget {
+    padding: 5px;
+    margin: 5px;
+}
+
+QListView::item {
+    font-size: 18pt;
+    color: rgb(115, 158, 144);
+    padding: 2px;
+    margin: 3px 5px 3px 5px;
+    border: 1px solid rgb(115, 158, 144);
+    border-radius: 8px;
+}
+
+QListView::item:selected {
+    background-color: rgb(117, 235, 195);
+}
+
+QScrollBar {
+    background-color: rgb(117, 235, 195);
+}
+
+QScrollBar:horizontal {
+    height: 18px;
+}
+
+QScrollBar:vertical {
+    width: 18px;
+}
+
+QScrollBar::handle {
+    background-color: rgb(107, 219, 181);
+    border: 2px solid rgb(82, 161, 135);
+    border-radius: 5px;
+}
+
+QScrollBar::handle:pressed {
+    background-color: rgb(94, 185, 154);
+    border: 2px solid rgb(67, 130, 109);
+}
+
+QScrollBar::add-line {
+    border: none;
+    background: none;
+}
+
+QScrollBar::sub-line {
+    border: none;
+    background: none;
+}
