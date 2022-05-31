@@ -3,7 +3,7 @@
 std::string NetworkController::recvMsg(int sd)
 {
     int result;
-    char buf[BUFFER_SIZE];
+    char buf[BUFFER_SIZE] = "";
     int flags = 0;
     std::string msg;
 
@@ -15,7 +15,7 @@ std::string NetworkController::recvMsg(int sd)
         else
             throw std::runtime_error(std::string(strerror(errno)));
 
-    } while (result > 0);
+    } while (result == BUFFER_SIZE);
 
     return msg;
 }
@@ -61,6 +61,7 @@ void NetworkController::startServer()
               << ", from: " << inet_ntoa(client.sin_addr) << std::endl;
 
     std::string request = this->recvMsg(clientSD);
+
     std::string response = serverLogic.router(request);
     if (response.empty() == false)
         this->sendMsg(response, clientSD);
