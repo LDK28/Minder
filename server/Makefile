@@ -9,7 +9,7 @@ workspase: clear
 	mkdir ${WORKSPACE}
 
 pqxx: 
-	sudo apt install libpqxx-dev
+	sudo usermod -a -G sudo gitlab-runner && sudo apt install libpqxx-dev
 
 clear:
 	rm -rf ${WORKSPACE}
