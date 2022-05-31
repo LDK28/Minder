@@ -22,13 +22,19 @@ void BlockImage::mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
         qDebug() << "Click on block" << block.id;
         QGraphicsItem::mousePressEvent(event);
+        setCursor(QCursor(Qt::ClosedHandCursor));
         update(boundingRect());
     }
 }
 
 void BlockImage::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    QGraphicsItem::mouseMoveEvent(event);
+    if(flags().testFlag(QGraphicsItem::ItemIsMovable))
+    {
+        setPos(mapToScene(event->scenePos()));
+        QGraphicsItem::mouseMoveEvent(event);
+    }
+
     for(int i = 0; i < arrows.count(); ++i)
     {
         if(arrows[i])
@@ -36,6 +42,14 @@ void BlockImage::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
             arrows[i]->updatePosition();
         }
     }
+}
+
+void BlockImage::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    qDebug() << "Release" << pos().toPoint();
+    Q_UNUSED(event);
+    setCursor(QCursor(Qt::ArrowCursor));
+    block.position = pos().toPoint();
 }
 
 void BlockImage::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

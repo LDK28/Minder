@@ -115,7 +115,7 @@ void LogicController::requestUpdateMindMapInSession(const size_t sessionId)
 
     ViewDataStructures::MindMapData data;
     srand(time(NULL));
-    for(int i = 0; i < 1 + rand() % (6 - 1); ++i)
+    for(int i = 0; i < 5/*1 + rand() % (6 - 1)*/; ++i)
     {
         ViewDataStructures::Block b;
         b.parentId = i == 0 ? 0 : testBlockId;

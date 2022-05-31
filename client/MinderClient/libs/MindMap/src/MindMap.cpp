@@ -76,7 +76,7 @@ void MindMap::changeScale(const double dscalePerc)
 
 void MindMap::updateMindMap(const ViewDataStructures::MindMapData &data)
 {
-    qDebug() << "MinaMap: update mind map image";
+    qDebug() << "MindMap: update mind map image";
 
     scene->clear();
     blocks.clear();
@@ -100,7 +100,6 @@ void MindMap::updateMindMap(const ViewDataStructures::MindMapData &data)
     {
         addArrow(blocks[i]);
     }
-
 }
 
 void MindMap::drawNewBlock(const ViewDataStructures::Block &block)
@@ -181,7 +180,6 @@ void MindMap::deleteSelectedBlock()
 
     // отправка изменений на сервер
     emit transmitDeletedBlock(changedBlocks);
-
 }
 
 ViewDataStructures::MindMapData MindMap::deleteBlock(BlockImage **targetBlock)
@@ -193,6 +191,7 @@ ViewDataStructures::MindMapData MindMap::deleteBlock(BlockImage **targetBlock)
     // Удаление стрелки от предка удаляемого блока к удаляемому блоку
     if((*targetBlock)->block.parentId != 0)
     {
+        qDebug() << blocksMap[(*targetBlock)->block.parentId]->arrows.count();
         for(int i = 0; i < blocksMap[(*targetBlock)->block.parentId]->arrows.count(); ++i)
         {
             if(blocksMap[(*targetBlock)->block.parentId]->arrows[i]->getChildBlock() == (*targetBlock))
@@ -212,7 +211,7 @@ ViewDataStructures::MindMapData MindMap::deleteBlock(BlockImage **targetBlock)
         if(blocks[i]->block.parentId == (*targetBlock)->block.id)
         {
             // Изменеине предка
-            blocks[i]->block.parentId = (*targetBlock)->block.parentId;
+            blocks[i]->block.parentId = (*targetBlock)->block.parentId; // меняем id
             changedBlocks.blocks.append(blocks[i]->block); // изменненный блок
 
             // удаление стрелки от удаляемого к его потомку
@@ -223,6 +222,8 @@ ViewDataStructures::MindMapData MindMap::deleteBlock(BlockImage **targetBlock)
                     if((*targetBlock)->block.parentId != 0)
                     {
                         blocks[i]->arrows[j]->changeParentBlock(blocksMap[(*targetBlock)->block.parentId]);
+                        // добавить указатель на измененую стрлеку отцу
+                        blocksMap[blocks[i]->block.parentId]->addArrow(blocks[i]->arrows[j]);
                     }
                     else
                     {
@@ -250,6 +251,9 @@ ViewDataStructures::MindMapData MindMap::deleteBlock(BlockImage **targetBlock)
 
 void MindMap::changeSelectedBlock()
 {
+    for(int i = 0; i < blocks.count(); ++i)
+    {
+    }
     selectedBlock = scene->selectedItems().count() ?
                 qgraphicsitem_cast<BlockImage *>(scene->selectedItems().at(0))
               :
@@ -268,10 +272,10 @@ void MindMap::changeSelectedBlock()
             qDebug() << "Stop moving new block";
 
             newBlock->setFlag(QGraphicsItem::ItemIsMovable, false);
+            newBlock->setFlag(QGraphicsTextItem::ItemIsSelectable, false);
+//            newBlock->block.position = QPoint(newBlock->pos().toPoint());
 
             // send new block
-            newBlock->block.position = QPoint(newBlock->pos().toPoint());
-            newBlock->setFlag(QGraphicsTextItem::ItemIsSelectable, false);
 
             emit transmitNewBlock(newBlock->block);
             //
