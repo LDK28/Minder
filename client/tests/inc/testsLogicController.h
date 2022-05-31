@@ -87,7 +87,7 @@ TEST(LogicController, disconnectSession) {
   MockHttpClient network;
 
   size_t sessionId = 1;
-  EXPECT_CALL(network, disconnect(0, sessionId)).Times(1);
+  EXPECT_CALL(network, disconnectSession(0, sessionId)).Times(1);
 
   LogicController controller(&network);
   controller.disconnectSession(sessionId);

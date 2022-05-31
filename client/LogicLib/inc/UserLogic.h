@@ -10,7 +10,7 @@ class UserLogic : public QObject {
 Q_OBJECT
 public:
     explicit UserLogic() = default;
-    explicit UserLogic(HttpClient *network_) : network(network_) {}
+    explicit UserLogic(HttpClient *network_, QTimer* timer_ = nullptr) : network(network_), timer(timer_) {}
     ~UserLogic() = default;
 
     size_t getUser() { return userId; }
@@ -24,9 +24,11 @@ signals:
     void loginUserFailed(const QString &);
     void registerUserSuccess();
     void registerUserFailed(const QString &);
+    void block();
+    void unblock();
 private:
     HttpClient *network = nullptr;
-
+    QTimer *timer = nullptr;
     size_t userId = 0;
 
     HttpClientData::UserData convertLoginUser(const ViewDataStructures::LoginData &user);

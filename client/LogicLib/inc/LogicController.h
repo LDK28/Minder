@@ -5,19 +5,18 @@
 
 #include <QtWidgets>
 
+#include <QTimer>
+
 #include "DataStructures.h"
 #include "DrawingLogic.h"
 #include "UserLogic.h"
 #include "ScreenController.h"
 
 class LOGICLIB_EXPORT LogicController: public QObject {
-Q_OBJECT
+    Q_OBJECT
 public:
-    explicit LogicController() : network(nullptr), user(network), drawing(network),
-        screenController(nullptr) { connectView(); }
-    explicit LogicController(HttpClient *network_, ScreenController *screenController_ = nullptr) :
-        network(network_), user(network_), drawing(network_),
-        screenController(screenController_) {}
+    explicit LogicController();
+    explicit LogicController(HttpClient *network_);
     ~LogicController() = default;
 
 public slots:
@@ -25,8 +24,9 @@ public slots:
     void createNewSession(const ViewDataStructures::SessionCreationData &data);
     void connectToSession(const ViewDataStructures::SessionConnectionData &data);
     void disconnectSession(const size_t sessionId);
-    void receiveNewBlock(const HttpClientData::Block &block);
-    void receiveDeletedBlock(size_t id);
+
+private slots:
+    void pingServer();
 
 signals:
     void changeSettingsSuccess();
@@ -35,15 +35,19 @@ signals:
     void sessionCreationFailed(const QString &);
     void sessionConnectionSuccess(const ViewDataStructures::SessionData &data);
     void sessionConnectionFailed(const QString &);
+    void block();
+    void unblock();
 
 private:
     HttpClient *network;
+    QTimer *timer;
     UserLogic user;
     DrawingLogic drawing;
-    std::shared_ptr <ScreenController> screenController;
+    ScreenController screenController;
 
     void connectView();
-    void disconnectView();
+
+    size_t sessionId;
 
     HttpClientData::SettingsData convertSettings(const ViewDataStructures::SettingsData &settings);
     HttpClientData::SessionCreationData convertNewSession(const ViewDataStructures::SessionCreationData &session);

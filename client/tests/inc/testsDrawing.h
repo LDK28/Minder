@@ -19,7 +19,7 @@ TEST(DrawingLogic, sendNewBlock) {
     EXPECT_CALL(network, addBlock(convBlock, sessionId)).Times(1);
 
     DrawingLogic drawing(&network);
-    drawing.sendNewBlock(newBlock, sessionId);
+    drawing.sendNewBlock(sessionId, newBlock);
 }
 
 TEST(DrawingLogic, sendDeletedBlock) {

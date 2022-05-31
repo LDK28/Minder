@@ -60,3 +60,11 @@ void ScreenController::receiveUsersListInSession(const ViewDataStructures::Users
     return;
 }
 
+void ScreenController::lockView() {
+    return;
+}
+
+void ScreenController::unlockView() {
+    return;
+}
+

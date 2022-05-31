@@ -11,79 +11,72 @@ const char *SETTINGS_ERROR_MSG = "Settings change failed.";
 const char *NEW_SESSION_ERROR_MSG = "Session creation failed.";
 const char *EXIST_SESSION_ERROR_MSG = "Session connection failed.";
 
-void LogicController::connectView() {
-    connect(screenController.get(), &ScreenController::transmitLoginData, &user, &UserLogic::loginUser);
-    connect(&user, &UserLogic::loginUserSuccess, screenController.get(), &ScreenController::validationLoginDataSuccess);
-    connect(&user, &UserLogic::loginUserFailed, screenController.get(), &ScreenController::validationLoginDataFailed);
+LogicController::LogicController() : network(nullptr), timer(new QTimer()),
+        user(network, timer), drawing(network, timer) {
+    connect(timer, &QTimer::timeout, this, &LogicController::pingServer);
+    timer->setInterval(2000);
+    timer->start();
 
-    connect(screenController.get(), &ScreenController::transmitRegisterData, &user, &UserLogic::registerUser);
-    connect(&user, &UserLogic::registerUserSuccess, screenController.get(), &ScreenController::validationRegisterDataSuccess);
-    connect(&user, &UserLogic::registerUserFailed, screenController.get(), &ScreenController::validationRegisterDataFailed);
+    sessionId = 0;
 
-    connect(screenController.get(), &ScreenController::transmitSettings, this, &LogicController::changeSettings);
-    connect(this, &LogicController::changeSettingsSuccess, screenController.get(), &ScreenController::savingSettingsSuccess);
-    connect(this, &LogicController::changeSettingsFailed, screenController.get(), &ScreenController::savingSettingsFailed);
-
-    connect(screenController.get(), &ScreenController::transmitCreationNewSession, this, &LogicController::createNewSession);
-    connect(this, &LogicController::sessionCreationSuccess, screenController.get(), &ScreenController::creationNewSessionSuccess);
-    connect(this, &LogicController::sessionCreationFailed, screenController.get(), &ScreenController::creationNewSessionFailed);
-
-    connect(screenController.get(), &ScreenController::transmitConnectionToSession, this, &LogicController::connectToSession);
-    connect(this, &LogicController::sessionConnectionSuccess, screenController.get(), &ScreenController::connectionToSessionSuccess);
-    connect(this, &LogicController::sessionConnectionFailed, screenController.get(), &ScreenController::connectionToSessionFailed);
-
-    connect(screenController.get(), &ScreenController::getUsersInSessionData, &user, &UserLogic::getUsersListInSession);
-    connect(&user, &UserLogic::updateUsersListInSession, screenController.get(), &ScreenController::receiveUsersListInSession);
-
-    connect(screenController.get(), &ScreenController::sendNewBlock, &drawing, &DrawingLogic::sendNewBlock);
-    connect(&drawing, &DrawingLogic::sendNewBlockIdToSession, screenController.get(), &ScreenController::receiveNewBlockId);
-
-    connect(screenController.get(), &ScreenController::getMindMapInSessionData, &drawing, &DrawingLogic::getMindMapInSession);
-    connect(&drawing, &DrawingLogic::updateMindMapDataInSession, screenController.get(), &ScreenController::receiveMindMapDataInSession);
-
-    connect(&drawing, &DrawingLogic::addNewBlock, screenController.get(), &ScreenController::receiveBlock);
-    connect(&drawing, &DrawingLogic::deleteBlock, screenController.get(), &ScreenController::receiveDeletedBlockId);
-
-    connect(screenController.get(), &ScreenController::sessionClosed, this, &LogicController::disconnectSession);
+    connectView();
 }
 
-void LogicController::disconnectView() {
-    disconnect(screenController.get(), &ScreenController::transmitLoginData, &user, &UserLogic::loginUser);
-    disconnect(&user, &UserLogic::loginUserSuccess, screenController.get(), &ScreenController::validationLoginDataSuccess);
-    disconnect(&user, &UserLogic::loginUserFailed, screenController.get(), &ScreenController::validationLoginDataFailed);
+LogicController::LogicController(HttpClient *network_) : network(network_), timer(new QTimer()),
+        user(network, timer), drawing(network, timer) {
+    connect(timer, &QTimer::timeout, this, &LogicController::pingServer);
+    timer->setInterval(2000);
+    timer->start();
 
-    disconnect(screenController.get(), &ScreenController::transmitRegisterData, &user, &UserLogic::registerUser);
-    disconnect(&user, &UserLogic::registerUserSuccess, screenController.get(), &ScreenController::validationRegisterDataSuccess);
-    disconnect(&user, &UserLogic::registerUserFailed, screenController.get(), &ScreenController::validationRegisterDataFailed);
+    sessionId = 0;
 
-    disconnect(screenController.get(), &ScreenController::transmitSettings, this, &LogicController::changeSettings);
-    disconnect(this, &LogicController::changeSettingsSuccess, screenController.get(), &ScreenController::savingSettingsSuccess);
-    disconnect(this, &LogicController::changeSettingsFailed, screenController.get(), &ScreenController::savingSettingsFailed);
+    connectView();
+}
 
-    disconnect(screenController.get(), &ScreenController::transmitCreationNewSession, this, &LogicController::createNewSession);
-    disconnect(this, &LogicController::sessionCreationSuccess, screenController.get(), &ScreenController::creationNewSessionSuccess);
-    disconnect(this, &LogicController::sessionCreationFailed, screenController.get(), &ScreenController::creationNewSessionFailed);
+void LogicController::connectView() {
+    connect(&screenController, &ScreenController::transmitLoginData, &user, &UserLogic::loginUser);
+    connect(&user, &UserLogic::loginUserSuccess, &screenController, &ScreenController::validationLoginDataSuccess);
+    connect(&user, &UserLogic::loginUserFailed, &screenController, &ScreenController::validationLoginDataFailed);
 
-    disconnect(screenController.get(), &ScreenController::transmitConnectionToSession, this, &LogicController::connectToSession);
-    disconnect(this, &LogicController::sessionConnectionSuccess, screenController.get(), &ScreenController::connectionToSessionSuccess);
-    disconnect(this, &LogicController::sessionConnectionFailed, screenController.get(), &ScreenController::connectionToSessionFailed);
+    connect(&screenController, &ScreenController::transmitRegisterData, &user, &UserLogic::registerUser);
+    connect(&user, &UserLogic::registerUserSuccess, &screenController, &ScreenController::validationRegisterDataSuccess);
+    connect(&user, &UserLogic::registerUserFailed, &screenController, &ScreenController::validationRegisterDataFailed);
 
-    disconnect(screenController.get(), &ScreenController::getUsersInSessionData, &user, &UserLogic::getUsersListInSession);
-    disconnect(&user, &UserLogic::updateUsersListInSession, screenController.get(), &ScreenController::receiveUsersListInSession);
+    connect(&screenController, &ScreenController::transmitSettings, this, &LogicController::changeSettings);
+    connect(this, &LogicController::changeSettingsSuccess, &screenController, &ScreenController::savingSettingsSuccess);
+    connect(this, &LogicController::changeSettingsFailed, &screenController, &ScreenController::savingSettingsFailed);
 
-    disconnect(screenController.get(), &ScreenController::sendNewBlock, &drawing, &DrawingLogic::sendNewBlock);
-    disconnect(&drawing, &DrawingLogic::sendNewBlockIdToSession, screenController.get(), &ScreenController::receiveNewBlockId);
+    connect(&screenController, &ScreenController::transmitCreationNewSession, this, &LogicController::createNewSession);
+    connect(this, &LogicController::sessionCreationSuccess, &screenController, &ScreenController::creationNewSessionSuccess);
+    connect(this, &LogicController::sessionCreationFailed, &screenController, &ScreenController::creationNewSessionFailed);
 
-    disconnect(screenController.get(), &ScreenController::getMindMapInSessionData, &drawing, &DrawingLogic::getMindMapInSession);
-    disconnect(&drawing, &DrawingLogic::updateMindMapDataInSession, screenController.get(), &ScreenController::receiveMindMapDataInSession);
+    connect(&screenController, &ScreenController::transmitConnectionToSession, this, &LogicController::connectToSession);
+    connect(this, &LogicController::sessionConnectionSuccess, &screenController, &ScreenController::connectionToSessionSuccess);
+    connect(this, &LogicController::sessionConnectionFailed, &screenController, &ScreenController::connectionToSessionFailed);
 
-    disconnect(&drawing, &DrawingLogic::addNewBlock, screenController.get(), &ScreenController::receiveBlock);
-    disconnect(&drawing, &DrawingLogic::deleteBlock, screenController.get(), &ScreenController::receiveDeletedBlockId);
+    connect(&screenController, &ScreenController::getUsersInSessionData, &user, &UserLogic::getUsersListInSession);
+    connect(&user, &UserLogic::updateUsersListInSession, &screenController, &ScreenController::receiveUsersListInSession);
 
-    disconnect(screenController.get(), &ScreenController::sessionClosed, this, &LogicController::disconnectSession);
+    connect(&screenController, &ScreenController::sendNewBlock, &drawing, &DrawingLogic::sendNewBlock);
+    connect(&drawing, &DrawingLogic::sendNewBlockIdToSession, &screenController, &ScreenController::receiveNewBlockId);
+
+    connect(&screenController, &ScreenController::getMindMapInSessionData, &drawing, &DrawingLogic::getMindMapInSession);
+    connect(&drawing, &DrawingLogic::updateMindMapDataInSession, &screenController, &ScreenController::receiveMindMapDataInSession);
+
+    connect(&screenController, &ScreenController::sessionClosed, this, &LogicController::disconnectSession);
+
+    connect(this, &LogicController::block, &screenController, &ScreenController::lockView);
+    connect(this, &LogicController::unblock, &screenController, &ScreenController::unlockView);
+
+    connect(&user, &UserLogic::block, &screenController, &ScreenController::lockView);
+    connect(&user, &UserLogic::unblock, &screenController, &ScreenController::unlockView);
+
+    connect(&drawing, &DrawingLogic::block, &screenController, &ScreenController::lockView);
+    connect(&drawing, &DrawingLogic::unblock, &screenController, &ScreenController::unlockView);
 }
 
 void LogicController::changeSettings(const ViewDataStructures::SettingsData &settings) {
+    emit block();
     QRegularExpression rxNum(REG_NUM);
     QRegularExpression rxIp(REG_IP);
     if (!rxNum.match(settings.serverPort).hasMatch() || !rxIp.match(settings.serverIP).hasMatch()) {
@@ -92,8 +85,12 @@ void LogicController::changeSettings(const ViewDataStructures::SettingsData &set
     }
 
     HttpClientData::SettingsData convSettings = convertSettings(settings);
-    HttpClientData::returnCode rc = network->updateSettings(convSettings);
 
+    timer->stop();
+    HttpClientData::returnCode rc = network->updateSettings(convSettings);
+    timer->start();
+
+    emit unblock();
     if (rc == HttpClientData::SUCCESS) {
         emit changeSettingsSuccess();
     } else {
@@ -102,14 +99,19 @@ void LogicController::changeSettings(const ViewDataStructures::SettingsData &set
 }
 
 void LogicController::createNewSession(const ViewDataStructures::SessionCreationData &session) {
+    emit block();
     if (session.password != session.repeatPassword) {
         emit sessionCreationFailed(NEW_SESSION_ERROR_MSG);
         return;
     }
 
     HttpClientData::SessionCreationData convSession = convertNewSession(session);
-    size_t sessionId = network->createSession(convSession, user.getUser());
 
+    timer->stop();
+    sessionId = network->createSession(convSession, user.getUser());
+    timer->start();
+
+    emit unblock();
     if (sessionId == 0) {
         emit sessionCreationFailed(NEW_SESSION_ERROR_MSG);
     } else {
@@ -118,6 +120,7 @@ void LogicController::createNewSession(const ViewDataStructures::SessionCreation
 }
 
 void LogicController::connectToSession(const ViewDataStructures::SessionConnectionData &session) {
+    emit block();
     QRegularExpression rxNum(REG_NUM);
     if (!rxNum.match(session.id).hasMatch()) {
         emit sessionConnectionFailed(EXIST_SESSION_ERROR_MSG);
@@ -125,8 +128,12 @@ void LogicController::connectToSession(const ViewDataStructures::SessionConnecti
     }
 
     HttpClientData::SessionConnectionData convSession = convertExistSession(session);
-    std::string sessionName = network->checkConnectionToSession(convSession, user.getUser());
 
+    timer->stop();
+    std::string sessionName = network->checkConnectionToSession(convSession, user.getUser());
+    timer->start();
+
+    emit unblock();
     if (sessionName.empty()) {
         emit sessionConnectionFailed(EXIST_SESSION_ERROR_MSG);
     } else {
@@ -135,15 +142,11 @@ void LogicController::connectToSession(const ViewDataStructures::SessionConnecti
 }
 
 void LogicController::disconnectSession(const size_t sessionId) {
-    network->disconnect(user.getUser(), sessionId);
-}
-
-void LogicController::receiveNewBlock(const HttpClientData::Block &block) {
-    drawing.sendReceivedNewBlock(block);
-}
-
-void LogicController::receiveDeletedBlock(size_t id) {
-    drawing.sendReceivedDeletedBlock(id);
+    emit block();
+    timer->stop();
+    network->disconnectSession(user.getUser(), sessionId);
+    timer->start();
+    emit unblock();
 }
 
 HttpClientData::SettingsData LogicController::convertSettings(const ViewDataStructures::SettingsData &settings) {
@@ -156,5 +159,12 @@ HttpClientData::SessionCreationData LogicController::convertNewSession(const Vie
 
 HttpClientData::SessionConnectionData LogicController::convertExistSession(const ViewDataStructures::SessionConnectionData &session) {
     return HttpClientData::SessionConnectionData(session.id.toInt(), session.password.toStdString());
+}
+
+void LogicController::pingServer()
+{
+    if (network->ping(user.getUser(), sessionId)) {
+        drawing.getMindMapInSession(sessionId);
+    }
 }
 

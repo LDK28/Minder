@@ -1,37 +1,39 @@
 #include "DrawingLogic.h"
 
-void DrawingLogic::sendNewBlock(const ViewDataStructures::Block &newBlock, const size_t sessionId) {
+void DrawingLogic::sendNewBlock(const size_t sessionId, const ViewDataStructures::Block &newBlock) {
+    emit block();
     HttpClientData::Block convBlock = convertBlock(newBlock);
 
+    timer->stop();
     size_t id = network->addBlock(convBlock, sessionId);
+    timer->start();
 
+    emit unblock();
     emit sendNewBlockIdToSession(id);
 }
 
 void DrawingLogic::sendDeletedBlock(const ViewDataStructures::MindMapData &changedBlocks) {
     for(int i = 1; i < changedBlocks.blocks.count(); ++i) {
         HttpClientData::Block convBlock = convertBlock(changedBlocks.blocks.at(i));
+        timer->stop();
         network->changeBlock(convBlock);
+        timer->start();
     }
+    timer->stop();
     network->deleteBlock(changedBlocks.blocks.at(0).id);
+    timer->start();
 }
 
 void DrawingLogic::getMindMapInSession(const size_t sessionId) {
+    emit block();
+    timer->stop();
     HttpClientData::MindMapData getMap = network->getCurrentStateDesk(sessionId);
+    timer->start();
 
     ViewDataStructures::MindMapData map = convertMap(getMap);
 
+    emit unblock();
     emit updateMindMapDataInSession(map);
-}
-
-void DrawingLogic::sendReceivedNewBlock(const HttpClientData::Block &receivedBlock) {
-    ViewDataStructures::Block convBlock = reverseConvertBlock(receivedBlock);
-
-    emit addNewBlock(convBlock);
-}
-
-void DrawingLogic::sendReceivedDeletedBlock(size_t id) {
-    emit deleteBlock(id);
 }
 
 HttpClientData::Block DrawingLogic::convertBlock(const ViewDataStructures::Block &newBlock) {

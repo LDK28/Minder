@@ -15,7 +15,7 @@ signals:
     void transmitSettings(const ViewDataStructures::SettingsData &data);
     void transmitCreationNewSession(const ViewDataStructures::SessionCreationData &data);
     void transmitConnectionToSession(const ViewDataStructures::SessionConnectionData &data);
-    void sendNewBlock(const ViewDataStructures::Block &newBlock, const size_t);
+    void sendNewBlock(const size_t sessionId, const ViewDataStructures::Block &newBlock);
     void sessionClosed(const size_t);
     void getUsersInSessionData(const size_t sessionId);
     void getMindMapInSessionData(const size_t sessionId);
@@ -36,6 +36,8 @@ public slots:
     void receiveNewBlockId(const long newBlockId);
     void receiveBlock(const ViewDataStructures::Block& block);
     void receiveDeletedBlockId(size_t id);
+    void lockView();
+    void unlockView();
 };
 
 #endif // SCREENCONTROLLER_H
