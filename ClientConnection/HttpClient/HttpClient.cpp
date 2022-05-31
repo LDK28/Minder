@@ -49,7 +49,7 @@ std::string HttpClient::recvResponse()
         else
             throw std::runtime_error(std::string(strerror(errno)));
 
-    } while (result > 0);
+    } while (result == BUFFER_SIZE);
 
     return response;
 }
