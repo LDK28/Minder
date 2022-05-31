@@ -75,6 +75,9 @@ public slots: // from logic contloller
     void receiveNewBlockId(const long newBlockId);
     void receiveBlock(const ViewDataStructures::Block& block);
     void receiveDeltedBlockId(const size_t id);
+
+    void lockView();
+    void unlockView();
     // end Interface
 
 private slots:

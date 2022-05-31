@@ -288,3 +288,23 @@ void ScreenController::receiveDeltedBlockId(const size_t id)
 
     sessionWindow->deleteBlock(id);
 }
+
+void ScreenController::lockView()
+{
+    authWindow.blockSignals(true);
+    regWindow.blockSignals(true);
+    settingsWindow.blockSignals(true);
+    sessionConnectionWindow.blockSignals(true);
+    sessionCreationWindow.blockSignals(true);
+    if(sessionWindow) sessionWindow->blockSignals(true);
+}
+
+void ScreenController::unlockView()
+{
+    authWindow.blockSignals(false);
+    regWindow.blockSignals(false);
+    settingsWindow.blockSignals(false);
+    sessionConnectionWindow.blockSignals(false);
+    sessionCreationWindow.blockSignals(false);
+    if(sessionWindow) sessionWindow->blockSignals(false);
+}
