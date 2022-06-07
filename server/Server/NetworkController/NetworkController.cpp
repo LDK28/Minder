@@ -50,21 +50,21 @@ void NetworkController::startServer()
 
     while (true)
     {
-    listen(this->sd, 100);
+        listen(this->sd, 100);
 
-    struct sockaddr_in client;
-    socklen_t cli_len = sizeof(client);
+        struct sockaddr_in client;
+        socklen_t cli_len = sizeof(client);
 
-    int clientSD = accept(this->sd, (struct sockaddr *)&client, &cli_len);
+        int clientSD = accept(this->sd, (struct sockaddr *)&client, &cli_len);
 
-    std::cout << "+client: " << clientSD
-              << ", from: " << inet_ntoa(client.sin_addr) << std::endl;
+        std::cout << "+client: " << clientSD
+                  << ", from: " << inet_ntoa(client.sin_addr) << std::endl;
 
-    std::string request = this->recvMsg(clientSD);
+        std::string request = this->recvMsg(clientSD);
 
-    std::string response = serverLogic.router(request);
-    if (response.empty() == false)
-        this->sendMsg(response, clientSD);
+        std::string response = serverLogic.router(request);
+        if (response.empty() == false)
+            this->sendMsg(response, clientSD);
     }
 
     shutdown(this->sd, SHUT_RDWR);
