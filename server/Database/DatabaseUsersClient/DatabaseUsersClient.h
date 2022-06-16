@@ -5,6 +5,7 @@
 
 #include "DatabaseClient.h"
 #include "PostgreDatabaseClient.h"
+// #include "MySQLDatabaseClient.h"
 
 class DatabaseUsersClient {
  private:
@@ -15,6 +16,7 @@ class DatabaseUsersClient {
     DatabaseUsersClient(std::shared_ptr<DatabaseClient> client);
     json createUser(const json &) const;
     bool checkUser(const std::string &name) const;
+    // Не работает ;(
     bool validateUser(const std::string &name,
                       const std::string &password) const;
     json addUsersInSession(const std::vector<int> &userId, int sessionId) const;

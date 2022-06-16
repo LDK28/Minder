@@ -14,7 +14,7 @@
 #include "ServerLogic.hpp"
 #include "json.hpp"
 
-#define BUFFER_SIZE 512
+#define BUFFER_SIZE 1024
 
 using json = nlohmann::json;
 

@@ -18,7 +18,7 @@ std::string ServerLogic::router(std::string &request)
     if (data["title"] == "GETCURRENTSTATEDESK")
         response = buisnessLogic.GetCurrentStateDesk(data);
     if (data["title"] == "GETUSERS")
-        response = buisnessLogic.GetCurrentStateDesk(data);
+        response = buisnessLogic.GetUsers(data);
     if (data["title"] == "LOGINUSER")
         response = buisnessLogic.LoginUser(data);
     if (data["title"] == "REGISTERUSER")

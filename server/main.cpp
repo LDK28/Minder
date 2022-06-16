@@ -1,5 +1,7 @@
 #include <iostream>
 #include "NetworkController.hpp"
+#include "BuisnessLogic.hpp"
+#include "DatabaseSessionClient.h"
 
 int main()
 {

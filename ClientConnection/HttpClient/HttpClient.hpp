@@ -13,7 +13,7 @@
 #include "JsonParser.hpp"
 #include "ClientData.h"
 
-#define BUFFER_SIZE 512
+#define BUFFER_SIZE 2048
 
 class InterfaceHttpClient
 {
@@ -78,16 +78,16 @@ public:
     ~HttpClient(){};
 
     // обновление настроек подключение к серверу(локально)
-    HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &) override;
+    HttpClientData::returnCode updateSettings(const HttpClientData::SettingsData &settings) override;
 
     // проверка сессии и верификация пароля, если есть: name сесcии  и добавление юзера, если нет пустую строку (scData, userId)
-    std::string checkConnectionToSession(const HttpClientData::SessionConnectionData &, const size_t &) override;
+    std::string checkConnectionToSession(const HttpClientData::SessionConnectionData &scData, const size_t &userId) override;
 
     // создание новой сессии: возвращаю id, иначе 0
-    size_t createSession(const HttpClientData::SessionCreationData &, const size_t &) override;
+    size_t createSession(const HttpClientData::SessionCreationData &scData, const size_t &userId) override;
 
     // get user names from session
-    HttpClientData::UsersInSessionData getUsersInSession(const size_t &) override;
+    HttpClientData::UsersInSessionData getUsersInSession(const size_t &sessionId) override;
 
     // добавление блока в сессию: blockId
     size_t addBlock(const HttpClientData::Block &, const size_t &) override;
@@ -96,15 +96,15 @@ public:
     void changeBlock(const HttpClientData::Block &) override;
 
     // удалить блок по id
-    void deleteBlock(const size_t &) override;
+    void deleteBlock(const size_t &blockId) override;
 
     // получить все блоки по id сессии
-    HttpClientData::MindMapData getCurrentStateDesk(const size_t &) override;
+    HttpClientData::MindMapData getCurrentStateDesk(const size_t &sessionId) override;
 
     // удалить активного пользователя из сессии
-    void disconnectSession(const size_t &, const size_t &) override;
+    void disconnectSession(const size_t &userId, const size_t &sessionId) override;
 
-    size_t loginUser(const HttpClientData::UserData &) override;
+    size_t loginUser(const HttpClientData::UserData &userData) override;
     size_t registerUser(const HttpClientData::UserData &) override;
 
     bool ping(const size_t &, const size_t &);

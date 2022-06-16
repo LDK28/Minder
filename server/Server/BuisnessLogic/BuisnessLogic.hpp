@@ -7,6 +7,8 @@
 #include "DatabaseUsersClient.h"
 #include "DatabaseSessionClient.h"
 
+#include <iostream>
+
 #include "json.hpp"
 
 #include <set>

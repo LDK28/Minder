@@ -37,7 +37,7 @@ void HttpClient::sendRequest(std::string &request)
 std::string HttpClient::recvResponse()
 {
     int result;
-    char buf[BUFFER_SIZE];
+    char buf[BUFFER_SIZE] = "";
     int flags = 0;
     std::string response;
 
@@ -105,9 +105,7 @@ std::string HttpClient::checkConnectionToSession(const HttpClientData::SessionCo
 
     std::string msg = data.dump();
 
-    this->sendRequest(msg);
     std::string response = this->sendMsgWithResponse(msg);
-
     return response;
 };
 
@@ -188,7 +186,12 @@ HttpClientData::UsersInSessionData HttpClient::getUsersInSession(const size_t &s
     std::string request = data.dump();
 
     std::string response = this->sendMsgWithResponse(request);
+    std::cout << response;
+    std::cout << "\n-----------------\n";
     json dataJson = json::parse(response);
+    std::cout << dataJson;
+    std::cout << "\n-----------------\n";
+
     HttpClientData::UsersInSessionData users;
 
     for (auto &elem : dataJson["users"])

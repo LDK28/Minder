@@ -7,27 +7,11 @@ set(JSON_INC ../nlohmann)
 
 
 add_subdirectory(PostgreDatabaseClient)
+# add_subdirectory(MySQLDatabaseClient)
 add_subdirectory(DatabaseUsersClient)
 add_subdirectory(DatabaseSessionClient)
 add_subdirectory(DatabaseDrawDeskClient)
 
-
-# add_executable(${PROJECT_NAME} main.cpp)
-# target_include_directories(${PROJECT_NAME} PUBLIC 
-#                         ${POSTGRE_DATABASE_CLIENT_INC} 
-#                         ${DATABASE_USERS_CLIENT_INC} 
-#                         ${DATABASE_SESSION_CLIENT_INC}
-#                         ../${JSON_INC})
-
-
-# target_link_libraries(${PROJECT_NAME} 
-#                         ${POSTGRE_DATABASE_CLIENT_LIB} 
-#                         ${DATABASE_USERS_CLIENT_LIB} 
-#                         ${DATABASE_SESSION_CLIENT_LIB} )
-
-message("asdadas")
-
-# add_subdirectory(tests)
 
 set(DATABASE_SESSION_CLIENT_LIB ${DATABASE_SESSION_CLIENT_LIB} PARENT_SCOPE)
 set(DATABASE_SESSION_CLIENT_INC ${DATABASE_SESSION_CLIENT_INC} PARENT_SCOPE)
@@ -41,5 +25,5 @@ set(DATABASE_DRAW_DESK_CLIENT_INC ${DATABASE_DRAW_DESK_CLIENT_INC} PARENT_SCOPE)
 set(POSTGRE_DATABASE_CLIENT_LIB ${POSTGRE_DATABASE_CLIENT_LIB} PARENT_SCOPE)
 set(POSTGRE_DATABASE_CLIENT_INC ${POSTGRE_DATABASE_CLIENT_INC} PARENT_SCOPE)
 
-# set(DATABASE_CLIENT_LIB ${PROJECT_NAME} PARENT_SCOPE)
-# set(DATABASE_CLIENT_INC ${INCLUDE_DIRS} PARENT_SCOPE)
+# set(MYSQL_DATABASE_CLIENT_LIB ${MYSQL_DATABASE_CLIENT_LIB} PARENT_SCOPE)
+# set(MYSQL_DATABASE_CLIENT_INC ${MYSQL_DATABASE_CLIENT_INC} PARENT_SCOPE)
