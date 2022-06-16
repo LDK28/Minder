@@ -9,11 +9,11 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-//#include "HttpClient.hpp"
+#include "HttpClient.hpp"
 #include "JsonParser.hpp"
 #include "HttpDataStructures.h"
 
-#define BUFFER_SIZE 512
+#define BUFFER_SIZE 1024
 
 class InterfaceHttpClient
 {
