@@ -9,6 +9,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                                     ../${JSON_INC} 
                                     ../${DATABASE_CLIENT_INC}
                                     ${POSTGRE_DATABASE_CLIENT_INC})
+                                    # ${MYSQL_DATABASE_CLIENT_INC})
+
 target_link_libraries(${PROJECT_NAME} ${PQXX_LIB} ${PQ_LIB})
 
 set(DATABASE_DRAW_DESK_CLIENT_LIB ${PROJECT_NAME} PARENT_SCOPE)
