@@ -15,14 +15,10 @@ std::string MySQLConnectParams::paramsToString() const
     strParams += "user = " + user + " ";
 
     if (!password.empty())
-    {
         strParams += "password = " + password + " ";
-    }
 
     if (!password.empty())
-    {
         strParams += "host = " + host + " ";
-    }
     std::cout << strParams;
     return strParams;
 }
@@ -31,19 +27,19 @@ MySQLDatabaseClient::MySQLDatabaseClient(
     std::shared_ptr<MySQLConnectParams> conParams)
     : connectParams(conParams)
 {
-    // con = std::make_shared<MYSQL>(connectParams->paramsToString());
-    // con = std::make_shared<pqxx::connection>("dbname = db_minder user = postgres");
+    driver = get_driver_instance();
+    con = driver->connect("/var/run/mysqld/mysqld.sock", "ldk", "pass281001");
+    con->setSchema("minder_db");
 
-    con = mysql_init(NULL);
-
-    if (con == NULL)
-        std::cout << "Error: can'tcreate MySQL-descriptor\n";
-    if (!mysql_real_connect(con, "localhost", "root", "root", "test", NULL, NULL, 0))
-        std::cout << "Error: can'tconnecttodatabase\n";
+    if (con->isClosed())
+    {
+        std::cout << "Can't open database" << std::endl;
+    }
     else
-        std::cout << "Opened database successfully: \n"
-                  << con->db << std::endl;
-    ;
+    {
+        std::cout << "Opened database successfully: " << con->getSchema()
+                  << std::endl;
+    }
 }
 
 json MySQLDatabaseClient::createTable(json req)
@@ -64,10 +60,8 @@ json MySQLDatabaseClient::createTable(json req)
 
     try
     {
-        mysql_query(con, sql.c_str());
-        res = mysql_store_result(con);
-        if (!res)
-            throw "";
+        stmt = con->createStatement();
+        stmt->executeQuery(sql);
     }
     catch (std::exception &e)
     {
@@ -77,13 +71,15 @@ json MySQLDatabaseClient::createTable(json req)
 
     return response;
 }
+
 json MySQLDatabaseClient::dropTable(std::string tableName)
 {
     json response = {{STATUS_FIELD, SUCCESS_STATUS}};
     try
     {
         std::string sql = "DROP TABLE " + tableName + ";";
-        mysql_query(con, sql.c_str());
+        stmt = con->createStatement();
+        stmt->executeQuery(sql);
     }
     catch (std::exception &e)
     {
@@ -93,6 +89,7 @@ json MySQLDatabaseClient::dropTable(std::string tableName)
 
     return response;
 }
+
 json MySQLDatabaseClient::update(json req)
 {
     json response = {{STATUS_FIELD, SUCCESS_STATUS}};
@@ -117,7 +114,8 @@ json MySQLDatabaseClient::update(json req)
 
     try
     {
-        mysql_query(con, sql.c_str());
+        stmt = con->createStatement();
+        stmt->executeQuery(sql);
     }
     catch (std::exception &e)
     {
@@ -179,7 +177,8 @@ json MySQLDatabaseClient::insert(json req)
     try
     {
 
-        mysql_query(con, sql.c_str());
+        stmt = con->createStatement();
+        stmt->executeQuery(sql);
 
         json resp_query =
             query(std::string("SELECT currval(pg_get_serial_sequence(") + "\'" +
@@ -235,18 +234,20 @@ json MySQLDatabaseClient::select(json req)
 
     try
     {
-        mysql_query(con, sql.c_str()); 
+        stmt = con->createStatement();
+        res = stmt->executeQuery(sql);
+        response["rows"] = {};
+        
+        while (res->next())
+        {
+            json tmpRow;
+            for (int i = 0; i < res->getMetaData()->getColumnCount(); i++)
+            {
+                tmpRow.push_back(res->getString(i));
+            }
+            response["rows"].push_back(tmpRow);
+        }
 
-        if (res = mysql_store_result(con))
-            while (row = mysql_fetch_row(res))
-                for (int i = 0; i < mysql_num_fields(res); i++)
-                {
-                    json tmpRow = row[i];
-
-                    response["rows"].push_back(tmpRow);
-                }
-        else
-            throw;
     }
     catch (std::exception &e)
     {
@@ -269,7 +270,8 @@ json MySQLDatabaseClient::remove(json req)
     // std::cout << sql;
     try
     {
-        mysql_query(con, sql.c_str());
+        stmt = con->createStatement();
+        stmt->executeQuery(sql);
     }
     catch (std::exception &e)
     {
@@ -285,18 +287,18 @@ json MySQLDatabaseClient::query(std::string queryString)
     json response = {{STATUS_FIELD, SUCCESS_STATUS}};
     try
     {
-        mysql_query(con, queryString.c_str()); 
+        stmt = con->createStatement();
+        res = stmt->executeQuery(queryString);
 
-        if (res = mysql_store_result(con))
-            while (row = mysql_fetch_row(res))
-                for (int i = 0; i < mysql_num_fields(res); i++)
-                {
-                    json tmpRow = row[i];
-
-                    response["rows"].push_back(tmpRow);
-                }
-        else
-            throw;
+        while (res->next())
+        {
+            json tmpRow;
+            for (int i = 0; i < res->getMetaData()->getColumnCount(); i++)
+            {
+                tmpRow.push_back(res->getString(i));
+            }
+            response["rows"].push_back(tmpRow);
+        }
     }
     catch (std::exception &e)
     {

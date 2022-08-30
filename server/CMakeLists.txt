@@ -13,11 +13,11 @@ add_subdirectory(Database)
 add_subdirectory(Server)
 
 include_directories(./nlohmann
+                    ${MYSQL_DATABASE_CLIENT_INC}
                     ${DATABASE_USERS_CLIENT_INC}
                     ${DATABASE_SESSION_CLIENT_INC}
                     ${DATABASE_DRAW_DESK_CLIENT_INC}
                     ${POSTGRE_DATABASE_CLIENT_INC}
-                    ${MYSQL_DATABASE_CLIENT_INC}
                     ${DATABASE_CLIENT_INC}
                     ${BUISNESS_LOGIC_INC}
                     ${SERVER_LOGIC_INC}
@@ -26,11 +26,11 @@ include_directories(./nlohmann
 
 add_executable(${PROJECT_NAME} main.cpp)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${DATABASE_USERS_CLIENT_LIB}
+target_link_libraries(${PROJECT_NAME} PRIVATE ${MYSQL_DATABASE_CLIENT_LIB}
+                                                ${DATABASE_USERS_CLIENT_LIB}
                                                 ${DATABASE_SESSION_CLIENT_LIB}
                                                 ${DATABASE_DRAW_DESK_CLIENT_LIB}
                                                 ${POSTGRE_DATABASE_CLIENT_LIB}
-                                                ${MYSQL_DATABASE_CLIENT_LIB}
                                                 ${DATABASE_CLIENT_LIB}
                                                 ${BUISNESS_LOGIC_LIB}
                                                 ${SERVER_LOGIC_LIB}

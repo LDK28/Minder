@@ -125,7 +125,7 @@ int main(void)
                     HttpClientData::MindMapData map = httpClient.getCurrentStateDesk(desk_id);
                     std::cout << "Блоки сессии:\n";
                     for (auto block : map.blocks)
-                        std::cout << block.id << " " << block.text << "\n";
+                        std::cout << "block ID: " << block.id << " Text: " << block.text << "\n";
                 }
                 else
                     std::cout << "Вы не подключены к сессии\n";
@@ -133,7 +133,10 @@ int main(void)
             else if (command == "8")
             {
                 if (desk_id > 0)
+                {
                     httpClient.disconnectSession(userId, desk_id);
+                    desk_id = 0;
+                }
                 else
                     std::cout << "Вы не подключены к сессии\n";
             }

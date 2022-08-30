@@ -49,6 +49,18 @@ public:
         DBSessionClient = new DatabaseSessionClient(pg);
         DBDrawDeskClient = new DatabaseDrawDeskClient(pg);
     }
+    // BuisnessLogic()
+    // {
+    //     std::shared_ptr<MySQLConnectParams> conParams =
+    //         std::make_shared<MySQLConnectParams>("ldk", "db_minder");
+
+    //     std::shared_ptr<MySQLDatabaseClient> pg =
+    //         std::make_shared<MySQLDatabaseClient>(conParams); // затем экземпляр postgre клиента
+
+    //     DBUsersClient = new DatabaseUsersClient(pg);
+    //     DBSessionClient = new DatabaseSessionClient(pg);
+    //     DBDrawDeskClient = new DatabaseDrawDeskClient(pg);
+    // }
     ~BuisnessLogic()
     {
         delete DBDrawDeskClient;

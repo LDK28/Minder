@@ -3,7 +3,11 @@
 #include <memory>
 #include <pqxx/pqxx>
 #include <string>
-#include <mysql/mysql.h>
+
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/resultset.h>
+#include <cppconn/statement.h>
 
 #include "DatabaseClient.h"
 
@@ -24,11 +28,11 @@ class MySQLDatabaseClient : public DatabaseClient
 {
 private:
     std::shared_ptr<MySQLConnectParams> connectParams;
-    // std::shared_ptr<MYSQL> con;
-    MYSQL *con;
 
-    MYSQL_RES *res;
-    MYSQL_ROW row;
+    sql::Driver *driver;
+    sql::Connection *con;
+    sql::Statement *stmt;
+    sql::ResultSet *res;
 
 public:
     MySQLDatabaseClient() = default;

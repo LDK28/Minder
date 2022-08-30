@@ -12,6 +12,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
                                         ${DATABASE_SESSION_CLIENT_INC}
                                         ${DATABASE_DRAW_DESK_CLIENT_INC}
                                         ${POSTGRE_DATABASE_CLIENT_INC}
+                                        ${MYSQL_DATABASE_CLIENT_INC}
                                         ${DATABASE_CLIENT_INC}
                                         ${BUISNESS_LOGIC_INC})
 

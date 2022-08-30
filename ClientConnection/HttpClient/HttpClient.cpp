@@ -186,11 +186,7 @@ HttpClientData::UsersInSessionData HttpClient::getUsersInSession(const size_t &s
     std::string request = data.dump();
 
     std::string response = this->sendMsgWithResponse(request);
-    std::cout << response;
-    std::cout << "\n-----------------\n";
     json dataJson = json::parse(response);
-    std::cout << dataJson;
-    std::cout << "\n-----------------\n";
 
     HttpClientData::UsersInSessionData users;
 
