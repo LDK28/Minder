@@ -1,0 +1,19 @@
+on: push
+
+jobs:
+  buildserver:
+    runs-on: ubuntu-latest
+    container: p1xelelse/image_for_cpp
+    steps:
+    - uses: actions/checkout@v2
+    - name: Make build MinderServer
+      working-directory: ./server
+      run: make build 
+  buildclientconnection:
+    runs-on: ubuntu-latest
+    container: p1xelelse/image_for_cpp
+    steps:
+    - uses: actions/checkout@v2
+    - name: Make build ClientConnection
+      working-directory: ./ClientConnection
+      run: make build 
